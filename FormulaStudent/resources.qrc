@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/Pictures">
+        <file>Images/Pictures/Logo.png</file>
+    </qresource>
+    <qresource prefix="/Icons">
+        <file>Images/Icons/chart-bar.png</file>
+        <file>Images/Icons/circle-info.png</file>
+        <file>Images/Icons/circle-question.png</file>
+        <file>Images/Icons/clock-rotate-left.png</file>
+        <file>Images/Icons/gear.png</file>
+        <file>Images/Icons/house.png</file>
+    </qresource>
+</RCC>
