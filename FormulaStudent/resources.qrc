@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/Pictures">
         <file>Images/Pictures/Logo.png</file>
+        <file>Images/Pictures/Logo_White.png</file>
     </qresource>
     <qresource prefix="/Icons">
         <file>Images/Icons/chart-bar.png</file>
@@ -9,5 +10,8 @@
         <file>Images/Icons/clock-rotate-left.png</file>
         <file>Images/Icons/gear.png</file>
         <file>Images/Icons/house.png</file>
+        <file>Images/Icons/x.png</file>
+        <file>Images/Icons/expand.png</file>
+        <file>Images/Icons/minus.png</file>
     </qresource>
 </RCC>

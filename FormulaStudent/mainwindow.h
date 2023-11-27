@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+#include "homePage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,9 +18,18 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_quitButton_clicked();
+    void on_maximizeButton_clicked();
+    void on_minimizeButton_clicked();
+
     void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;
+    bool isWindowMaximized;
+
+private:
+    HomePage *homePage;
 };
 #endif // MAINWINDOW_H
