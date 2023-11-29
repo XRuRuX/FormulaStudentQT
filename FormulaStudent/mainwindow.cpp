@@ -58,3 +58,9 @@ void MainWindow::on_telemetryButton_clicked()
     ui->mainBodyContainer->setCurrentIndex(1);
 }
 
+// Shows lap timer page
+void MainWindow::on_lapTimeButton_clicked()
+{
+    ui->mainBodyContainer->setCurrentIndex(2);
+}
+

@@ -25,6 +25,8 @@ private slots:
     void on_homeButton_clicked();
     void on_telemetryButton_clicked();
 
+    void on_lapTimeButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool isWindowMaximized;
