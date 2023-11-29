@@ -19,6 +19,7 @@ private:
 public:
     HomePage(QWidget *parent = nullptr);
     HomePage(QWidget* w1, QLabel* l1, QLabel* l2, QWidget *parent = nullptr);
+    ~HomePage();
 
 public slots:
     void updateDateAndTime();

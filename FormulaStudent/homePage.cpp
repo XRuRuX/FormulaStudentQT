@@ -19,6 +19,11 @@ HomePage::HomePage(QWidget *parent)
     timerCurrentTime->start(1000);
 }
 
+HomePage::~HomePage()
+{
+    delete timerCurrentTime;
+}
+
 void HomePage::updateDateAndTime()
 {
     timeLabel->setText(QDateTime::currentDateTime().time().toString("hh:mm:ss"));

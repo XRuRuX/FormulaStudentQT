@@ -47,13 +47,13 @@ void MainWindow::on_minimizeButton_clicked()
 }
 
 // Shows home page
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_homeButton_clicked()
 {
     ui->mainBodyContainer->setCurrentIndex(0);
 }
 
 // Shows telemetry page
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_telemetryButton_clicked()
 {
     ui->mainBodyContainer->setCurrentIndex(1);
 }

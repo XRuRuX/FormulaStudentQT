@@ -22,8 +22,8 @@ private slots:
     void on_maximizeButton_clicked();
     void on_minimizeButton_clicked();
 
-    void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
+    void on_homeButton_clicked();
+    void on_telemetryButton_clicked();
 
 private:
     Ui::MainWindow *ui;
