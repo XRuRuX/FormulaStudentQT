@@ -407,7 +407,7 @@ QPushButton:pressed {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <property name="styleSheet">
@@ -674,7 +674,41 @@ QPushButton:pressed {
        <zorder>dateLabel</zorder>
        <zorder>titleBar</zorder>
       </widget>
-      <widget class="QWidget" name="telemetryPage"/>
+      <widget class="QWidget" name="telemetryPage">
+       <widget class="QCustomPlot" name="customPlot" native="true">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>40</y>
+          <width>681</width>
+          <height>441</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comPortSelector">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>520</y>
+          <width>69</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="serialConnectDisconnectButton">
+        <property name="geometry">
+         <rect>
+          <x>730</x>
+          <y>520</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Connect</string>
+        </property>
+       </widget>
+      </widget>
       <widget class="QWidget" name="lapTimerPage">
        <widget class="QLabel" name="label">
         <property name="geometry">
@@ -695,6 +729,14 @@ QPushButton:pressed {
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>

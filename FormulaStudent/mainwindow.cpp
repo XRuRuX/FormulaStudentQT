@@ -10,13 +10,17 @@ MainWindow::MainWindow(QWidget *parent)
     isWindowMaximized = false;
     ui->mainBodyContainer->setCurrentIndex(0);              // Set first page as Home Page
 
-    HomePage* homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
+    homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
     homePage->updateDateAndTime();
+
+    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector, ui->serialConnectDisconnectButton, this);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete homePage;
+    delete telemetryPage;
 }
 
 // Quit button
@@ -62,5 +66,11 @@ void MainWindow::on_telemetryButton_clicked()
 void MainWindow::on_lapTimeButton_clicked()
 {
     ui->mainBodyContainer->setCurrentIndex(2);
+}
+
+// Connect or Disconnect from Serial Data
+void MainWindow::on_serialConnectDisconnectButton_clicked()
+{
+    telemetryPage->on_serialConnectDisconnectButton_clicked();
 }
 

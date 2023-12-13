@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "homePage.h"
+#include "telemetryPage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -12,6 +13,14 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+private:
+    Ui::MainWindow *ui;
+    bool isWindowMaximized;
+
+private:
+    HomePage *homePage;
+    TelemetryPage* telemetryPage;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -27,11 +36,8 @@ private slots:
 
     void on_lapTimeButton_clicked();
 
-private:
-    Ui::MainWindow *ui;
-    bool isWindowMaximized;
-
-private:
-    HomePage *homePage;
+private slots:
+    void on_serialConnectDisconnectButton_clicked();
 };
+
 #endif // MAINWINDOW_H
