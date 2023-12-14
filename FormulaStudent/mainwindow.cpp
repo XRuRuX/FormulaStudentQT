@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
     homePage->updateDateAndTime();
 
-    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector, ui->serialConnectDisconnectButton, this);
+    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
+                                    ui->serialConnectDisconnectButton, ui->autoScaleSelectorCheckBox, this);
 }
 
 MainWindow::~MainWindow()
@@ -72,5 +73,11 @@ void MainWindow::on_lapTimeButton_clicked()
 void MainWindow::on_serialConnectDisconnectButton_clicked()
 {
     telemetryPage->on_serialConnectDisconnectButton_clicked();
+}
+
+
+void MainWindow::on_autoScaleSelectorCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->on_autoScaleSelectorCheckBox_stateChanged();
 }
 

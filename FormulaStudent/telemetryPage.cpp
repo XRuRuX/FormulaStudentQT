@@ -5,13 +5,15 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 {
 }
 
-TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector, QPushButton* serialConnectDisconnectButton, QWidget *parent)
+TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
+                            QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
     this->customPlot = customPlot;
     this->widget = widget;
     this->comPortSelector = comPortSelector;
     this->serialConnectDisconnectButton = serialConnectDisconnectButton;
+    this->autoScaleSelectorCheckBox = autoScaleSelectorCheckBox;
 
     // Initialize graph settings
     this->initializeGraph();
@@ -108,32 +110,36 @@ void TelemetryPage::refreshGraph(void)
     if (isSerialComConnected)
     {
         customPlot->graph()->setData(xAxisDataCount, yAxisData);
-        // Check if the graph is being dragged; if not, update the x-axis range
-        if (!isGraphDragged)
+        // Check if the graph is on AutoScale
+        if (isAutoScale)
         {
             // If the total number of points is reached then start shifting the graph
             if (totalLinesReadSerial > maxNumberOfPoints)
             {
                 customPlot->xAxis->setRange(totalLinesReadSerial, maxNumberOfPoints, Qt::AlignRight);
+
+                // Manual scaling of the Y axis
+                customPlot->yAxis->setRange(0, 1000);
             }
         }
         customPlot->replot();
     }
 }
 
-void TelemetryPage::onGraphMousePress(QMouseEvent *event)
+void TelemetryPage::on_autoScaleSelectorCheckBox_stateChanged()
 {
-    // Set the flag to true when the mouse button is pressed on the graph
-    if (customPlot->plottableAt(event->pos()))
+    if(isAutoScale == false)
     {
-        isGraphDragged = true;
+        isAutoScale = true;
+        // Disallow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
+        customPlot->setInteractions(QFlags<QCP::Interaction>(0));
     }
-}
-
-void TelemetryPage::onGraphMouseRelease(QMouseEvent *event)
-{
-    // Set the flag to false when the mouse button is released
-    isGraphDragged = false;
+    else
+    {
+        isAutoScale = false;
+        // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
+        customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    }
 }
 
 void TelemetryPage::initializeGraph()
@@ -148,13 +154,6 @@ void TelemetryPage::initializeGraph()
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
     connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
-    // Connect mouse actions to methods
-    connect(customPlot, &QCustomPlot::mousePress, this, &TelemetryPage::onGraphMousePress);
-    connect(customPlot, &QCustomPlot::mouseRelease, this, &TelemetryPage::onGraphMouseRelease);
-
-    // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
-    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-
     // Graph title
     QCPTextElement *title = new QCPTextElement(customPlot);
     title->setText("Real-Time Plot");
@@ -165,7 +164,8 @@ void TelemetryPage::initializeGraph()
     // Place the title in the empty cell we've just created
     customPlot->plotLayout()->addElement(0, 0, title);
 
-    maxNumberOfPoints = 500;
+    // The total number of points displayed at any time
+    maxNumberOfPoints = 100;
 }
 
 void TelemetryPage::initializeSerialPort()

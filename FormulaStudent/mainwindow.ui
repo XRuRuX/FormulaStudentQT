@@ -688,7 +688,7 @@ QPushButton:pressed {
        <widget class="QComboBox" name="comPortSelector">
         <property name="geometry">
          <rect>
-          <x>620</x>
+          <x>650</x>
           <y>520</y>
           <width>69</width>
           <height>22</height>
@@ -698,7 +698,7 @@ QPushButton:pressed {
        <widget class="QPushButton" name="serialConnectDisconnectButton">
         <property name="geometry">
          <rect>
-          <x>730</x>
+          <x>740</x>
           <y>520</y>
           <width>75</width>
           <height>24</height>
@@ -706,6 +706,22 @@ QPushButton:pressed {
         </property>
         <property name="text">
          <string>Connect</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="autoScaleSelectorCheckBox">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>530</y>
+          <width>76</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Autoscale</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>

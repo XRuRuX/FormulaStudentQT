@@ -5,7 +5,6 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include "qcustomplot.h"
-#include "qtimer.h"
 #include <QRegularExpression>
 #include <QDateTime>
 
@@ -19,6 +18,7 @@ private:
     QCustomPlot* customPlot;
     QComboBox* comPortSelector;
     QPushButton* serialConnectDisconnectButton;
+    QCheckBox* autoScaleSelectorCheckBox;
     QTimer* timer;
 
 private:
@@ -30,11 +30,12 @@ private:
     QList<double> yAxisData;
 
 private:
-    bool isGraphDragged = false;
+    bool isAutoScale = true;
 
 public:
     TelemetryPage(QWidget *parent = nullptr);
-    TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector, QPushButton* serialConnectDisconnectButton, QWidget *parent = nullptr);
+    TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
+                  QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent = nullptr);
     ~TelemetryPage();
 
 private:
@@ -43,16 +44,13 @@ private:
 
 public slots:
     void on_serialConnectDisconnectButton_clicked();
+    void on_autoScaleSelectorCheckBox_stateChanged();
 
 private slots:
     void readData();
 
 private:
     void refreshGraph();
-
-private slots:
-    void onGraphMousePress(QMouseEvent *event);
-    void onGraphMouseRelease(QMouseEvent *event);
 };
 
 #endif // TELEMETRYPAGE_H

@@ -38,6 +38,7 @@ private slots:
 
 private slots:
     void on_serialConnectDisconnectButton_clicked();
+    void on_autoScaleSelectorCheckBox_stateChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H
