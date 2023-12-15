@@ -103,7 +103,7 @@ QPushButton:pressed {
            <number>0</number>
           </property>
           <item alignment="Qt::AlignTop">
-           <widget class="QFrame" name="frame">
+           <widget class="QFrame" name="logoFrame">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -152,7 +152,7 @@ QPushButton:pressed {
            </widget>
           </item>
           <item alignment="Qt::AlignTop">
-           <widget class="QFrame" name="frame_2">
+           <widget class="QFrame" name="menuSection1">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -263,7 +263,7 @@ QPushButton:pressed {
            </widget>
           </item>
           <item>
-           <spacer name="verticalSpacer">
+           <spacer name="sectionSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -276,7 +276,7 @@ QPushButton:pressed {
            </spacer>
           </item>
           <item alignment="Qt::AlignBottom">
-           <widget class="QFrame" name="frame_3">
+           <widget class="QFrame" name="menuSection2">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -378,7 +378,7 @@ QPushButton:pressed {
               </widget>
              </item>
              <item>
-              <spacer name="verticalSpacer_2">
+              <spacer name="bottomSpacer">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -400,41 +400,30 @@ QPushButton:pressed {
      </widget>
     </item>
     <item>
-     <widget class="QStackedWidget" name="mainBodyContainer">
-      <property name="styleSheet">
-       <string notr="true">QWidget {
-	background-color: rgb(24,24,24);
-}</string>
-      </property>
-      <property name="currentIndex">
-       <number>1</number>
-      </property>
-      <widget class="QWidget" name="homePage">
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-	color: rgb(255,255,255)
-}</string>
+     <widget class="QWidget" name="mainContentContainer" native="true">
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <property name="leftMargin">
+        <number>0</number>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QFrame" name="titleBar">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">*{
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="titleBar">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">*{
 	background-color: rgb(18,18,18);
 }
 QPushButton{
@@ -451,17 +440,128 @@ QPushButton:hover {
 QPushButton:pressed {
     background-color: rgb(200, 200, 200);
 }</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
+          <property name="leftMargin">
+           <number>0</number>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+          <property name="topMargin">
+           <number>0</number>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <property name="spacing">
-            <number>0</number>
-           </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="minimizeButton">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/Icons/Images/Icons/minus.png</normaloff>:/Icons/Images/Icons/minus.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>14</width>
+              <height>14</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="maximizeButton">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/Icons/Images/Icons/expand.png</normaloff>:/Icons/Images/Icons/expand.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>14</width>
+              <height>14</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="quitButton">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/Icons/Images/Icons/x.png</normaloff>:/Icons/Images/Icons/x.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>14</width>
+              <height>14</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="mainBodyContainer">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget {
+	background-color: rgb(24,24,24);
+}</string>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="homePage">
+          <property name="styleSheet">
+           <string notr="true">QLabel{
+	color: rgb(255,255,255)
+}</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -471,275 +571,195 @@ QPushButton:pressed {
            <property name="rightMargin">
             <number>0</number>
            </property>
-           <property name="bottomMargin">
-            <number>0</number>
+           <item>
+            <spacer name="verticalSpacer_up">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>218</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QWidget" name="logoContainer" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="centralLogo">
+                <property name="maximumSize">
+                 <size>
+                  <width>400</width>
+                  <height>150</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="resources.qrc">:/Pictures/Images/Pictures/Logo_White.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="timeLabel">
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Time Loading</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="dateLabel">
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Date Loading</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_down">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>270</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="telemetryPage">
+          <widget class="QCustomPlot" name="customPlot" native="true">
+           <property name="geometry">
+            <rect>
+             <x>70</x>
+             <y>10</y>
+             <width>681</width>
+             <height>441</height>
+            </rect>
            </property>
-           <item>
-            <spacer name="horizontalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="minimizeButton">
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/Icons/Images/Icons/minus.png</normaloff>:/Icons/Images/Icons/minus.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>14</width>
-               <height>14</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="maximizeButton">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/Icons/Images/Icons/expand.png</normaloff>:/Icons/Images/Icons/expand.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>14</width>
-               <height>14</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="quitButton">
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/Icons/Images/Icons/x.png</normaloff>:/Icons/Images/Icons/x.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>14</width>
-               <height>14</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          </widget>
+          <widget class="QComboBox" name="comPortSelector">
+           <property name="geometry">
+            <rect>
+             <x>650</x>
+             <y>490</y>
+             <width>69</width>
+             <height>22</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="serialConnectDisconnectButton">
+           <property name="geometry">
+            <rect>
+             <x>740</x>
+             <y>490</y>
+             <width>75</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Connect</string>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="autoScaleSelectorCheckBox">
+           <property name="geometry">
+            <rect>
+             <x>70</x>
+             <y>490</y>
+             <width>76</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Autoscale</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
          </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_up">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>218</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QWidget" name="widget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="centralLogo">
-             <property name="maximumSize">
-              <size>
-               <width>400</width>
-               <height>150</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap resource="resources.qrc">:/Pictures/Images/Pictures/Logo_White.png</pixmap>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
+         <widget class="QWidget" name="lapTimerPage">
+          <widget class="QLabel" name="label">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>170</y>
+             <width>321</width>
+             <height>181</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>This is lap Timer Page (Delete This)</string>
+           </property>
+          </widget>
          </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="timeLabel">
-          <property name="font">
-           <font>
-            <family>Inter</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Time Loading</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="dateLabel">
-          <property name="font">
-           <font>
-            <family>Inter</family>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Date Loading</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_down">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>270</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-       <zorder>widget</zorder>
-       <zorder>timeLabel</zorder>
-       <zorder>dateLabel</zorder>
-       <zorder>titleBar</zorder>
-      </widget>
-      <widget class="QWidget" name="telemetryPage">
-       <widget class="QCustomPlot" name="customPlot" native="true">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>40</y>
-          <width>681</width>
-          <height>441</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="comPortSelector">
-        <property name="geometry">
-         <rect>
-          <x>650</x>
-          <y>520</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="serialConnectDisconnectButton">
-        <property name="geometry">
-         <rect>
-          <x>740</x>
-          <y>520</y>
-          <width>75</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Connect</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="autoScaleSelectorCheckBox">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>530</y>
-          <width>76</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Autoscale</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="lapTimerPage">
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>280</x>
-          <y>170</y>
-          <width>321</width>
-          <height>181</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>This is lap Timer Page (Delete This)</string>
-        </property>
-       </widget>
-      </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
