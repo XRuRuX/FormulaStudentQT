@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "homePage.h"
 #include "telemetryPage.h"
+#include "settingsPage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +22,7 @@ private:
 private:
     HomePage *homePage;
     TelemetryPage* telemetryPage;
+    SettingsPage* settingsPage;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -33,12 +35,16 @@ private slots:
 
     void on_homeButton_clicked();
     void on_telemetryButton_clicked();
-
+    void on_settingsButton_clicked();
     void on_lapTimeButton_clicked();
 
 private slots:
     void on_serialConnectDisconnectButton_clicked();
     void on_autoScaleSelectorCheckBox_stateChanged(int arg1);
+
+private slots:
+    void on_gpsLatSelector_valueChanged(int arg1);
+    void on_gpsLongSelector_valueChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H

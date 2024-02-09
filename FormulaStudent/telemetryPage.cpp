@@ -5,13 +5,14 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 {
 }
 
-TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
+TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector, QComboBox* valueGraphSelector,
                             QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
     this->customPlot = customPlot;
     this->widget = widget;
     this->comPortSelector = comPortSelector;
+    this->valueGraphSelector = valueGraphSelector;
     this->serialConnectDisconnectButton = serialConnectDisconnectButton;
     this->autoScaleSelectorCheckBox = autoScaleSelectorCheckBox;
 
@@ -75,6 +76,9 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
 
         // Enable the combo box
         comPortSelector->setEnabled(true);
+
+        // Reset initial Timestamp
+        CANData.initialTimestamp = 0;
     }
 }
 
@@ -88,19 +92,16 @@ void TelemetryPage::readData()
         QByteArray message = serialDataBuffer.left(serialDataBuffer.indexOf("\r\n"));
         serialDataBuffer.remove(0, message.length() + 2);   // +2 for "\r\n"
 
-        bool conversionOk = false;
-        double data = message.toDouble(&conversionOk);
+        bool conversionOk = true;
+        QString data = QString::fromUtf8(message);
 
         if (conversionOk)
         {
-            xAxisDataCount.append(totalLinesReadSerial);
-            yAxisData.append(data);
-            totalLinesReadSerial++;
-            qDebug() << totalLinesReadSerial << data;
+            CANData.extractDataFromString(data);
         }
         else
         {
-            qWarning() << "Failed to convert data to double:" << message;
+            qWarning() << "Failed to convert data: " << message;
         }
     }
 }
@@ -109,7 +110,42 @@ void TelemetryPage::refreshGraph(void)
 {
     if (isSerialComConnected)
     {
-        customPlot->graph()->setData(xAxisDataCount, yAxisData);
+        // Selects which element is printed on the graph
+        switch(valueGraphSelector->currentIndex())
+        {
+        case 0:
+            customPlot->graph()->setData(CANData.GT, CANData.Gx);
+            break;
+        case 1:
+            customPlot->graph()->setData(CANData.GT, CANData.Gy);
+            break;
+        case 2:
+            customPlot->graph()->setData(CANData.GT, CANData.Gz);
+            break;
+        case 3:
+            customPlot->graph()->setData(CANData.AT, CANData.Ax);
+            break;
+        case 4:
+            customPlot->graph()->setData(CANData.AT, CANData.Ay);
+            break;
+        case 5:
+            customPlot->graph()->setData(CANData.AT, CANData.Az);
+            break;
+        case 6:
+            customPlot->graph()->setData(CANData.GPST, CANData.GPSLat);
+            break;
+        case 7:
+            customPlot->graph()->setData(CANData.GPST, CANData.GPSLong);
+            break;
+        case 8:
+            customPlot->graph()->setData(CANData.GPST, CANData.GPSSpeed);
+            break;
+
+        default:
+            customPlot->clearPlottables();
+            customPlot->replot();
+            break;
+        }
         // Check if the graph is on AutoScale
         if (isAutoScale)
         {

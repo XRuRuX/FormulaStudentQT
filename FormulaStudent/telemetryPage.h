@@ -7,6 +7,7 @@
 #include "qcustomplot.h"
 #include <QRegularExpression>
 #include <QDateTime>
+#include "candata.h"
 
 class TelemetryPage: public QWidget
 {
@@ -17,24 +18,26 @@ private:
     QSerialPort serialPort;
     QCustomPlot* customPlot;
     QComboBox* comPortSelector;
+    QComboBox* valueGraphSelector;
     QPushButton* serialConnectDisconnectButton;
     QCheckBox* autoScaleSelectorCheckBox;
     QTimer* timer;
+
+private:
+    CANData CANData;
 
 private:
     bool isSerialComConnected = false;
     QByteArray serialDataBuffer;
     int totalLinesReadSerial = 0;
     int maxNumberOfPoints;
-    QList<double> xAxisDataCount;
-    QList<double> yAxisData;
 
 private:
     bool isAutoScale = true;
 
 public:
     TelemetryPage(QWidget *parent = nullptr);
-    TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
+    TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector, QComboBox* valueGraphSelector,
                   QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent = nullptr);
     ~TelemetryPage();
 

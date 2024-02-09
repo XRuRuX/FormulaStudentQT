@@ -32,6 +32,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         telemetryPage.cpp
         qcustomplot.h
         qcustomplot.cpp
+        candata.h candata.cpp
+        settingsPage.h settingsPage.cpp
+
+
     )
 
 # Define target properties for Android with Qt 6 as:

@@ -13,8 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
     homePage->updateDateAndTime();
 
-    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
+    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector, ui->valueGraphSelector,
                                     ui->serialConnectDisconnectButton, ui->autoScaleSelectorCheckBox, this);
+
+    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, this);
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +24,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete homePage;
     delete telemetryPage;
+    delete settingsPage;
 }
 
 // Quit button
@@ -69,6 +72,12 @@ void MainWindow::on_lapTimeButton_clicked()
     ui->mainBodyContainer->setCurrentIndex(2);
 }
 
+// Shows settings page
+void MainWindow::on_settingsButton_clicked()
+{
+    ui->mainBodyContainer->setCurrentIndex(3);
+}
+
 // Connect or Disconnect from Serial Data
 void MainWindow::on_serialConnectDisconnectButton_clicked()
 {
@@ -79,5 +88,18 @@ void MainWindow::on_serialConnectDisconnectButton_clicked()
 void MainWindow::on_autoScaleSelectorCheckBox_stateChanged(int arg1)
 {
     telemetryPage->on_autoScaleSelectorCheckBox_stateChanged();
+}
+
+
+
+void MainWindow::on_gpsLatSelector_valueChanged(int arg1)
+{
+    settingsPage->on_gpsLatSelector_valueChanged();
+}
+
+
+void MainWindow::on_gpsLongSelector_valueChanged(int arg1)
+{
+    settingsPage->on_gpsLatSelector_valueChanged();
 }
 
