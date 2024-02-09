@@ -6,6 +6,7 @@
 #include "homePage.h"
 #include "telemetryPage.h"
 #include "settingsPage.h"
+#include "databaseManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,9 +25,15 @@ private:
     TelemetryPage* telemetryPage;
     SettingsPage* settingsPage;
 
+private:
+    DatabaseManager* database;
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private:
+    void connectDatabase();
 
 private slots:
     void on_quitButton_clicked();

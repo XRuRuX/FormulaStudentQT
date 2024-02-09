@@ -19,6 +19,9 @@ public:
     SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QWidget* parent = nullptr);
     ~SettingsPage();
 
+public:
+    void setGPSSettings(int GPSLat, int GPSLong);
+
 public slots:
     void on_gpsLatSelector_valueChanged();
 };

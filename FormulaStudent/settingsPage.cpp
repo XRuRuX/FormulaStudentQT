@@ -19,6 +19,12 @@ SettingsPage::~SettingsPage()
 {
 }
 
+void SettingsPage::setGPSSettings(int GPSLat, int GPSLong)
+{
+    this->gpsLatSelector->setValue(GPSLat);
+    this->gpsLongSelector->setValue(GPSLong);
+}
+
 void SettingsPage::on_gpsLatSelector_valueChanged()
 {
     CANData::setGPSCoordinates(gpsLatSelector->value(), gpsLongSelector->value());
