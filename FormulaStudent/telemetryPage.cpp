@@ -140,6 +140,42 @@ void TelemetryPage::refreshGraph(void)
         case 8:
             customPlot->graph()->setData(CANData.GPST, CANData.GPSSpeed);
             break;
+        case 9:
+            customPlot->graph()->setData(CANData.AnalogT, CANData.BSPD);
+            break;
+        case 10:
+            customPlot->graph()->setData(CANData.AnalogT, CANData.BrakePressure);
+            break;
+        case 11:
+            customPlot->graph()->setData(CANData.AnalogT, CANData.SteeringAngle);
+            break;
+        case 12:
+            customPlot->graph()->setData(CANData.AnalogT, CANData.OilPressure);
+            break;
+        case 13:
+            customPlot->graph()->setData(CANData.DamperT, CANData.Damper1);
+            break;
+        case 14:
+            customPlot->graph()->setData(CANData.DamperT, CANData.Damper2);
+            break;
+        case 15:
+            customPlot->graph()->setData(CANData.DamperT, CANData.Damper3);
+            break;
+        case 16:
+            customPlot->graph()->setData(CANData.DamperT, CANData.Damper4);
+            break;
+        case 17:
+            customPlot->graph()->setData(CANData.RPMT, CANData.RPM);
+            break;
+        case 18:
+            customPlot->graph()->setData(CANData.CoolantT, CANData.CoolantTemp);
+            break;
+        case 19:
+            customPlot->graph()->setData(CANData.AFRT, CANData.ThrottlePos);
+            break;
+        case 20:
+            customPlot->graph()->setData(CANData.AFRT, CANData.AFR);
+            break;
 
         default:
             customPlot->clearPlottables();

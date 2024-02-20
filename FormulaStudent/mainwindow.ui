@@ -559,7 +559,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -750,9 +750,9 @@ QPushButton:pressed {
           <widget class="QComboBox" name="valueGraphSelector">
            <property name="geometry">
             <rect>
-             <x>550</x>
+             <x>458</x>
              <y>490</y>
-             <width>69</width>
+             <width>161</width>
              <height>22</height>
             </rect>
            </property>
@@ -799,6 +799,66 @@ QPushButton:pressed {
            <item>
             <property name="text">
              <string>GPSSpeed</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>BSPD</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Brake Pressure</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Steering Angle</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Oil Pressure</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Damper 1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Damper 2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Damper 3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Damper 4</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RPM</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Coolant Temperature</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Throttle Position</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>AFR</string>
             </property>
            </item>
           </widget>
