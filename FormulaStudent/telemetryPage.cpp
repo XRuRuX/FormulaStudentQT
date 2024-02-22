@@ -5,14 +5,13 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 {
 }
 
-TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector, QComboBox* valueGraphSelector,
+TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
                             QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
     this->customPlot = customPlot;
     this->widget = widget;
     this->comPortSelector = comPortSelector;
-    this->valueGraphSelector = valueGraphSelector;
     this->serialConnectDisconnectButton = serialConnectDisconnectButton;
     this->autoScaleSelectorCheckBox = autoScaleSelectorCheckBox;
 
@@ -108,80 +107,51 @@ void TelemetryPage::readData()
 
 void TelemetryPage::refreshGraph(void)
 {
-    if (isSerialComConnected)
-    {
-        // Selects which element is printed on the graph
-        switch(valueGraphSelector->currentIndex())
-        {
-        case 0:
-            customPlot->graph()->setData(CANData.GT, CANData.Gx);
-            break;
-        case 1:
-            customPlot->graph()->setData(CANData.GT, CANData.Gy);
-            break;
-        case 2:
-            customPlot->graph()->setData(CANData.GT, CANData.Gz);
-            break;
-        case 3:
-            customPlot->graph()->setData(CANData.AT, CANData.Ax);
-            break;
-        case 4:
-            customPlot->graph()->setData(CANData.AT, CANData.Ay);
-            break;
-        case 5:
-            customPlot->graph()->setData(CANData.AT, CANData.Az);
-            break;
-        case 6:
-            customPlot->graph()->setData(CANData.GPST, CANData.GPSLat);
-            break;
-        case 7:
-            customPlot->graph()->setData(CANData.GPST, CANData.GPSLong);
-            break;
-        case 8:
-            customPlot->graph()->setData(CANData.GPST, CANData.GPSSpeed);
-            break;
-        case 9:
-            customPlot->graph()->setData(CANData.AnalogT, CANData.BSPD);
-            break;
-        case 10:
-            customPlot->graph()->setData(CANData.AnalogT, CANData.BrakePressure);
-            break;
-        case 11:
-            customPlot->graph()->setData(CANData.AnalogT, CANData.SteeringAngle);
-            break;
-        case 12:
-            customPlot->graph()->setData(CANData.AnalogT, CANData.OilPressure);
-            break;
-        case 13:
-            customPlot->graph()->setData(CANData.DamperT, CANData.Damper1);
-            break;
-        case 14:
-            customPlot->graph()->setData(CANData.DamperT, CANData.Damper2);
-            break;
-        case 15:
-            customPlot->graph()->setData(CANData.DamperT, CANData.Damper3);
-            break;
-        case 16:
-            customPlot->graph()->setData(CANData.DamperT, CANData.Damper4);
-            break;
-        case 17:
-            customPlot->graph()->setData(CANData.RPMT, CANData.RPM);
-            break;
-        case 18:
-            customPlot->graph()->setData(CANData.CoolantT, CANData.CoolantTemp);
-            break;
-        case 19:
-            customPlot->graph()->setData(CANData.AFRT, CANData.ThrottlePos);
-            break;
-        case 20:
-            customPlot->graph()->setData(CANData.AFRT, CANData.AFR);
-            break;
+    if (isSerialComConnected) {
+        // Selects which element will be displayed on the graph
+        if (plotStates[RPM_PLOT])
+            customPlot->graph(RPM_PLOT)->setData(CANData.RPMT, CANData.RPM);
+        if (plotStates[COOLANTTEMP_PLOT])
+            customPlot->graph(COOLANTTEMP_PLOT)->setData(CANData.CoolantT, CANData.CoolantTemp);
+        if (plotStates[AFR_PLOT])
+            customPlot->graph(AFR_PLOT)->setData(CANData.AFRT, CANData.AFR);
+        if (plotStates[OILPRESSURE_PLOT])
+            customPlot->graph(OILPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.OilPressure);
+        if (plotStates[THROTTLEPOS_PLOT])
+            customPlot->graph(THROTTLEPOS_PLOT)->setData(CANData.AFRT, CANData.ThrottlePos);
+        if (plotStates[BSPD_PLOT])
+            customPlot->graph(BSPD_PLOT)->setData(CANData.AnalogT, CANData.BSPD);
+        if (plotStates[BRAKEPRESSURE_PLOT])
+            customPlot->graph(BRAKEPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.BrakePressure);
+        if (plotStates[STEERINGANGLE_PLOT])
+            customPlot->graph(STEERINGANGLE_PLOT)->setData(CANData.AnalogT, CANData.SteeringAngle);
+        if (plotStates[GPSLAT_PLOT])
+            customPlot->graph(GPSLAT_PLOT)->setData(CANData.GPST, CANData.GPSLat);
+        if (plotStates[GPSLONG_PLOT])
+            customPlot->graph(GPSLONG_PLOT)->setData(CANData.GPST, CANData.GPSLong);
+        if (plotStates[GPSSPEED_PLOT])
+            customPlot->graph(GPSSPEED_PLOT)->setData(CANData.GPST, CANData.GPSSpeed);
+        if (plotStates[DAMPER1_PLOT])
+            customPlot->graph(DAMPER1_PLOT)->setData(CANData.DamperT, CANData.Damper1);
+        if (plotStates[DAMPER2_PLOT])
+            customPlot->graph(DAMPER2_PLOT)->setData(CANData.DamperT, CANData.Damper2);
+        if (plotStates[DAMPER3_PLOT])
+            customPlot->graph(DAMPER3_PLOT)->setData(CANData.DamperT, CANData.Damper3);
+        if (plotStates[DAMPER4_PLOT])
+            customPlot->graph(DAMPER4_PLOT)->setData(CANData.DamperT, CANData.Damper4);
+        if (plotStates[AX_PLOT])
+            customPlot->graph(AX_PLOT)->setData(CANData.AT, CANData.Ax);
+        if (plotStates[AY_PLOT])
+            customPlot->graph(AY_PLOT)->setData(CANData.AT, CANData.Ay);
+        if (plotStates[AZ_PLOT])
+            customPlot->graph(AZ_PLOT)->setData(CANData.AT, CANData.Az);
+        if (plotStates[GX_PLOT])
+            customPlot->graph(GX_PLOT)->setData(CANData.GT, CANData.Gx);
+        if (plotStates[GY_PLOT])
+            customPlot->graph(GY_PLOT)->setData(CANData.GT, CANData.Gy);
+        if (plotStates[GZ_PLOT])
+            customPlot->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
 
-        default:
-            customPlot->clearPlottables();
-            customPlot->replot();
-            break;
-        }
         // Check if the graph is on AutoScale
         if (isAutoScale)
         {
@@ -216,8 +186,11 @@ void TelemetryPage::on_autoScaleSelectorCheckBox_stateChanged()
 
 void TelemetryPage::initializeGraph()
 {
-    // Create graph
-    customPlot->addGraph();
+    // Create graphs
+    for(int i = 0; i < NO_GRAPHS; i++)
+    {
+        customPlot->addGraph();
+    }
 
     // Axis label
     customPlot->yAxis->setLabel("Sensor value: ");
@@ -250,4 +223,14 @@ void TelemetryPage::initializeSerialPort()
 
     // Select the COM Port from Combo Box
     serialPort.setPortName( comPortSelector->currentText() );
+}
+
+// Method that changes what will be plotted on the graph based on the settings checkboxes
+void TelemetryPage::changeValueDisplayed(int valueName)
+{
+    if(plotStates[valueName])
+    {
+        customPlot->graph(valueName)->data()->clear();
+    }
+    plotStates[valueName] = !plotStates[valueName];
 }

@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
     homePage->updateDateAndTime();
 
-    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector, ui->valueGraphSelector,
+    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
                                     ui->serialConnectDisconnectButton, ui->autoScaleSelectorCheckBox, this);
 
     settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, this);
@@ -126,3 +126,129 @@ void MainWindow::connectDatabase()
         settingsPage->setGPSSettings(GPSLat, GPSLong);
     }
 }
+
+void MainWindow::on_rpmCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(RPM_PLOT);
+}
+
+
+void MainWindow::on_coolantTempCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(COOLANTTEMP_PLOT);
+}
+
+
+void MainWindow::on_afrCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(AFR_PLOT);
+}
+
+
+void MainWindow::on_oilPressureCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(OILPRESSURE_PLOT);
+}
+
+
+void MainWindow::on_throttlePositionCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(THROTTLEPOS_PLOT);
+}
+
+
+void MainWindow::on_bspdCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(BSPD_PLOT);
+}
+
+
+void MainWindow::on_brakePressureCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(BRAKEPRESSURE_PLOT);
+}
+
+
+void MainWindow::on_steeringAngleCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(STEERINGANGLE_PLOT);
+}
+
+
+void MainWindow::on_gpsLatitudeCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(GPSLAT_PLOT);
+}
+
+
+void MainWindow::on_gpsLongitudeCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(GPSLONG_PLOT);
+}
+
+
+void MainWindow::on_speedCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(GPSSPEED_PLOT);
+}
+
+
+void MainWindow::on_damper1CheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(DAMPER1_PLOT);
+}
+
+
+void MainWindow::on_damper2CheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(DAMPER2_PLOT);
+}
+
+
+void MainWindow::on_damper3CheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(DAMPER3_PLOT);
+}
+
+
+void MainWindow::on_damper4CheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(DAMPER4_PLOT);
+}
+
+
+void MainWindow::on_accelerationXCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(AX_PLOT);
+}
+
+
+void MainWindow::on_accelerationYCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(AY_PLOT);
+}
+
+
+void MainWindow::on_accelerationZCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(AZ_PLOT);
+}
+
+
+void MainWindow::on_angleXCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(GX_PLOT);
+}
+
+
+void MainWindow::on_angleYCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(GY_PLOT);
+}
+
+
+void MainWindow::on_angleZCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->changeValueDisplayed(GZ_PLOT);
+}
+

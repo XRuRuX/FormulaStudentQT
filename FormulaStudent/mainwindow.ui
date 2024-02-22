@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1066</width>
-    <height>577</height>
+    <height>573</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -747,121 +747,6 @@ QPushButton:pressed {
             <bool>true</bool>
            </property>
           </widget>
-          <widget class="QComboBox" name="valueGraphSelector">
-           <property name="geometry">
-            <rect>
-             <x>458</x>
-             <y>490</y>
-             <width>161</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>Gx</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Gy</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Gz</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ax</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ay</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Az</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>GPSLat</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>GPSLong</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>GPSSpeed</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>BSPD</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Brake Pressure</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Steering Angle</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Oil Pressure</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Damper 1</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Damper 2</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Damper 3</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Damper 4</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>RPM</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Coolant Temperature</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Throttle Position</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>AFR</string>
-            </property>
-           </item>
-          </widget>
          </widget>
          <widget class="QWidget" name="lapTimerPage">
           <widget class="QLabel" name="label">
@@ -889,131 +774,583 @@ color: rgb(240, 240, 240);
 QLabel {
 color: rgb(230, 230, 230);
 }
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background: none;
+    height: 0;
+    width: 0;
+}
+
+QScrollBar:vertical {
+	width: 10px;
+}
+
+/*  HANDLE BAR VERTICAL */
+QScrollBar::handle:vertical {	
+	background-color: rgb(50, 50, 50);
+	border-radius: 4px;
+}
+QScrollBar::handle:vertical:hover{	
+	background-color: rgb(55, 55, 55);
+}
+QScrollBar::handle:vertical:pressed {	
+	background-color: rgb(60, 60, 60);
+}
+
+
+/* RESET ARROW */
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+	background: none;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+
 </string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item alignment="Qt::AlignTop">
-            <widget class="QWidget" name="gpsSettingsContainer" native="true">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <layout class="QFormLayout" name="formLayout">
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item row="2" column="0">
-               <widget class="QLabel" name="gpsSettingsLabel">
-                <property name="font">
-                 <font>
-                  <family>Inter</family>
-                  <pointsize>16</pointsize>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">padding-bottom: 1px;</string>
-                </property>
-                <property name="text">
-                 <string>GPS Settings</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="gpsLatLabel">
-                <property name="font">
-                 <font>
-                  <family>Inter</family>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">padding-left: 20px;
-color: rgb(240, 240, 240);</string>
-                </property>
-                <property name="text">
-                 <string>GPS Latitude:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QSpinBox" name="gpsLatSelector">
-                <property name="maximumSize">
-                 <size>
-                  <width>50</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Inter</family>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="value">
-                 <number>27</number>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="gpsLongLabel">
-                <property name="font">
-                 <font>
-                  <family>Inter</family>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">padding-left: 20px;
-color: rgb(240, 240, 240);</string>
-                </property>
-                <property name="text">
-                 <string>GPS Longitude: </string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QSpinBox" name="gpsLongSelector">
-                <property name="maximumSize">
-                 <size>
-                  <width>50</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Inter</family>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="value">
-                 <number>46</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item>
-            <spacer name="verticalSpacer_down_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
+            <widget class="QScrollArea" name="scrollArea">
+             <property name="widgetResizable">
+              <bool>true</bool>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
+             <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>829</width>
+                <height>850</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>850</height>
+               </size>
+              </property>
+              <widget class="QWidget" name="gpsSettingsContainer" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>839</width>
+                 <height>100</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <layout class="QFormLayout" name="formLayout">
+                <property name="topMargin">
+                 <number>3</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="gpsLatLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 20px;
+color: rgb(240, 240, 240);</string>
+                  </property>
+                  <property name="text">
+                   <string>GPS Latitude:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QSpinBox" name="gpsLatSelector">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="value">
+                   <number>27</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="gpsLongLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 20px;
+color: rgb(240, 240, 240);</string>
+                  </property>
+                  <property name="text">
+                   <string>GPS Longitude: </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QSpinBox" name="gpsLongSelector">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="value">
+                   <number>46</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="gpsSettingsLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>18</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-bottom: 1px;</string>
+                  </property>
+                  <property name="text">
+                   <string>GPS Settings</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="plotOptionsContainer" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>106</y>
+                 <width>841</width>
+                 <height>738</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QCheckBox {
+padding-left: 30px;
+}</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <item>
+                 <widget class="QLabel" name="plotOptionsLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>18</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-top: 10px;
+padding-bottom: 1px;</string>
+                  </property>
+                  <property name="text">
+                   <string>Plot Options</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="engineLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>16</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 10px;
+</string>
+                  </property>
+                  <property name="text">
+                   <string>Engine</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="rpmCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>RPM</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="coolantTempCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Coolant temperature</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="afrCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Air-fuel ratio</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="oilPressureCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Oil pressure</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="senorsLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>16</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 10px;
+</string>
+                  </property>
+                  <property name="text">
+                   <string>Sensors</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="throttlePositionCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Throttle position</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="bspdCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>BSPD</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="brakePressureCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Brake pressure</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="steeringAngleCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Steering angle</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="gpsLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>16</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 10px;
+</string>
+                  </property>
+                  <property name="text">
+                   <string>GPS</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="gpsLatitudeCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>GPS latitude</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="gpsLongitudeCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>GPS longitude</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="speedCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Speed</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="suspensionLabel">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>16</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 10px;
+</string>
+                  </property>
+                  <property name="text">
+                   <string>Suspension</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="damper1CheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Damper 1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="damper2CheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Damper 2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="damper3CheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Damper 3</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="damper4CheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Damper 4</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="gpsLabel_3">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>16</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">padding-left: 10px;
+</string>
+                  </property>
+                  <property name="text">
+                   <string>Motion</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="accelerationXCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Acceleration on X axis</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="accelerationYCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Acceleration on Y axis</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="accelerationZCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Acceleration on Z axis</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="angleXCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Angle change on X axis</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="angleYCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Angle change on Y axis</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="angleZCheckBox">
+                  <property name="font">
+                   <font>
+                    <family>Inter</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Angle change on Z axis</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </widget>
            </item>
           </layout>
          </widget>

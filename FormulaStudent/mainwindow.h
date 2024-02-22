@@ -52,6 +52,27 @@ private slots:
 private slots:
     void on_gpsLatSelector_valueChanged(int arg1);
     void on_gpsLongSelector_valueChanged(int arg1);
+    void on_rpmCheckBox_stateChanged(int arg1);
+    void on_coolantTempCheckBox_stateChanged(int arg1);
+    void on_afrCheckBox_stateChanged(int arg1);
+    void on_oilPressureCheckBox_stateChanged(int arg1);
+    void on_throttlePositionCheckBox_stateChanged(int arg1);
+    void on_bspdCheckBox_stateChanged(int arg1);
+    void on_brakePressureCheckBox_stateChanged(int arg1);
+    void on_steeringAngleCheckBox_stateChanged(int arg1);
+    void on_gpsLatitudeCheckBox_stateChanged(int arg1);
+    void on_gpsLongitudeCheckBox_stateChanged(int arg1);
+    void on_speedCheckBox_stateChanged(int arg1);
+    void on_damper1CheckBox_stateChanged(int arg1);
+    void on_damper2CheckBox_stateChanged(int arg1);
+    void on_damper3CheckBox_stateChanged(int arg1);
+    void on_damper4CheckBox_stateChanged(int arg1);
+    void on_accelerationXCheckBox_stateChanged(int arg1);
+    void on_accelerationYCheckBox_stateChanged(int arg1);
+    void on_accelerationZCheckBox_stateChanged(int arg1);
+    void on_angleXCheckBox_stateChanged(int arg1);
+    void on_angleYCheckBox_stateChanged(int arg1);
+    void on_angleZCheckBox_stateChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H
