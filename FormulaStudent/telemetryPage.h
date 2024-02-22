@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QColor>
 #include "qcustomplot.h"
 #include <QRegularExpression>
 #include <QDateTime>
@@ -83,6 +84,7 @@ private:
 
 public:
     void changeValueDisplayed(int valueName);
+    void changeGraphColor(int graphName, QColor colorValue);
 };
 
 #endif // TELEMETRYPAGE_H

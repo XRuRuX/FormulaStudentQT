@@ -559,7 +559,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -818,7 +818,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
+                <y>-238</y>
                 <width>829</width>
                 <height>850</height>
                </rect>
@@ -950,7 +950,7 @@ color: rgb(240, 240, 240);</string>
                 <rect>
                  <x>0</x>
                  <y>106</y>
-                 <width>841</width>
+                 <width>851</width>
                  <height>738</height>
                 </rect>
                </property>
@@ -963,10 +963,18 @@ color: rgb(240, 240, 240);</string>
                <property name="styleSheet">
                 <string notr="true">QCheckBox {
 padding-left: 30px;
+padding-right: 20px;
+}
+
+QPushButton {
+background-color: blue;
+max-width: 30px;
+max-height: 10px;
+border: 1px solid rgb(40, 40, 40);
 }</string>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_9">
-                <item>
+               <layout class="QFormLayout" name="formLayout_2">
+                <item row="0" column="0">
                  <widget class="QLabel" name="plotOptionsLabel">
                   <property name="font">
                    <font>
@@ -984,7 +992,7 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="1" column="0">
                  <widget class="QLabel" name="engineLabel">
                   <property name="font">
                    <font>
@@ -1002,7 +1010,7 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="2" column="0">
                  <widget class="QCheckBox" name="rpmCheckBox">
                   <property name="font">
                    <font>
@@ -1015,7 +1023,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="rpmColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
                  <widget class="QCheckBox" name="coolantTempCheckBox">
                   <property name="font">
                    <font>
@@ -1028,7 +1046,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="coolantTempColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
                  <widget class="QCheckBox" name="afrCheckBox">
                   <property name="font">
                    <font>
@@ -1041,7 +1069,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="4" column="1">
+                 <widget class="QPushButton" name="afrColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
                  <widget class="QCheckBox" name="oilPressureCheckBox">
                   <property name="font">
                    <font>
@@ -1054,7 +1092,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="5" column="1">
+                 <widget class="QPushButton" name="oilPressureColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
                  <widget class="QLabel" name="senorsLabel">
                   <property name="font">
                    <font>
@@ -1072,7 +1120,7 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="7" column="0">
                  <widget class="QCheckBox" name="throttlePositionCheckBox">
                   <property name="font">
                    <font>
@@ -1085,7 +1133,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="7" column="1">
+                 <widget class="QPushButton" name="throttlePositionColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0">
                  <widget class="QCheckBox" name="bspdCheckBox">
                   <property name="font">
                    <font>
@@ -1098,7 +1156,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="8" column="1">
+                 <widget class="QPushButton" name="bspdColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="9" column="0">
                  <widget class="QCheckBox" name="brakePressureCheckBox">
                   <property name="font">
                    <font>
@@ -1111,7 +1179,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="9" column="1">
+                 <widget class="QPushButton" name="brakePressureColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="0">
                  <widget class="QCheckBox" name="steeringAngleCheckBox">
                   <property name="font">
                    <font>
@@ -1124,7 +1202,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="10" column="1">
+                 <widget class="QPushButton" name="steeringAngleColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="11" column="0">
                  <widget class="QLabel" name="gpsLabel">
                   <property name="font">
                    <font>
@@ -1142,7 +1230,7 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="12" column="0">
                  <widget class="QCheckBox" name="gpsLatitudeCheckBox">
                   <property name="font">
                    <font>
@@ -1155,7 +1243,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="12" column="1">
+                 <widget class="QPushButton" name="gpsLatitudeColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="13" column="0">
                  <widget class="QCheckBox" name="gpsLongitudeCheckBox">
                   <property name="font">
                    <font>
@@ -1168,7 +1266,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="13" column="1">
+                 <widget class="QPushButton" name="gpsLongitudeColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="14" column="0">
                  <widget class="QCheckBox" name="speedCheckBox">
                   <property name="font">
                    <font>
@@ -1181,7 +1289,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="14" column="1">
+                 <widget class="QPushButton" name="speedColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="15" column="0">
                  <widget class="QLabel" name="suspensionLabel">
                   <property name="font">
                    <font>
@@ -1199,7 +1317,7 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="16" column="0">
                  <widget class="QCheckBox" name="damper1CheckBox">
                   <property name="font">
                    <font>
@@ -1212,7 +1330,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="16" column="1">
+                 <widget class="QPushButton" name="damper1ColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="17" column="0">
                  <widget class="QCheckBox" name="damper2CheckBox">
                   <property name="font">
                    <font>
@@ -1225,7 +1353,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="17" column="1">
+                 <widget class="QPushButton" name="damper2ColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="18" column="0">
                  <widget class="QCheckBox" name="damper3CheckBox">
                   <property name="font">
                    <font>
@@ -1238,7 +1376,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="18" column="1">
+                 <widget class="QPushButton" name="damper3ColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="19" column="0">
                  <widget class="QCheckBox" name="damper4CheckBox">
                   <property name="font">
                    <font>
@@ -1251,8 +1399,18 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QLabel" name="gpsLabel_3">
+                <item row="19" column="1">
+                 <widget class="QPushButton" name="damper4ColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="20" column="0">
+                 <widget class="QLabel" name="motionLabel">
                   <property name="font">
                    <font>
                     <family>Inter</family>
@@ -1269,7 +1427,7 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="21" column="0">
                  <widget class="QCheckBox" name="accelerationXCheckBox">
                   <property name="font">
                    <font>
@@ -1282,7 +1440,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="21" column="1">
+                 <widget class="QPushButton" name="accelerationXColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="22" column="0">
                  <widget class="QCheckBox" name="accelerationYCheckBox">
                   <property name="font">
                    <font>
@@ -1295,7 +1463,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="22" column="1">
+                 <widget class="QPushButton" name="accelerationYColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="23" column="0">
                  <widget class="QCheckBox" name="accelerationZCheckBox">
                   <property name="font">
                    <font>
@@ -1308,7 +1486,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="23" column="1">
+                 <widget class="QPushButton" name="accelerationZColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="24" column="0">
                  <widget class="QCheckBox" name="angleXCheckBox">
                   <property name="font">
                    <font>
@@ -1321,7 +1509,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="24" column="1">
+                 <widget class="QPushButton" name="angleXColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="25" column="0">
                  <widget class="QCheckBox" name="angleYCheckBox">
                   <property name="font">
                    <font>
@@ -1334,7 +1532,17 @@ padding-bottom: 1px;</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="25" column="1">
+                 <widget class="QPushButton" name="angleYColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="26" column="0">
                  <widget class="QCheckBox" name="angleZCheckBox">
                   <property name="font">
                    <font>
@@ -1344,6 +1552,16 @@ padding-bottom: 1px;</string>
                   </property>
                   <property name="text">
                    <string>Angle change on Z axis</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="26" column="1">
+                 <widget class="QPushButton" name="angleZColorPicker">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string/>
                   </property>
                  </widget>
                 </item>

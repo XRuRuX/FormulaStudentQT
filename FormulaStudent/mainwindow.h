@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QColorDialog>
+#include <QColor>
+#include <QPalette>
 #include "homePage.h"
 #include "telemetryPage.h"
 #include "settingsPage.h"
@@ -34,6 +37,9 @@ public:
 
 private:
     void connectDatabase();
+
+private:
+    void setColorForButtonGraphSettings(QPushButton *button, int graphName);
 
 private slots:
     void on_quitButton_clicked();
@@ -73,6 +79,27 @@ private slots:
     void on_angleXCheckBox_stateChanged(int arg1);
     void on_angleYCheckBox_stateChanged(int arg1);
     void on_angleZCheckBox_stateChanged(int arg1);
+    void on_rpmColorPicker_clicked();
+    void on_coolantTempColorPicker_clicked();
+    void on_afrColorPicker_clicked();
+    void on_oilPressureColorPicker_clicked();
+    void on_throttlePositionColorPicker_clicked();
+    void on_bspdColorPicker_clicked();
+    void on_brakePressureColorPicker_clicked();
+    void on_steeringAngleColorPicker_clicked();
+    void on_gpsLatitudeColorPicker_clicked();
+    void on_gpsLongitudeColorPicker_clicked();
+    void on_speedColorPicker_clicked();
+    void on_damper1ColorPicker_clicked();
+    void on_damper2ColorPicker_clicked();
+    void on_damper3ColorPicker_clicked();
+    void on_damper4ColorPicker_clicked();
+    void on_accelerationXColorPicker_clicked();
+    void on_accelerationYColorPicker_clicked();
+    void on_accelerationZColorPicker_clicked();
+    void on_angleXColorPicker_clicked();
+    void on_angleYColorPicker_clicked();
+    void on_angleZColorPicker_clicked();
 };
 
 #endif // MAINWINDOW_H

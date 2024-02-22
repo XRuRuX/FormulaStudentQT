@@ -234,3 +234,8 @@ void TelemetryPage::changeValueDisplayed(int valueName)
     }
     plotStates[valueName] = !plotStates[valueName];
 }
+
+void TelemetryPage::changeGraphColor(int graphName, QColor colorValue)
+{
+    customPlot->graph(graphName)->setPen(QPen(colorValue));
+}

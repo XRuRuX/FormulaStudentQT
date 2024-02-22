@@ -127,6 +127,21 @@ void MainWindow::connectDatabase()
     }
 }
 
+// Method to change graph color
+void MainWindow::setColorForButtonGraphSettings(QPushButton *button, int graphName)
+{
+    // Extracts color
+    QColor colorValue = QColorDialog::getColor(Qt::white, this, tr("Select color"));
+
+    // Converts it to string
+    QString colorString = QString("rgb(%1, %2, %3)").arg(colorValue.red()).arg(colorValue.green()).arg(colorValue.blue());
+
+    // Set button color based on the string
+    button->setStyleSheet(QString("background-color: %1;").arg(colorString));
+
+    telemetryPage->changeGraphColor(graphName, colorValue);
+}
+
 void MainWindow::on_rpmCheckBox_stateChanged(int arg1)
 {
     telemetryPage->changeValueDisplayed(RPM_PLOT);
@@ -250,5 +265,131 @@ void MainWindow::on_angleYCheckBox_stateChanged(int arg1)
 void MainWindow::on_angleZCheckBox_stateChanged(int arg1)
 {
     telemetryPage->changeValueDisplayed(GZ_PLOT);
+}
+
+
+void MainWindow::on_rpmColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->rpmColorPicker, RPM_PLOT);
+}
+
+
+void MainWindow::on_coolantTempColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->coolantTempColorPicker, COOLANTTEMP_PLOT);
+}
+
+
+void MainWindow::on_afrColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->afrColorPicker, AFR_PLOT);
+}
+
+
+void MainWindow::on_oilPressureColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->oilPressureColorPicker, OILPRESSURE_PLOT);
+}
+
+
+void MainWindow::on_throttlePositionColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->throttlePositionColorPicker, THROTTLEPOS_PLOT);
+}
+
+
+void MainWindow::on_bspdColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->bspdColorPicker, BSPD_PLOT);
+}
+
+
+void MainWindow::on_brakePressureColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->brakePressureColorPicker, BRAKEPRESSURE_PLOT);
+}
+
+
+void MainWindow::on_steeringAngleColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->steeringAngleColorPicker, STEERINGANGLE_PLOT);
+}
+
+
+void MainWindow::on_gpsLatitudeColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->gpsLatitudeColorPicker, GPSLAT_PLOT);
+}
+
+
+void MainWindow::on_gpsLongitudeColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->gpsLongitudeColorPicker, GPSLONG_PLOT);
+}
+
+
+void MainWindow::on_speedColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->speedColorPicker, GPSSPEED_PLOT);
+}
+
+
+void MainWindow::on_damper1ColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->damper1ColorPicker, DAMPER1_PLOT);
+}
+
+
+void MainWindow::on_damper2ColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->damper2ColorPicker, DAMPER2_PLOT);
+}
+
+
+void MainWindow::on_damper3ColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->damper3ColorPicker, DAMPER3_PLOT);
+}
+
+
+void MainWindow::on_damper4ColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->damper4ColorPicker, DAMPER4_PLOT);
+}
+
+
+void MainWindow::on_accelerationXColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->accelerationXColorPicker, AX_PLOT);
+}
+
+
+void MainWindow::on_accelerationYColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->accelerationYColorPicker, AY_PLOT);
+}
+
+
+void MainWindow::on_accelerationZColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->accelerationZColorPicker, AZ_PLOT);
+}
+
+
+void MainWindow::on_angleXColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->angleXColorPicker, GX_PLOT);
+}
+
+
+void MainWindow::on_angleYColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->angleYColorPicker, GY_PLOT);
+}
+
+
+void MainWindow::on_angleZColorPicker_clicked()
+{
+    setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT);
 }
 
