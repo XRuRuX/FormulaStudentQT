@@ -190,24 +190,47 @@ void TelemetryPage::initializeGraph()
     for(int i = 0; i < NO_GRAPHS; i++)
     {
         customPlot->addGraph();
+        customPlot->graph(i)->setPen(QColor(245, 245, 245));
     }
-
-    // Axis label
-    customPlot->yAxis->setLabel("Sensor value: ");
 
     // Make left and bottom axes transfer their ranges to right and top axes
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
     connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
+/* Graph title
     // Graph title
     QCPTextElement *title = new QCPTextElement(customPlot);
-    title->setText("Real-Time Plot");
-    title->setFont(QFont("sans", 12, QFont::Bold));
+    title->setText("Sensors Visualization Graph");
+    title->setFont(QFont("Inter", 16, QFont::Bold));
+    title->setTextColor(QColor(240, 240, 240));
 
     // Insert an empty row above the axis
     customPlot->plotLayout()->insertRow(0);
     // Place the title in the empty cell we've just created
     customPlot->plotLayout()->addElement(0, 0, title);
+*/
+
+    // Change background color
+    customPlot->setBackground(QColor(24, 24, 24));
+    // Change color of X-Axis
+    customPlot->xAxis->setBasePen(QPen(QColor(50, 50, 50)));
+    customPlot->xAxis->setTickPen(QPen(QColor(50, 50, 50)));
+    customPlot->xAxis->setSubTickPen(QPen(QColor(50, 50, 50)));
+    // Change color of Y-Axis
+    customPlot->yAxis->setBasePen(QPen(QColor(50, 50, 50)));
+    customPlot->yAxis->setTickPen(QPen(QColor(50, 50, 50)));
+    customPlot->yAxis->setSubTickPen(QPen(QColor(50, 50, 50)));
+    // Change color of grid
+    customPlot->xAxis->grid()->setPen(QPen(QColor(50, 50, 50)));
+    customPlot->yAxis->grid()->setPen(QPen(QColor(50, 50, 50)));
+    // Change color of X-Axis label
+    customPlot->xAxis->setLabelColor(QColor(230, 230, 230));
+    // Change color of Y-Axis label
+    customPlot->yAxis->setLabelColor(QColor(230, 230, 230));
+    // Change color of X-Axis numbers
+    customPlot->xAxis->setTickLabelColor(QColor(230, 230, 230));
+    // Change color of Y-Axis numbers
+    customPlot->yAxis->setTickLabelColor(QColor(230, 230, 230));
 
     // The total number of points displayed at any time
     maxNumberOfPoints = 100;
