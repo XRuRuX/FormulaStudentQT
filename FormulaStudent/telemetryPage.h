@@ -52,6 +52,7 @@ private:
 
 private:
     bool plotStates[NO_GRAPHS] = {false}; // Vector for storing variable states to determine what to plot
+    QStringList graphNames;     // String list with every graph name
 
 private:
     bool isSerialComConnected = false;
@@ -70,6 +71,7 @@ public:
 
 private:
     void initializeGraph();
+    void initializeLegend();
     void initializeSerialPort();
 
 public slots:
@@ -85,6 +87,7 @@ private:
 public:
     void changeValueDisplayed(int valueName);
     void changeGraphColor(int graphName, QColor colorValue);
+    void changeLegendValues();
 };
 
 #endif // TELEMETRYPAGE_H

@@ -30,6 +30,10 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &TelemetryPage::refreshGraph );
     timer->start(1000);
+
+    this->graphNames = {"RPM", "Coolant Temperature", "AFR", "Oil Pressure", "Throttle Position", "BSPD",
+                              "Brake Pressure", "Steering Angle", "GPS Latitude", "GPS Longitude", "GPS Speed",
+                              "Damper 1", "Damper 2", "Damper 3", "Damper 4", "Ax", "Ay", "Az", "Gx", "Gy", "Gz"};
 }
 
 TelemetryPage::~TelemetryPage()
@@ -197,7 +201,7 @@ void TelemetryPage::initializeGraph()
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
     connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
-/* Graph title
+/*
     // Graph title
     QCPTextElement *title = new QCPTextElement(customPlot);
     title->setText("Sensors Visualization Graph");
@@ -209,6 +213,7 @@ void TelemetryPage::initializeGraph()
     // Place the title in the empty cell we've just created
     customPlot->plotLayout()->addElement(0, 0, title);
 */
+    initializeLegend();
 
     // Change background color
     customPlot->setBackground(QColor(24, 24, 24));
@@ -236,6 +241,37 @@ void TelemetryPage::initializeGraph()
     maxNumberOfPoints = 100;
 }
 
+void TelemetryPage::initializeLegend()
+{
+    // Delete all legend elements
+    for(int i = 0; i < NO_GRAPHS; i++)
+    {
+        customPlot->legend->removeItem(customPlot->graph(i)->addToLegend());
+    }
+
+    // Create legend
+    customPlot->legend->setVisible(true);
+
+    QCPTextElement *legendTitle = new QCPTextElement(customPlot);
+    // Place text element on same layer as legend, or it ends up below legend
+    legendTitle->setLayer(customPlot->legend->layer());
+    legendTitle->setText("Legend");
+    legendTitle->setFont(QFont("Inter", 14, QFont::Bold));
+    legendTitle->setTextColor(QColor(235, 235, 235));
+    customPlot->legend->setBorderPen(Qt::NoPen);
+
+    // Then we add it to the QCPLegend (which is a subclass of QCPLayoutGrid):
+    if (customPlot->legend->hasElement(0, 0)) // If top cell isn't empty, insert an empty row at top
+    {
+        customPlot->legend->insertRow(0);
+    }
+    // Place the text element into the empty cell
+    customPlot->legend->addElement(0, 0, legendTitle);
+
+    // Change legend background color
+    customPlot->legend->setBrush(QColor(24, 24, 24));
+}
+
 void TelemetryPage::initializeSerialPort()
 {
     serialPort.setBaudRate( QSerialPort::Baud9600 );
@@ -254,11 +290,40 @@ void TelemetryPage::changeValueDisplayed(int valueName)
     if(plotStates[valueName])
     {
         customPlot->graph(valueName)->data()->clear();
+        customPlot->legend->removeItem(customPlot->graph(valueName)->addToLegend());
     }
     plotStates[valueName] = !plotStates[valueName];
+    changeLegendValues();
 }
 
 void TelemetryPage::changeGraphColor(int graphName, QColor colorValue)
 {
     customPlot->graph(graphName)->setPen(QPen(colorValue));
+}
+
+void TelemetryPage::changeLegendValues()
+{
+    // Dynamic legend
+    // Iterate through the state vector of the plots and update the legend based on these states
+    for (int i = 0; i < NO_GRAPHS; i++) {
+        if (plotStates[i]) {
+            // If plotStates[i] is true, add the appropriate element to the legend
+            customPlot->graph(i)->addToLegend();
+            // Update the chart name in the legend
+            customPlot->graph(i)->setName(graphNames[i]);
+        } else {
+            // If plotStates[i] is false, remove the corresponding element from the legend
+            customPlot->graph(i)->removeFromLegend();
+        }
+    }
+
+    // Go through each item in the legend and set the text color
+    for (int i = 0; i < customPlot->legend->itemCount(); i++) {
+        // Access the legend element at the specified index
+        QCPAbstractLegendItem *item = customPlot->legend->item(i);
+        if (item) {
+            // Set the text color for the legend element
+            item->setTextColor(QColor(235, 235, 235));
+        }
+    }
 }

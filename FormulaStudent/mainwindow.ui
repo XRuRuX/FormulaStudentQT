@@ -559,7 +559,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -755,7 +755,8 @@ QPushButton:pressed {
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: rgb(30,30,30);</string>
+                 <string notr="true">background-color: rgb(30,30,30);
+border: 2px solid rgb(22, 22, 22);</string>
                 </property>
                </widget>
               </item>
@@ -770,7 +771,7 @@ QPushButton:pressed {
                 <property name="styleSheet">
                  <string notr="true">text-align: center;
 background-color: rgb(30,30,30);
-border: 1px solid rgb(22, 22, 22);</string>
+border: 2px solid rgb(22, 22, 22);</string>
                 </property>
                 <property name="text">
                  <string>Connect</string>
