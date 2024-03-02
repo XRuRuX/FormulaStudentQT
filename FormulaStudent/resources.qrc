@@ -13,5 +13,9 @@
         <file>Images/Icons/x.png</file>
         <file>Images/Icons/expand.png</file>
         <file>Images/Icons/minus.png</file>
+        <file>Images/Icons/map-location-dot.png</file>
+    </qresource>
+    <qresource prefix="/API">
+        <file>API/googlemaps.html</file>
     </qresource>
 </RCC>

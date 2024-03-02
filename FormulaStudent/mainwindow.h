@@ -10,6 +10,7 @@
 #include "telemetryPage.h"
 #include "settingsPage.h"
 #include "databaseManager.h"
+#include "mapPage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +28,7 @@ private:
     HomePage *homePage;
     TelemetryPage* telemetryPage;
     SettingsPage* settingsPage;
+    MapPage* mapPage;
 
 private:
     DatabaseManager* database;
@@ -50,6 +52,7 @@ private slots:
     void on_telemetryButton_clicked();
     void on_settingsButton_clicked();
     void on_lapTimeButton_clicked();
+    void on_mapButton_clicked();
 
 private slots:
     void on_serialConnectDisconnectButton_clicked();

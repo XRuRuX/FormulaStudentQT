@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, this);
 
+    mapPage = new MapPage(ui->mapCentralContainer, this);
+
     database = new DatabaseManager();
     this->connectDatabase();
 }
@@ -28,6 +30,7 @@ MainWindow::~MainWindow()
     delete homePage;
     delete telemetryPage;
     delete settingsPage;
+    delete mapPage;
 }
 
 // Quit button
@@ -75,10 +78,16 @@ void MainWindow::on_lapTimeButton_clicked()
     ui->mainBodyContainer->setCurrentIndex(2);
 }
 
+// Shows map page
+void MainWindow::on_mapButton_clicked()
+{
+    ui->mainBodyContainer->setCurrentIndex(3);
+}
+
 // Shows settings page
 void MainWindow::on_settingsButton_clicked()
 {
-    ui->mainBodyContainer->setCurrentIndex(3);
+    ui->mainBodyContainer->setCurrentIndex(4);
 }
 
 // Connect or Disconnect from Serial Data

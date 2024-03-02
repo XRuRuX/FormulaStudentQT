@@ -3,6 +3,7 @@
 
 #include <QRegularExpression>
 #include <QDebug>
+#include "MapPage.h"
 
 class CANData
 {

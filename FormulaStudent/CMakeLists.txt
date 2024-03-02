@@ -14,6 +14,9 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS SerialPort)
 find_package(Qt6 COMPONENTS Widgets PrintSupport REQUIRED)
 find_package(Qt6 COMPONENTS Core Sql REQUIRED)
+find_package(Qt6 COMPONENTS WebEngineWidgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Location)
+find_package(Qt6 REQUIRED COMPONENTS QuickWidgets)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -36,6 +39,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         candata.h candata.cpp
         settingsPage.h settingsPage.cpp
         databaseManager.h databaseManager.cpp
+        mapPage.cpp mapPage.h
 
 
     )
@@ -62,6 +66,10 @@ target_link_libraries(FormulaStudent PRIVATE Qt6::Widgets)
 target_link_libraries(FormulaStudent PRIVATE Qt6::SerialPort)
 target_link_libraries(FormulaStudent PRIVATE Qt6::Widgets Qt6::PrintSupport)
 target_link_libraries(FormulaStudent PRIVATE Qt6::Core Qt6::Sql)
+target_link_libraries(FormulaStudent PRIVATE Qt6::WebEngineWidgets)
+target_link_libraries(FormulaStudent PRIVATE Qt6::Location)
+target_link_libraries(FormulaStudent PRIVATE Qt6::QuickWidgets)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

@@ -165,6 +165,9 @@ void CANData::extractDataFromString(const QString& data)
             GPSLat.append(finalValues[0]);
             GPSLong.append(finalValues[1]);
             GPSSpeed.append(values[2]);
+
+            // Add point to map
+            MapPage::addPointToMap(finalValues[0], finalValues[1]);
         }
     }
 }
