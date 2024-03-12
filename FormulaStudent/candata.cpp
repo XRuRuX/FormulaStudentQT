@@ -12,7 +12,7 @@ CANData::CANData()
 }
 
 // Extracts data from the string and populates the class members according to the id of the data
-void CANData::extractDataFromString(const QString& data)
+void CANData::extractDataFromString(const QString& data, MapPage* map)
 {
     // We use regular expression to capture variable groups of hexadecimal values
     QRegularExpression regex("Timestamp:\\s+(\\d+\\.\\d+)\\s+ID:\\s+(\\w+)\\s+.*?DL:\\s+\\d+\\s+((\\w{2}\\s*)+)");
@@ -167,7 +167,7 @@ void CANData::extractDataFromString(const QString& data)
             GPSSpeed.append(values[2]);
 
             // Add point to map
-            MapPage::addPointToMap(finalValues[0], finalValues[1]);
+            map->addPointToMap(finalValues[0], finalValues[1]);
         }
     }
 }

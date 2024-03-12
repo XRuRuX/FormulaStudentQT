@@ -13,12 +13,13 @@ MainWindow::MainWindow(QWidget *parent)
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
     homePage->updateDateAndTime();
 
+    mapPage = new MapPage(ui->mapCentralContainer, ui->mapCurrentLap, ui->mapLastLap, this);
+
     telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
-                                    ui->serialConnectDisconnectButton, ui->autoScaleSelectorCheckBox, this);
+                                    ui->serialConnectDisconnectButton, ui->autoScaleSelectorCheckBox, mapPage, this);
 
-    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, this);
+    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, this);
 
-    mapPage = new MapPage(ui->mapCentralContainer, this);
 
     database = new DatabaseManager();
     this->connectDatabase();
@@ -118,14 +119,20 @@ void MainWindow::on_gpsLongSelector_valueChanged(int arg1)
 
 void MainWindow::on_gpsLatSelectorStart_valueChanged(double arg1)
 {
-    settingsPage->on_gpsLatSelectorStart_valueChanged();
+    settingsPage->on_mapPage_loadSettings();
     database->updateSetting("GPSLatStart", ui->gpsLatSelectorStart->value());
 }
 
 void MainWindow::on_gpsLongSelectorStart_valueChanged(double arg1)
 {
-    settingsPage->on_gpsLatSelectorStart_valueChanged();
+    settingsPage->on_mapPage_loadSettings();
     database->updateSetting("GPSLongStart", ui->gpsLongSelectorStart->value());
+}
+
+void MainWindow::on_maxDistanceSelector_valueChanged(double arg1)
+{
+    settingsPage->on_mapPage_loadSettings();
+    database->updateSetting("MaxDistanceForNewLapThreshold", ui->maxDistanceSelector->value());
 }
 
 // Connect to the local database for loading the settings
@@ -145,8 +152,9 @@ void MainWindow::connectDatabase()
         int GPSLong = query.value(1).toInt();
         double GPSLatStart = query.value(2).toDouble();
         double GPSLongStart =  query.value(3).toDouble();
+        double MaxDistanceForNewLapThreshold = query.value(4).toDouble();
 
-        settingsPage->setGPSSettings(GPSLat, GPSLong, GPSLatStart, GPSLongStart);
+        settingsPage->setGPSSettings(GPSLat, GPSLong, GPSLatStart, GPSLongStart, MaxDistanceForNewLapThreshold);
     }
 }
 

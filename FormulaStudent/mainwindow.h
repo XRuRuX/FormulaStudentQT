@@ -71,6 +71,7 @@ private slots:
     void on_steeringAngleCheckBox_stateChanged(int arg1);
     void on_gpsLatitudeCheckBox_stateChanged(int arg1);
     void on_gpsLongitudeCheckBox_stateChanged(int arg1);
+    void on_maxDistanceSelector_valueChanged(double arg1);
     void on_speedCheckBox_stateChanged(int arg1);
     void on_damper1CheckBox_stateChanged(int arg1);
     void on_damper2CheckBox_stateChanged(int arg1);

@@ -6,9 +6,11 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 }
 
 TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
-                            QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent)
+                            QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, MapPage* mapPage, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
+    this->mapPage = mapPage;
+
     this->customPlot = customPlot;
     this->widget = widget;
     this->comPortSelector = comPortSelector;
@@ -100,7 +102,7 @@ void TelemetryPage::readData()
 
         if (conversionOk)
         {
-            CANData.extractDataFromString(data);
+            CANData.extractDataFromString(data, mapPage);
         }
         else
         {

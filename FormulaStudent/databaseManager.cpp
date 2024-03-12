@@ -33,7 +33,7 @@ QSqlQuery DatabaseManager::queryData()
 {
     QSqlQuery query;
 
-    query.exec("SELECT GPSLat, GPSLong, GPSLatStart, GPSLongStart FROM Settings");
+    query.exec("SELECT GPSLat, GPSLong, GPSLatStart, GPSLongStart, MaxDistanceForNewLapThreshold FROM Settings");
 
     return query;
 }
@@ -47,7 +47,7 @@ bool DatabaseManager::updateSetting(const QString& columnName, double value)
     }
 
     // Safeguard against SQL injection by ensuring the column name is valid
-    QStringList validColumnNames = {"GPSLat", "GPSLong", "GPSLatStart", "GPSLongStart"};
+    QStringList validColumnNames = {"GPSLat", "GPSLong", "GPSLatStart", "GPSLongStart", "MaxDistanceForNewLapThreshold"};
     if (!validColumnNames.contains(columnName)) {
         qDebug() << "Invalid column name.";
         return false;

@@ -3,20 +3,25 @@
 // Static variabiles that can be changed on the Settings tab
 double MapPage::GPSLatStart = 0;
 double MapPage::GPSLongStart = 0;
-bool MapPage::sameLapCheck = true;
-
-// Inițializare a membrului static
-QWebEngineView* MapPage::webView = nullptr;
+double MapPage::MaxDistanceForNewLapThreshold = 0;
 
 MapPage::MapPage(QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
 }
 
-MapPage::MapPage(QVBoxLayout* w1, QWidget *parent)
+MapPage::MapPage(QVBoxLayout* w1, QLabel* currentLap, QLabel* lastLap, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
     centralContainer = w1;
+    this->currentLap = currentLap;
+    this->lastLap = lastLap;
+
+    sameLapCheck = true;
+
+    timer = new QTimer(this);
+    timer->setInterval(50);
+    connect(timer, &QTimer::timeout, this, &MapPage::updateLapTime);
 
     // Load the web page
     webView = new QWebEngineView;
@@ -30,10 +35,17 @@ MapPage::MapPage(QVBoxLayout* w1, QWidget *parent)
 MapPage::~MapPage()
 {
     delete webView;
+    delete timer;
 }
 
 void MapPage::addPointToMap(double latitude, double longitude)
 {
+    if (!timerStarted) {
+            lapTimer.start();
+            timer->start();
+            timerStarted = true;
+        }
+
     QString latString = QString::number(latitude);
     QString lngString = QString::number(longitude);
 
@@ -57,23 +69,44 @@ void MapPage::checkIfNewLap(double GPSLong, double GPSLat)
     double distance = distanceBetweenCoordinates(GPSLatStart, GPSLongStart, GPSLat, GPSLong);
 
     // Check if the distance to the starting point is smaller than the distance in the settings
-    if(distance < 20)
+    if(distance < MaxDistanceForNewLapThreshold)
     {
         sameLapCheck = false;
     }
 
     if(sameLapCheck == false)
     {
+        // Reset the timer for the new lap
+        lapTimer.restart();
+        // Stops updating the time to the next point
+        timerStarted = false;
         QString jsCode = QString("setAllCirclesOpacity(0.1);");
         webView->page()->runJavaScript(jsCode);
         sameLapCheck = true;
+        lastLap->setText(timeText);
     }
 }
 
-void MapPage::setStartGPSCoordinates(double _GPSLatStart, double _GPSLongStart)
+void MapPage::loadSettings(double _GPSLatStart, double _GPSLongStart, double _MaxDistanceForNewLapThreshold)
 {
     GPSLatStart = _GPSLatStart;
     GPSLongStart = _GPSLongStart;
+    MaxDistanceForNewLapThreshold = _MaxDistanceForNewLapThreshold;
+}
+
+void MapPage::updateLapTime()
+{
+    // If the timer hasn't been started, don't update the time
+    if (!timerStarted) return;
+
+    // Time in milliseconds since the timer was started
+    qint64 time = lapTimer.elapsed();
+    int minutes = time / 60000;
+    int seconds = (time % 60000) / 1000;
+    int milliseconds = (time % 1000);
+    timeText = QString::asprintf("Current lap: %d:%02d:%03d", minutes, seconds, milliseconds);
+
+    currentLap->setText(timeText);
 }
 
 double toRadians(double degrees)
@@ -100,8 +133,6 @@ double distanceBetweenCoordinates(double latitudeStart, double longitudeStart, d
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     // Distance in meters
     distance = EARTH_RADIUS_KM * c * 1000;
-
-    qDebug() << distance;
 
     return distance;
 }

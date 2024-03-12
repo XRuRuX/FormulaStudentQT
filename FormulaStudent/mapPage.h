@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QtWebEngineWidgets>
 #include <QtLocation>
+#include <QTime>
 
 class MapPage: public QWidget
 {
@@ -16,24 +17,34 @@ class MapPage: public QWidget
 private:
     static double GPSLatStart;
     static double GPSLongStart;
-    static bool sameLapCheck; // Checks if the car is on the same lap or if it had passed the start
+    static double MaxDistanceForNewLapThreshold;    // Maximum distance from start point to be considered a new lap
 
 private:
     QWidget* widget;
     QVBoxLayout* centralContainer;
-    static QWebEngineView* webView;
+    QLabel* currentLap;
+    QLabel* lastLap;
+    QWebEngineView* webView;
+
+private:
+    QTimer* timer;
+    bool sameLapCheck; // Checks if the car is on the same lap or if it had passed the start
+    QElapsedTimer lapTimer;
+    bool timerStarted = false;
+    QString timeText;
 
 public:
     MapPage(QWidget *parent = nullptr);
-    MapPage(QVBoxLayout* w1, QWidget *parent = nullptr);
+    MapPage(QVBoxLayout* w1, QLabel* currentLap, QLabel* lastLap, QWidget *parent = nullptr);
     ~MapPage();
 
 private:
-    static void checkIfNewLap(double GPSLong, double GPSLat);
+    void checkIfNewLap(double GPSLong, double GPSLat);
+    void updateLapTime();
 
 public:
-    static void addPointToMap(double latitude, double longitude);
-    static void setStartGPSCoordinates(double _GPSLatStart, double _GPSLongStart);
+    void addPointToMap(double latitude, double longitude);
+    static void loadSettings(double _GPSLatStart, double _GPSLongStart, double _MaxDistanceForNewLapThreshold);
 
 public slots:
     void removeAllPoints();

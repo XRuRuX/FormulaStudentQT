@@ -16,18 +16,19 @@ private:
     QSpinBox* gpsLongSelector;
     QDoubleSpinBox* gpsLatSelectorStart;
     QDoubleSpinBox* gpsLongSelectorStart;
+    QDoubleSpinBox* maxDistanceSelector;
 
 public:
     SettingsPage(QWidget *parent = nullptr);
-    SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QWidget* parent = nullptr);
+    SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QDoubleSpinBox* ds3, QWidget* parent = nullptr);
     ~SettingsPage();
 
 public:
-    void setGPSSettings(int GPSLat, int GPSLong, double GPSLatStart, double GPSLongStart);
+    void setGPSSettings(int GPSLat, int GPSLong, double GPSLatStart, double GPSLongStart, double MaxDistanceForNewLapThreshold);
 
 public slots:
     void on_gpsLatSelector_valueChanged();
-    void on_gpsLatSelectorStart_valueChanged();
+    void on_mapPage_loadSettings();
 };
 
 #endif // SETTINGSPAGE_H

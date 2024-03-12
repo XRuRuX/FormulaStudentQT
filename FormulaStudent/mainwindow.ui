@@ -583,7 +583,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -794,14 +794,20 @@ border: 2px solid rgb(22, 22, 22);</string>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QPushButton {
-text-align: center;
-background-color: rgb(30,30,30);
-border: 2px solid rgb(22, 22, 22);
+    color: rgb(235, 235, 235);
+    text-align: center;
+    background-color: rgb(30, 30, 30);
+    border: 2px solid rgb(22, 22, 22);
+}
+
+QPushButton:hover {
+    background-color: rgb(40, 40, 40);
 }
 
 QPushButton:pressed {
-    background-color: rgb(40, 40, 40);
-}</string>
+    background-color: rgb(70, 70, 70);
+}
+</string>
                 </property>
                 <property name="text">
                  <string>Connect</string>
@@ -853,7 +859,12 @@ QPushButton:pressed {
                <height>40</height>
               </size>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="styleSheet">
+              <string notr="true">QLabel {
+color: rgb(235, 235, 235);
+}</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
               <property name="leftMargin">
                <number>9</number>
               </property>
@@ -863,20 +874,37 @@ QPushButton:pressed {
               <property name="bottomMargin">
                <number>2</number>
               </property>
-              <item>
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+              <item row="0" column="0">
+               <widget class="QLabel" name="mapCurrentLap">
+                <property name="font">
+                 <font>
+                  <family>Inter</family>
+                  <pointsize>14</pointsize>
+                  <bold>false</bold>
+                 </font>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
+                <property name="text">
+                 <string>Current lap: 0:00:000 </string>
                 </property>
-               </spacer>
+               </widget>
               </item>
-              <item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="mapLastLap">
+                <property name="font">
+                 <font>
+                  <family>Inter</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Last lap: 0:00:000</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
                <widget class="QPushButton" name="mapResetButton">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -890,6 +918,12 @@ QPushButton:pressed {
                   <height>30</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>70</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="sizeIncrement">
                  <size>
                   <width>0</width>
@@ -898,7 +932,8 @@ QPushButton:pressed {
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>10</pointsize>
+                  <family>Inter</family>
+                  <pointsize>12</pointsize>
                   <kerning>true</kerning>
                  </font>
                 </property>
@@ -907,14 +942,20 @@ QPushButton:pressed {
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QPushButton {
-text-align: center;
-background-color: rgb(30,30,30);
-border: 2px solid rgb(22, 22, 22);
+    color: rgb(235, 235, 235);
+    text-align: center;
+    background-color: rgb(30, 30, 30);
+    border: 2px solid rgb(22, 22, 22);
+}
+
+QPushButton:hover {
+    background-color: rgb(40, 40, 40);
 }
 
 QPushButton:pressed {
-    background-color: rgb(40, 40, 40);
-}</string>
+    background-color: rgb(70, 70, 70);
+}
+</string>
                 </property>
                 <property name="text">
                  <string>Reset</string>
@@ -1021,24 +1062,94 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
-                 <layout class="QFormLayout" name="formLayout">
-                  <property name="bottomMargin">
-                   <number>9</number>
-                  </property>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="gpsSettingsLabel">
+                 <layout class="QGridLayout" name="gridLayout_2">
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="gpsLatLabelStart">
                     <property name="font">
                      <font>
                       <family>Inter</family>
-                      <pointsize>18</pointsize>
-                      <bold>true</bold>
+                      <pointsize>12</pointsize>
                      </font>
                     </property>
                     <property name="styleSheet">
-                     <string notr="true">padding-bottom: 1px;</string>
+                     <string notr="true">padding-left: 20px;
+color: rgb(240, 240, 240);</string>
                     </property>
                     <property name="text">
-                     <string>GPS Settings</string>
+                     <string>GPS latitude start:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="gpsLongLabelStart_2">
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">padding-left: 20px;
+color: rgb(240, 240, 240);</string>
+                    </property>
+                    <property name="text">
+                     <string>Distance for new lap: </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QDoubleSpinBox" name="maxDistanceSelector">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="decimals">
+                     <number>2</number>
+                    </property>
+                    <property name="value">
+                     <double>20.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QDoubleSpinBox" name="gpsLongSelectorStart">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="decimals">
+                     <number>6</number>
+                    </property>
+                    <property name="value">
+                     <double>46.525615999999999</double>
                     </property>
                    </widget>
                   </item>
@@ -1056,6 +1167,72 @@ color: rgb(240, 240, 240);</string>
                     </property>
                     <property name="text">
                      <string>GPS latitude:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="gpsSettingsLabel">
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>18</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">padding-bottom: 1px;</string>
+                    </property>
+                    <property name="text">
+                     <string>GPS Settings</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="2">
+                   <widget class="QLabel" name="label_2">
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>meters</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QSpinBox" name="gpsLongSelector">
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="value">
+                     <number>46</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="gpsLongLabel">
+                    <property name="font">
+                     <font>
+                      <family>Inter</family>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">padding-left: 20px;
+color: rgb(240, 240, 240);</string>
+                    </property>
+                    <property name="text">
+                     <string>GPS longitude: </string>
                     </property>
                    </widget>
                   </item>
@@ -1078,77 +1255,7 @@ color: rgb(240, 240, 240);</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="gpsLongLabel">
-                    <property name="font">
-                     <font>
-                      <family>Inter</family>
-                      <pointsize>12</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">padding-left: 20px;
-color: rgb(240, 240, 240);</string>
-                    </property>
-                    <property name="text">
-                     <string>GPS longitude: </string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="3" column="1">
-                   <widget class="QSpinBox" name="gpsLongSelector">
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Inter</family>
-                      <pointsize>12</pointsize>
-                     </font>
-                    </property>
-                    <property name="value">
-                     <number>46</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="0">
-                   <widget class="QLabel" name="gpsLatLabelStart">
-                    <property name="font">
-                     <font>
-                      <family>Inter</family>
-                      <pointsize>12</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">padding-left: 20px;
-color: rgb(240, 240, 240);</string>
-                    </property>
-                    <property name="text">
-                     <string>GPS latitude start:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="7" column="0">
-                   <widget class="QLabel" name="gpsLongLabelStart">
-                    <property name="font">
-                     <font>
-                      <family>Inter</family>
-                      <pointsize>12</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">padding-left: 20px;
-color: rgb(240, 240, 240);</string>
-                    </property>
-                    <property name="text">
-                     <string>GPS longitude start:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="1">
                    <widget class="QDoubleSpinBox" name="gpsLatSelectorStart">
                     <property name="minimumSize">
                      <size>
@@ -1179,33 +1286,35 @@ color: rgb(240, 240, 240);</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="7" column="1">
-                   <widget class="QDoubleSpinBox" name="gpsLongSelectorStart">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="gpsLongLabelStart">
                     <property name="font">
                      <font>
                       <family>Inter</family>
                       <pointsize>12</pointsize>
                      </font>
                     </property>
-                    <property name="decimals">
-                     <number>6</number>
+                    <property name="styleSheet">
+                     <string notr="true">padding-left: 20px;
+color: rgb(240, 240, 240);</string>
                     </property>
-                    <property name="value">
-                     <double>46.525615999999999</double>
+                    <property name="text">
+                     <string>GPS longitude start:</string>
                     </property>
                    </widget>
+                  </item>
+                  <item row="5" column="3">
+                   <spacer name="horizontalSpacer_5">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                  </layout>
                 </widget>

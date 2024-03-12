@@ -47,7 +47,7 @@ public:
     CANData();
 
 public:
-    void extractDataFromString(const QString& data);
+    void extractDataFromString(const QString& data, MapPage* mapPage);
 
 public:
     static void setGPSCoordinates(int GPSLat, int GPSLong);

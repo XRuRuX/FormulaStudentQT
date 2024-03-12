@@ -48,6 +48,9 @@ private:
     QTimer* timer;
 
 private:
+    MapPage* mapPage;
+
+private:
     CANData CANData;
 
 private:
@@ -66,7 +69,7 @@ private:
 public:
     TelemetryPage(QWidget *parent = nullptr);
     TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
-                  QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, QWidget *parent = nullptr);
+                  QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, MapPage* mapPage, QWidget *parent = nullptr);
     ~TelemetryPage();
 
 private:
