@@ -18,7 +18,7 @@ public:
 public:
     bool connect(const QString& path);
     QSqlQuery queryData();
-    bool updateSetting(const QString& columnName, int value);
+    bool updateSetting(const QString& columnName, double value);
 };
 
 #endif // DATABASEMANAGER_H

@@ -10,6 +10,8 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqiJpGjZv7i4TfOrL7X44B6iU-PBL2c-E&libraries=drawing"></script>
     <script type="text/javascript">
       var map;
+      var circles = [];
+
       function initialize() {
         var mapOptions = {
           center: new google.maps.LatLng(46.525090, 26.942297),
@@ -24,12 +26,26 @@
           strokeColor: "#0000FF",
           strokeOpacity: 1,
           strokeWeight: 2,
-          fillColor: "##0000FF",
+          fillColor: "#0000FF",
           fillOpacity: 1,
           map: map,
           center: new google.maps.LatLng(lat, lng),
           radius: 0.5 // Raza cercului în metri
         });
+        circles.push(circle);
+      }
+
+      function setAllCirclesOpacity(opacity) {
+        for (var i = 0; i < circles.length; i++) {
+          circles[i].setOptions({ fillOpacity: 1, strokeOpacity: opacity, fillColor: "#FF0000", strokeColor: "#FF0000"});
+        }
+      }
+
+      function removeAllCircles() {
+        for (var i = 0; i < circles.length; i++) {
+          circles[i].setMap(null); // Remove each circle from the map
+        }
+        circles = []; // Clear the array
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);

@@ -5,27 +5,37 @@ SettingsPage::SettingsPage(QWidget *parent)
 {
 }
 
-SettingsPage::SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QWidget* parent)
+SettingsPage::SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QWidget* parent)
     : QWidget(parent), widget(nullptr)
 {
     this->widget = w1;
     this->gpsLatSelector = s1;
     this->gpsLongSelector = s2;
+    this->gpsLatSelectorStart = ds1;
+    this->gpsLongSelectorStart = ds2;
 
     CANData::setGPSCoordinates(gpsLatSelector->value(), gpsLongSelector->value());
+    MapPage::setStartGPSCoordinates(gpsLatSelectorStart->value(), gpsLongSelectorStart->value());
 }
 
 SettingsPage::~SettingsPage()
 {
 }
 
-void SettingsPage::setGPSSettings(int GPSLat, int GPSLong)
+void SettingsPage::setGPSSettings(int GPSLat, int GPSLong, double GPSLatStart, double GPSLongStart)
 {
     this->gpsLatSelector->setValue(GPSLat);
     this->gpsLongSelector->setValue(GPSLong);
+    this->gpsLatSelectorStart->setValue(GPSLatStart);
+    this->gpsLongSelectorStart->setValue(GPSLongStart);
 }
 
 void SettingsPage::on_gpsLatSelector_valueChanged()
 {
     CANData::setGPSCoordinates(gpsLatSelector->value(), gpsLongSelector->value());
+}
+
+void SettingsPage::on_gpsLatSelectorStart_valueChanged()
+{
+    MapPage::setStartGPSCoordinates(gpsLatSelectorStart->value(), gpsLongSelectorStart->value());
 }

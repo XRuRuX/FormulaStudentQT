@@ -103,6 +103,9 @@ private slots:
     void on_angleXColorPicker_clicked();
     void on_angleYColorPicker_clicked();
     void on_angleZColorPicker_clicked();
+    void on_gpsLatSelectorStart_valueChanged(double arg1);
+    void on_gpsLongSelectorStart_valueChanged(double arg1);
+    void on_mapResetButton_clicked();
 };
 
 #endif // MAINWINDOW_H

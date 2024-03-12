@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QDateTime>
 #include "qtimer.h"
+#include <QDebug>
 
 class HomePage: public QWidget
 {
