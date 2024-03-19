@@ -2,6 +2,7 @@
     <qresource prefix="/Pictures">
         <file>Images/Pictures/Logo.png</file>
         <file>Images/Pictures/Logo_White.png</file>
+        <file>Images/Pictures/Logo_Taskbar.png</file>
     </qresource>
     <qresource prefix="/Icons">
         <file>Images/Icons/chart-bar.png</file>

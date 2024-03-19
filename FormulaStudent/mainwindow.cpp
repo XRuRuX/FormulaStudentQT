@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);   // Remove the current titlebar to implement a custom one
     isWindowMaximized = false;
     ui->mainBodyContainer->setCurrentIndex(0);              // Set first page as Home Page
+    this->setWindowIcon(QIcon(":/Pictures/Images/Pictures/Logo_Taskbar.png"));
 
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
 
