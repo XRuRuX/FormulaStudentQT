@@ -44,7 +44,6 @@ private:
     QCustomPlot* customPlot;
     QComboBox* comPortSelector;
     QPushButton* serialConnectDisconnectButton;
-    QCheckBox* autoScaleSelectorCheckBox;
     QTimer* timer;
 
 private:
@@ -69,7 +68,7 @@ private:
 public:
     TelemetryPage(QWidget *parent = nullptr);
     TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
-                  QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, MapPage* mapPage, QWidget *parent = nullptr);
+                  QPushButton* serialConnectDisconnectButton, MapPage* mapPage, QWidget *parent = nullptr);
     ~TelemetryPage();
 
 private:
@@ -79,7 +78,6 @@ private:
 
 public slots:
     void on_serialConnectDisconnectButton_clicked();
-    void on_autoScaleSelectorCheckBox_stateChanged();
 
 private slots:
     void readData();

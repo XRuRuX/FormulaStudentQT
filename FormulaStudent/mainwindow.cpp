@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     mapPage = new MapPage(ui->mapCentralContainer, ui->mapCurrentLap, ui->mapLastLap, this);
 
     telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
-                                    ui->serialConnectDisconnectButton, ui->autoScaleSelectorCheckBox, mapPage, this);
+                                    ui->serialConnectDisconnectButton, mapPage, this);
 
     settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, this);
 
@@ -95,12 +95,6 @@ void MainWindow::on_settingsButton_clicked()
 void MainWindow::on_serialConnectDisconnectButton_clicked()
 {
     telemetryPage->on_serialConnectDisconnectButton_clicked();
-}
-
-
-void MainWindow::on_autoScaleSelectorCheckBox_stateChanged(int arg1)
-{
-    telemetryPage->on_autoScaleSelectorCheckBox_stateChanged();
 }
 
 

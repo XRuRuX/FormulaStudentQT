@@ -56,7 +56,6 @@ private slots:
 
 private slots:
     void on_serialConnectDisconnectButton_clicked();
-    void on_autoScaleSelectorCheckBox_stateChanged(int arg1);
 
 private slots:
     void on_gpsLatSelector_valueChanged(int arg1);

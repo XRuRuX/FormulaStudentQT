@@ -6,7 +6,7 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 }
 
 TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
-                            QPushButton* serialConnectDisconnectButton, QCheckBox* autoScaleSelectorCheckBox, MapPage* mapPage, QWidget *parent)
+                            QPushButton* serialConnectDisconnectButton, MapPage* mapPage, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
     this->mapPage = mapPage;
@@ -15,7 +15,6 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     this->widget = widget;
     this->comPortSelector = comPortSelector;
     this->serialConnectDisconnectButton = serialConnectDisconnectButton;
-    this->autoScaleSelectorCheckBox = autoScaleSelectorCheckBox;
 
     // Initialize graph settings
     this->initializeGraph();
@@ -158,35 +157,7 @@ void TelemetryPage::refreshGraph(void)
         if (plotStates[GZ_PLOT])
             customPlot->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
 
-        // Check if the graph is on AutoScale
-        if (isAutoScale)
-        {
-            // If the total number of points is reached then start shifting the graph
-            if (totalLinesReadSerial > maxNumberOfPoints)
-            {
-                customPlot->xAxis->setRange(totalLinesReadSerial, maxNumberOfPoints, Qt::AlignRight);
-
-                // Manual scaling of the Y axis
-                customPlot->yAxis->setRange(0, 1000);
-            }
-        }
         customPlot->replot();
-    }
-}
-
-void TelemetryPage::on_autoScaleSelectorCheckBox_stateChanged()
-{
-    if(isAutoScale == false)
-    {
-        isAutoScale = true;
-        // Disallow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
-        customPlot->setInteractions(QFlags<QCP::Interaction>(0));
-    }
-    else
-    {
-        isAutoScale = false;
-        // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
-        customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
     }
 }
 
