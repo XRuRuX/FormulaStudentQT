@@ -210,6 +210,9 @@ void TelemetryPage::initializeGraph()
     // Change color of Y-Axis numbers
     customPlot->yAxis->setTickLabelColor(QColor(230, 230, 230));
 
+    // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
+    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+
     // The total number of points displayed at any time
     maxNumberOfPoints = 100;
 }

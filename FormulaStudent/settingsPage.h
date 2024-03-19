@@ -3,8 +3,12 @@
 
 #include "qspinbox.h"
 #include <QWidget>
+#include <QColorDialog>
+#include <QColor>
+#include <QPalette>
 #include "candata.h"
 #include "mapPage.h"
+#include "telemetryPage.h"
 
 class SettingsPage: public QWidget
 {
@@ -22,6 +26,9 @@ public:
     SettingsPage(QWidget *parent = nullptr);
     SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QDoubleSpinBox* ds3, QWidget* parent = nullptr);
     ~SettingsPage();
+
+public:
+    void setColorForButtonGraphSettings(QPushButton *button, int graphName, TelemetryPage* telemetryPage);
 
 public:
     void setGPSSettings(int GPSLat, int GPSLong, double GPSLatStart, double GPSLongStart, double MaxDistanceForNewLapThreshold);

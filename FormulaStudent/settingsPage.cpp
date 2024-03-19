@@ -41,3 +41,18 @@ void SettingsPage::on_mapPage_loadSettings()
 {
     MapPage::loadSettings(gpsLatSelectorStart->value(), gpsLongSelectorStart->value(), maxDistanceSelector->value());
 }
+
+// Method to change graph color
+void SettingsPage::setColorForButtonGraphSettings(QPushButton *button, int graphName, TelemetryPage* telemetryPage)
+{
+    // Extracts color
+    QColor colorValue = QColorDialog::getColor(Qt::white, this, tr("Select color"));
+
+    // Converts it to string
+    QString colorString = QString("rgb(%1, %2, %3)").arg(colorValue.red()).arg(colorValue.green()).arg(colorValue.blue());
+
+    // Set button color based on the string
+    button->setStyleSheet(QString("background-color: %1;").arg(colorString));
+
+    telemetryPage->changeGraphColor(graphName, colorValue);
+}

@@ -3,9 +3,6 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include <QColorDialog>
-#include <QColor>
-#include <QPalette>
 #include "homePage.h"
 #include "telemetryPage.h"
 #include "settingsPage.h"
@@ -40,23 +37,25 @@ public:
 private:
     void connectDatabase();
 
-private:
-    void setColorForButtonGraphSettings(QPushButton *button, int graphName);
-
+// Slots for title bar buttons
 private slots:
     void on_quitButton_clicked();
     void on_maximizeButton_clicked();
     void on_minimizeButton_clicked();
 
+// Slots for menu buttons
+private slots:
     void on_homeButton_clicked();
     void on_telemetryButton_clicked();
     void on_settingsButton_clicked();
     void on_lapTimeButton_clicked();
     void on_mapButton_clicked();
 
+// Slots for telemetry page
 private slots:
     void on_serialConnectDisconnectButton_clicked();
 
+// Slots for settings page
 private slots:
     void on_gpsLatSelector_valueChanged(int arg1);
     void on_gpsLongSelector_valueChanged(int arg1);
@@ -71,6 +70,8 @@ private slots:
     void on_gpsLatitudeCheckBox_stateChanged(int arg1);
     void on_gpsLongitudeCheckBox_stateChanged(int arg1);
     void on_maxDistanceSelector_valueChanged(double arg1);
+    void on_gpsLatSelectorStart_valueChanged(double arg1);
+    void on_gpsLongSelectorStart_valueChanged(double arg1);
     void on_speedCheckBox_stateChanged(int arg1);
     void on_damper1CheckBox_stateChanged(int arg1);
     void on_damper2CheckBox_stateChanged(int arg1);
@@ -103,8 +104,9 @@ private slots:
     void on_angleXColorPicker_clicked();
     void on_angleYColorPicker_clicked();
     void on_angleZColorPicker_clicked();
-    void on_gpsLatSelectorStart_valueChanged(double arg1);
-    void on_gpsLongSelectorStart_valueChanged(double arg1);
+
+// Slots for map page
+private slots:
     void on_mapResetButton_clicked();
 };
 

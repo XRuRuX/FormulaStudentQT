@@ -62,9 +62,6 @@ private:
     int totalLinesReadSerial = 0;
     int maxNumberOfPoints;
 
-private:
-    bool isAutoScale = true;
-
 public:
     TelemetryPage(QWidget *parent = nullptr);
     TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,

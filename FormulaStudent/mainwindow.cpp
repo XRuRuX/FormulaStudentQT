@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainBodyContainer->setCurrentIndex(0);              // Set first page as Home Page
 
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
-    homePage->updateDateAndTime();
 
     mapPage = new MapPage(ui->mapCentralContainer, ui->mapCurrentLap, ui->mapLastLap, this);
 
@@ -19,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
                                     ui->serialConnectDisconnectButton, mapPage, this);
 
     settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, this);
-
 
     database = new DatabaseManager();
     this->connectDatabase();
@@ -32,6 +30,30 @@ MainWindow::~MainWindow()
     delete telemetryPage;
     delete settingsPage;
     delete mapPage;
+    delete database;
+}
+
+// Connect to the local database for loading the settings
+void MainWindow::connectDatabase()
+{
+    QString relativePath = QDir::current().filePath("../FormulaStudent/Database/database.db");
+
+    if(database->connect(relativePath))
+    {
+        qDebug() << "Database connected";
+    }
+
+    QSqlQuery query = database->queryData();
+    while(query.next())
+    {
+        int GPSLat = query.value(0).toInt();
+        int GPSLong = query.value(1).toInt();
+        double GPSLatStart = query.value(2).toDouble();
+        double GPSLongStart =  query.value(3).toDouble();
+        double MaxDistanceForNewLapThreshold = query.value(4).toDouble();
+
+        settingsPage->setGPSSettings(GPSLat, GPSLong, GPSLatStart, GPSLongStart, MaxDistanceForNewLapThreshold);
+    }
 }
 
 // Quit button
@@ -127,44 +149,6 @@ void MainWindow::on_maxDistanceSelector_valueChanged(double arg1)
 {
     settingsPage->on_mapPage_loadSettings();
     database->updateSetting("MaxDistanceForNewLapThreshold", ui->maxDistanceSelector->value());
-}
-
-// Connect to the local database for loading the settings
-void MainWindow::connectDatabase()
-{
-    QString relativePath = QDir::current().filePath("../FormulaStudent/Database/database.db");
-
-    if(database->connect(relativePath))
-    {
-        qDebug() << "Database connected";
-    }
-
-    QSqlQuery query = database->queryData();
-    while(query.next())
-    {
-        int GPSLat = query.value(0).toInt();
-        int GPSLong = query.value(1).toInt();
-        double GPSLatStart = query.value(2).toDouble();
-        double GPSLongStart =  query.value(3).toDouble();
-        double MaxDistanceForNewLapThreshold = query.value(4).toDouble();
-
-        settingsPage->setGPSSettings(GPSLat, GPSLong, GPSLatStart, GPSLongStart, MaxDistanceForNewLapThreshold);
-    }
-}
-
-// Method to change graph color
-void MainWindow::setColorForButtonGraphSettings(QPushButton *button, int graphName)
-{
-    // Extracts color
-    QColor colorValue = QColorDialog::getColor(Qt::white, this, tr("Select color"));
-
-    // Converts it to string
-    QString colorString = QString("rgb(%1, %2, %3)").arg(colorValue.red()).arg(colorValue.green()).arg(colorValue.blue());
-
-    // Set button color based on the string
-    button->setStyleSheet(QString("background-color: %1;").arg(colorString));
-
-    telemetryPage->changeGraphColor(graphName, colorValue);
 }
 
 void MainWindow::on_rpmCheckBox_stateChanged(int arg1)
@@ -295,127 +279,127 @@ void MainWindow::on_angleZCheckBox_stateChanged(int arg1)
 
 void MainWindow::on_rpmColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->rpmColorPicker, RPM_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->rpmColorPicker, RPM_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_coolantTempColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->coolantTempColorPicker, COOLANTTEMP_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->coolantTempColorPicker, COOLANTTEMP_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_afrColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->afrColorPicker, AFR_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->afrColorPicker, AFR_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_oilPressureColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->oilPressureColorPicker, OILPRESSURE_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->oilPressureColorPicker, OILPRESSURE_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_throttlePositionColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->throttlePositionColorPicker, THROTTLEPOS_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->throttlePositionColorPicker, THROTTLEPOS_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_bspdColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->bspdColorPicker, BSPD_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->bspdColorPicker, BSPD_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_brakePressureColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->brakePressureColorPicker, BRAKEPRESSURE_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->brakePressureColorPicker, BRAKEPRESSURE_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_steeringAngleColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->steeringAngleColorPicker, STEERINGANGLE_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->steeringAngleColorPicker, STEERINGANGLE_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_gpsLatitudeColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->gpsLatitudeColorPicker, GPSLAT_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->gpsLatitudeColorPicker, GPSLAT_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_gpsLongitudeColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->gpsLongitudeColorPicker, GPSLONG_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->gpsLongitudeColorPicker, GPSLONG_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_speedColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->speedColorPicker, GPSSPEED_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->speedColorPicker, GPSSPEED_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_damper1ColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->damper1ColorPicker, DAMPER1_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->damper1ColorPicker, DAMPER1_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_damper2ColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->damper2ColorPicker, DAMPER2_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->damper2ColorPicker, DAMPER2_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_damper3ColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->damper3ColorPicker, DAMPER3_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->damper3ColorPicker, DAMPER3_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_damper4ColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->damper4ColorPicker, DAMPER4_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->damper4ColorPicker, DAMPER4_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_accelerationXColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->accelerationXColorPicker, AX_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->accelerationXColorPicker, AX_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_accelerationYColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->accelerationYColorPicker, AY_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->accelerationYColorPicker, AY_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_accelerationZColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->accelerationZColorPicker, AZ_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->accelerationZColorPicker, AZ_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_angleXColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->angleXColorPicker, GX_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->angleXColorPicker, GX_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_angleYColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->angleYColorPicker, GY_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->angleYColorPicker, GY_PLOT, telemetryPage);
 }
 
 
 void MainWindow::on_angleZColorPicker_clicked()
 {
-    setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT);
+    settingsPage->setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT, telemetryPage);
 }
 
 

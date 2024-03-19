@@ -17,6 +17,9 @@ HomePage::HomePage(QWidget *parent)
     timerCurrentTime->setInterval(1000);
     connect(timerCurrentTime, SIGNAL(timeout()), this, SLOT(updateDateAndTime()));
     timerCurrentTime->start(1000);
+
+    // Call this function in the constructor because it takes a second until the function is called the first time
+    updateDateAndTime();
 }
 
 HomePage::~HomePage()
