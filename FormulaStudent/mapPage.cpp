@@ -13,12 +13,13 @@ MapPage::MapPage(QWidget *parent)
 MapPage::MapPage(QVBoxLayout* w1, QLabel* currentLap, QLabel* lastLap, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
-    centralContainer = w1;
+    this->centralContainer = w1;
     this->currentLap = currentLap;
     this->lastLap = lastLap;
 
     sameLapCheck = true;
 
+    // Start timer to update lap time label
     timer = new QTimer(this);
     timer->setInterval(50);
     connect(timer, &QTimer::timeout, this, &MapPage::updateLapTime);
@@ -78,6 +79,7 @@ void MapPage::checkIfNewLap(double GPSLong, double GPSLat)
     {
         // Reset the timer for the new lap
         lapTimer.restart();
+
         // Stops updating the time to the next point
         timerStarted = false;
         QString jsCode = QString("setAllCirclesOpacity(0.1);");

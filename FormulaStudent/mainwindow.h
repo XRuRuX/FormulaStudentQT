@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QMouseEvent>
 #include "homePage.h"
 #include "telemetryPage.h"
 #include "settingsPage.h"
@@ -28,6 +29,10 @@ private:
     MapPage* mapPage;
 
 private:
+    bool mouseDragging = false;
+    QPoint mouseDragPosition;
+
+private:
     DatabaseManager* database;
 
 public:
@@ -36,6 +41,12 @@ public:
 
 private:
     void connectDatabase();
+
+// Methods for window movement
+private:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 // Slots for title bar buttons
 private slots:

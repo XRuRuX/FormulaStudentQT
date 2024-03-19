@@ -56,6 +56,26 @@ void MainWindow::connectDatabase()
     }
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+    // Check if the click is inside the titleBar frame
+        if (ui->titleBar->rect().contains(event->pos())) {
+            mouseDragging = true;
+            mouseDragPosition = event->globalPosition().toPoint() - frameGeometry().topLeft();
+            event->accept();
+        }
+    }
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+        if (mouseDragging) {
+            move(event->globalPosition().toPoint() - mouseDragPosition);
+            event->accept();
+        }
+    }
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+        mouseDragging = false;
+    }
+
 // Quit button
 void MainWindow::on_quitButton_clicked()
 {

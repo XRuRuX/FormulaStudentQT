@@ -28,9 +28,9 @@ private:
 
 private:
     QTimer* timer;
+    bool timerStarted = false;
     bool sameLapCheck; // Checks if the car is on the same lap or if it had passed the start
     QElapsedTimer lapTimer;
-    bool timerStarted = false;
     QString timeText;
 
 public:
