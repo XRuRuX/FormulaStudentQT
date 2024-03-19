@@ -178,6 +178,40 @@ void CANData::setGPSCoordinates(int GPSLat, int GPSLong)
     GPSLongInt = GPSLong;
 }
 
+void CANData::clearData()
+{
+    CANData.initialTimestamp = 0;
+    RPMT.clear();
+    RPM.clear();
+    CoolantT.clear();
+    CoolantTemp.clear();
+    AFRT.clear();
+    ThrottlePos.clear();
+    AFR.clear();
+    AnalogT.clear();
+    BSPD.clear();
+    BrakePressure.clear();
+    SteeringAngle.clear();
+    OilPressure.clear();
+    GPST.clear();
+    GPSLat.clear();
+    GPSLong.clear();
+    GPSSpeed.clear();
+    DamperT.clear();
+    Damper1.clear();
+    Damper2.clear();
+    Damper3.clear();
+    Damper4.clear();
+    GT.clear();
+    Gx.clear();
+    Gy.clear();
+    Gz.clear();
+    AT.clear();
+    Ax.clear();
+    Ay.clear();
+    Az.clear();
+}
+
 // Converts an array of hexadecimal strings to their corresponding integer values, taking into account the posibility of negative values
 void hexToIntNegative(QString hexGroup[], int values[], int noValues)
 {

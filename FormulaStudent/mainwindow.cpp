@@ -57,6 +57,7 @@ void MainWindow::connectDatabase()
     }
 }
 
+// Press with the mouse on the titlebar
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     // Check if the click is inside the titleBar frame
         if (ui->titleBar->rect().contains(event->pos())) {
@@ -66,6 +67,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         }
     }
 
+// Move the titlebar
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         if (mouseDragging) {
             move(event->globalPosition().toPoint() - mouseDragPosition);
@@ -73,6 +75,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         }
     }
 
+// Release the titlebar
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
         mouseDragging = false;
     }

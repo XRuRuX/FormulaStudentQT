@@ -81,8 +81,8 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
         // Enable the combo box
         comPortSelector->setEnabled(true);
 
-        // Reset initial Timestamp
-        CANData.initialTimestamp = 0;
+        // Reset all data
+        CANData.clearData();
     }
 }
 

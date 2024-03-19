@@ -50,6 +50,9 @@ public:
     void extractDataFromString(const QString& data, MapPage* mapPage);
 
 public:
+    void clearData();
+
+public:
     static void setGPSCoordinates(int GPSLat, int GPSLong);
 };
 
