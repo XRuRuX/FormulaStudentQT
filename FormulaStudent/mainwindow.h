@@ -23,6 +23,10 @@ private:
     bool isWindowMaximized;
 
 private:
+    int initialWindowWidth;
+    int initialWindowHeight;
+
+private:
     HomePage *homePage;
     TelemetryPage* telemetryPage;
     SettingsPage* settingsPage;

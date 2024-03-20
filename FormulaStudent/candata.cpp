@@ -180,7 +180,7 @@ void CANData::setGPSCoordinates(int GPSLat, int GPSLong)
 
 void CANData::clearData()
 {
-    CANData.initialTimestamp = 0;
+    initialTimestamp = 0;
     RPMT.clear();
     RPM.clear();
     CoolantT.clear();

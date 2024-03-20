@@ -11,6 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainBodyContainer->setCurrentIndex(0);              // Set first page as Home Page
     this->setWindowIcon(QIcon(":/Pictures/Images/Pictures/Logo_Taskbar.png"));
 
+    // Initial width and height for resizing window
+    QSize windowSize = this->size();
+    initialWindowWidth = windowSize.width();
+    initialWindowHeight = windowSize.height();
+
     homePage = new HomePage(ui->homePage, ui->timeLabel, ui->dateLabel, this);
 
     mapPage = new MapPage(ui->mapCentralContainer, ui->mapCurrentLap, ui->mapLastLap, this);
@@ -93,6 +98,7 @@ void MainWindow::on_maximizeButton_clicked()
     {
         showNormal();
         isWindowMaximized = false;
+        this->resize(initialWindowWidth, initialWindowHeight);
     }
     else
     {
