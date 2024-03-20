@@ -19,18 +19,18 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     // Initialize graph settings
     this->initializeGraph();
 
-    // Get information from all serial ports available
-    QList<QSerialPortInfo> serial_port_infos = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &port_info : serial_port_infos )
-    {
-        // Add these found com ports to the combo box
-        comPortSelector->addItem(port_info.portName());
-    }
+    // Display avabile COM Ports
+    checkComPorts();
 
     // Start Timer to refresh graph
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &TelemetryPage::refreshGraph );
-    timer->start(1000);
+    QTimer *timerGraphRefresh = new QTimer(this);
+    connect(timerGraphRefresh, &QTimer::timeout, this, &TelemetryPage::refreshGraph);
+    timerGraphRefresh->start(1000);
+
+    // Start Timer to check if new COM Ports appear
+    QTimer *timerCheckComPorts = new QTimer(this);
+    connect(timerCheckComPorts, &QTimer::timeout, this, &TelemetryPage::checkComPorts);
+    timerCheckComPorts->start(5000);
 
     this->graphNames = {"RPM", "Coolant Temperature", "AFR", "Oil Pressure", "Throttle Position", "BSPD",
                               "Brake Pressure", "Steering Angle", "GPS Latitude", "GPS Longitude", "GPS Speed",
@@ -39,7 +39,7 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
 
 TelemetryPage::~TelemetryPage()
 {
-    delete timer;
+    delete timerGraphRefresh;
 }
 
 void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
@@ -158,6 +158,39 @@ void TelemetryPage::refreshGraph(void)
             customPlot->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
 
         customPlot->replot();
+    }
+}
+
+// Check all COM Ports avabile and add them to the combo box
+void TelemetryPage::checkComPorts()
+{
+    // Used to find the index of the previous selected option
+    int currentIndex = -1;
+
+    // Save current selected COM Port
+    QString currentSelectedPort = comPortSelector->currentText();
+
+    // Delete all existing COM Ports from combo box
+    comPortSelector->clear();
+
+    // Get information from all serial ports available
+    QList<QSerialPortInfo> serialPortInfos = QSerialPortInfo::availablePorts();
+    for (int i = 0; i < serialPortInfos.size(); ++i)
+    {
+        const QSerialPortInfo &portInfo = serialPortInfos.at(i);
+
+        // Add these found com ports to the combo box
+        comPortSelector->addItem(portInfo.portName());
+
+        // Checks if the current port was the one previously selected and updates currentIndex
+        if (portInfo.portName() == currentSelectedPort) {
+            currentIndex = i;
+        }
+    }
+
+    // Sets the selected COM port to the saved value if it exists
+    if (currentIndex != -1) {
+        comPortSelector->setCurrentIndex(currentIndex);
     }
 }
 

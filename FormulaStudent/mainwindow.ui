@@ -583,7 +583,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -766,8 +766,42 @@ QPushButton:pressed {
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: rgb(30,30,30);
-border: 2px solid rgb(22, 22, 22);</string>
+                 <string notr="true">QComboBox {
+	background-color: rgb(30,30,30);
+	border: 2px solid rgb(22, 22, 22);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background: none;
+    height: 0;
+    width: 0;
+}
+
+QScrollBar:vertical {
+	width: 6px;
+}
+
+/*  HANDLE BAR VERTICAL */
+QScrollBar::handle:vertical {	
+	background-color: rgb(50, 50, 50);
+	border-radius: 4px;
+}
+QScrollBar::handle:vertical:hover{	
+	background-color: rgb(55, 55, 55);
+}
+QScrollBar::handle:vertical:pressed {	
+	background-color: rgb(60, 60, 60);
+}
+
+
+/* RESET ARROW */
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+	background: none;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+</string>
                 </property>
                </widget>
               </item>
@@ -1026,7 +1060,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
+                <y>-461</y>
                 <width>847</width>
                 <height>1000</height>
                </rect>

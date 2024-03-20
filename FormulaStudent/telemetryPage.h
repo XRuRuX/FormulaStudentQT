@@ -44,7 +44,8 @@ private:
     QCustomPlot* customPlot;
     QComboBox* comPortSelector;
     QPushButton* serialConnectDisconnectButton;
-    QTimer* timer;
+    QTimer* timerGraphRefresh;
+    QTimer* timerCheckComPorts;
 
 private:
     MapPage* mapPage;
@@ -81,6 +82,9 @@ private slots:
 
 private:
     void refreshGraph();
+
+private:
+    void checkComPorts();
 
 public:
     void changeValueDisplayed(int valueName);
