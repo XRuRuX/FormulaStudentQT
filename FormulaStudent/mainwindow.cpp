@@ -149,6 +149,12 @@ void MainWindow::on_serialConnectDisconnectButton_clicked()
     telemetryPage->on_serialConnectDisconnectButton_clicked();
 }
 
+// Load data from file to plot on telemetry page
+void MainWindow::on_loadButton_clicked()
+{
+    telemetryPage->on_loadButton_clicked();
+}
+
 
 void MainWindow::on_gpsLatSelector_valueChanged(int arg1)
 {

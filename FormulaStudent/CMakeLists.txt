@@ -17,6 +17,7 @@ find_package(Qt6 COMPONENTS Core Sql REQUIRED)
 find_package(Qt6 COMPONENTS WebEngineWidgets REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Location)
 find_package(Qt6 REQUIRED COMPONENTS QuickWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Concurrent)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -40,6 +41,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         settingsPage.h settingsPage.cpp
         databaseManager.h databaseManager.cpp
         mapPage.cpp mapPage.h
+        progressDialog.h progressDialog.cpp progressdialog.ui
+
 
 
     )
@@ -69,6 +72,7 @@ target_link_libraries(FormulaStudent PRIVATE Qt6::Core Qt6::Sql)
 target_link_libraries(FormulaStudent PRIVATE Qt6::WebEngineWidgets)
 target_link_libraries(FormulaStudent PRIVATE Qt6::Location)
 target_link_libraries(FormulaStudent PRIVATE Qt6::QuickWidgets)
+target_link_libraries(FormulaStudent PRIVATE Qt6::Concurrent)
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

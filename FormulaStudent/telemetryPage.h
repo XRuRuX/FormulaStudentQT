@@ -4,11 +4,13 @@
 #include <QWidget>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QFileDialog>
 #include <QColor>
 #include "qcustomplot.h"
 #include <QRegularExpression>
 #include <QDateTime>
 #include "candata.h"
+#include "progressDialog.h"
 
 #define NO_GRAPHS 21
 
@@ -48,6 +50,9 @@ private:
     QTimer* timerCheckComPorts;
 
 private:
+    QProgressBar* progressBar;
+
+private:
     MapPage* mapPage;
 
 private:
@@ -59,6 +64,7 @@ private:
 
 private:
     bool isSerialComConnected = false;
+    bool loadButtonPressed = false;
     QByteArray serialDataBuffer;
     int totalLinesReadSerial = 0;
     int maxNumberOfPoints;
@@ -76,6 +82,7 @@ private:
 
 public slots:
     void on_serialConnectDisconnectButton_clicked();
+    void on_loadButton_clicked();
 
 private slots:
     void readData();

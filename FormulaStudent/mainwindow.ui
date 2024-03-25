@@ -741,9 +741,36 @@ QPushButton:pressed {
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true">QPushButton {
+    color: rgb(235, 235, 235);
+    text-align: center;
+    background-color: rgb(30, 30, 30);
+    border: 2px solid rgb(22, 22, 22);
+}
+
+QPushButton:hover {
+    background-color: rgb(40, 40, 40);
+}
+
+QPushButton:pressed {
+    background-color: rgb(70, 70, 70);
+}
+</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QPushButton" name="loadButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>60</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Load</string>
+                </property>
+               </widget>
+              </item>
               <item>
                <spacer name="horizontalSpacer_4">
                 <property name="orientation">
@@ -814,21 +841,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QPushButton {
-    color: rgb(235, 235, 235);
-    text-align: center;
-    background-color: rgb(30, 30, 30);
-    border: 2px solid rgb(22, 22, 22);
-}
-
-QPushButton:hover {
-    background-color: rgb(40, 40, 40);
-}
-
-QPushButton:pressed {
-    background-color: rgb(70, 70, 70);
-}
-</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>Connect</string>
@@ -1060,7 +1073,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>-461</y>
+                <y>0</y>
                 <width>847</width>
                 <height>1000</height>
                </rect>

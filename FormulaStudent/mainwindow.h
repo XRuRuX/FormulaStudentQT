@@ -69,6 +69,7 @@ private slots:
 // Slots for telemetry page
 private slots:
     void on_serialConnectDisconnectButton_clicked();
+    void on_loadButton_clicked();
 
 // Slots for settings page
 private slots:

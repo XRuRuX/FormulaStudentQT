@@ -35,6 +35,12 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     this->graphNames = {"RPM", "Coolant Temperature", "AFR", "Oil Pressure", "Throttle Position", "BSPD",
                               "Brake Pressure", "Steering Angle", "GPS Latitude", "GPS Longitude", "GPS Speed",
                               "Damper 1", "Damper 2", "Damper 3", "Damper 4", "Ax", "Ay", "Az", "Gx", "Gy", "Gz"};
+
+    progressBar = new QProgressBar(this);
+    progressBar->setRange(0, 100);
+    progressBar->setValue(0);
+    progressBar->setAlignment(Qt::AlignCenter);
+    progressBar->setVisible(false);
 }
 
 TelemetryPage::~TelemetryPage()
@@ -44,6 +50,9 @@ TelemetryPage::~TelemetryPage()
 
 void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
 {
+    // Reset all data
+    CANData.clearData();
+
     if(isSerialComConnected == false )
     {
         qDebug() << "Connecting...";
@@ -59,10 +68,6 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
 
             // Connect Signal and Slots
             connect(&serialPort, SIGNAL( readyRead() ), this, SLOT( readData() ) );
-
-            // Set axes ranges to see data
-            customPlot->xAxis->setRange(0, maxNumberOfPoints);
-            customPlot->yAxis->setRange(0, 1000);
         }
         else
         {
@@ -80,9 +85,61 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
 
         // Enable the combo box
         comPortSelector->setEnabled(true);
+    }
+}
 
-        // Reset all data
-        CANData.clearData();
+void TelemetryPage::on_loadButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open data file"), "", tr("Text Files (*.txt);;All Files (*)"));
+    if (!fileName.isEmpty())
+    {
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QTextStream in(&file);
+
+            ProgressDialog progressDialog(this);
+            progressDialog.show();
+
+            int totalLines = 0;
+            QString line;
+            while (!in.atEnd()) {
+                line = in.readLine();
+                // Just to count total lines first
+                totalLines++;
+            }
+
+            // Reset to start of file
+            file.seek(0);
+            in.setDevice(&file);
+
+            int currentLine = 0;
+            while (!in.atEnd()) {
+                line = in.readLine();
+                // Process the line
+                CANData.extractDataFromString(line, mapPage);
+
+                if (currentLine % 100 == 0) {
+                    // Allow UI updates and user interaction with the dialog
+                    QCoreApplication::processEvents();
+                    progressDialog.setProgress(static_cast<int>((static_cast<double>(currentLine) / totalLines) * 100));
+                }
+
+                if (progressDialog.wasCanceled()) {
+                    // Stop loading if the user cancels
+                    break;
+                }
+
+                currentLine++;
+            }
+
+            // Ensure it's filled at the end if not canceled
+            progressDialog.setProgress(100);
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Can't open the file"));
+        }
     }
 }
 
@@ -112,7 +169,7 @@ void TelemetryPage::readData()
 
 void TelemetryPage::refreshGraph(void)
 {
-    if (isSerialComConnected) {
+    if (isSerialComConnected || loadButtonPressed) {
         // Selects which element will be displayed on the graph
         if (plotStates[RPM_PLOT])
             customPlot->graph(RPM_PLOT)->setData(CANData.RPMT, CANData.RPM);
@@ -158,6 +215,7 @@ void TelemetryPage::refreshGraph(void)
             customPlot->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
 
         customPlot->replot();
+        loadButtonPressed = false;
     }
 }
 
@@ -246,6 +304,10 @@ void TelemetryPage::initializeGraph()
     // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
     customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
+    // Set axes ranges to see data
+    customPlot->xAxis->setRange(0, maxNumberOfPoints);
+    customPlot->yAxis->setRange(0, 1000);
+
     // The total number of points displayed at any time
     maxNumberOfPoints = 100;
 }
@@ -303,6 +365,9 @@ void TelemetryPage::changeValueDisplayed(int valueName)
     }
     plotStates[valueName] = !plotStates[valueName];
     changeLegendValues();
+
+    // Make load button pressed true to refresh the graph
+    loadButtonPressed = true;
 }
 
 void TelemetryPage::changeGraphColor(int graphName, QColor colorValue)
