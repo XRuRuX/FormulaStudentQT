@@ -304,12 +304,12 @@ void TelemetryPage::initializeGraph()
     // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
     customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
+    // The total number of points displayed at any time
+    maxNumberOfPoints = 100;
+
     // Set axes ranges to see data
     customPlot->xAxis->setRange(0, maxNumberOfPoints);
     customPlot->yAxis->setRange(0, 1000);
-
-    // The total number of points displayed at any time
-    maxNumberOfPoints = 100;
 }
 
 void TelemetryPage::initializeLegend()
@@ -400,4 +400,14 @@ void TelemetryPage::changeLegendValues()
             item->setTextColor(QColor(235, 235, 235));
         }
     }
+}
+
+void TelemetryPage::drawRedVerticalLine()
+{
+    QCPItemLine *line = new QCPItemLine(customPlot);
+
+    line->start->setCoords(CANData.GPST.last(), -20000);
+    line->end->setCoords(CANData.GPST.last(), 20000);
+
+    line->setPen(QPen(Qt::red));
 }

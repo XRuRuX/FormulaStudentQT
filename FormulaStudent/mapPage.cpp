@@ -86,6 +86,9 @@ void MapPage::checkIfNewLap(double GPSLong, double GPSLat)
         webView->page()->runJavaScript(jsCode);
         sameLapCheck = true;
         lastLap->setText(timeText);
+
+        // Send signal to telemetry page
+        emit newLapDetected();
     }
 }
 

@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, this);
 
+    // Connect signals between pages
+    QObject::connect(mapPage, &MapPage::newLapDetected, telemetryPage, &TelemetryPage::drawRedVerticalLine);
+
     database = new DatabaseManager();
     this->connectDatabase();
 }

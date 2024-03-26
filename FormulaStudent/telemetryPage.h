@@ -83,6 +83,7 @@ private:
 public slots:
     void on_serialConnectDisconnectButton_clicked();
     void on_loadButton_clicked();
+    void drawRedVerticalLine();
 
 private slots:
     void readData();

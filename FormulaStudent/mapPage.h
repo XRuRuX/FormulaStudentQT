@@ -48,6 +48,9 @@ public:
 
 public slots:
     void removeAllPoints();
+
+signals:
+    void newLapDetected();
 };
 
 #endif // MAPPAGE_H

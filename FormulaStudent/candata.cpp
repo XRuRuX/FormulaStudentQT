@@ -77,7 +77,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             values[1] = values[1] / 10;
 
             AFRT.append(timestamp-initialTimestamp);
-            ThrottlePos.append(values[0]);
+            ThrottlePos.append(values[0] * 100);
             AFR.append(values[1]);
         }
 
