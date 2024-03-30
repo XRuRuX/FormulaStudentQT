@@ -21,10 +21,11 @@ private:
     QDoubleSpinBox* gpsLatSelectorStart;
     QDoubleSpinBox* gpsLongSelectorStart;
     QDoubleSpinBox* maxDistanceSelector;
+    QComboBox* graphSelectorComboBox;
 
 public:
     SettingsPage(QWidget *parent = nullptr);
-    SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QDoubleSpinBox* ds3, QWidget* parent = nullptr);
+    SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QDoubleSpinBox* ds3, QComboBox* c3, QWidget* parent = nullptr);
     ~SettingsPage();
 
 public:
@@ -36,6 +37,8 @@ public:
 public slots:
     void on_gpsLatSelector_valueChanged();
     void on_mapPage_loadSettings();
+    void on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, int noCheckBoxes, QCheckBox* checkBoxes[]);
+    void newGraphAdded();
 };
 
 #endif // SETTINGSPAGE_H

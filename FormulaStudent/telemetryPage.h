@@ -36,16 +36,22 @@
 #define GY_PLOT 19
 #define GZ_PLOT 20
 
+struct PlotStates
+{
+    bool plotStates[NO_GRAPHS];
+};
+
 class TelemetryPage: public QWidget
 {
     Q_OBJECT
 
 private:
     QWidget* widget;
+    QWidget* centralContainer;
     QSerialPort serialPort;
-    QCustomPlot* customPlot;
     QComboBox* comPortSelector;
     QPushButton* serialConnectDisconnectButton;
+    QVector<QCustomPlot*> customPlots;
     QTimer* timerGraphRefresh;
     QTimer* timerCheckComPorts;
 
@@ -58,9 +64,9 @@ private:
 private:
     CANData CANData;
 
-private:
-    bool plotStates[NO_GRAPHS] = {false}; // Vector for storing variable states to determine what to plot
-    QStringList graphNames;     // String list with every graph name
+public:
+    QVector<PlotStates> plotStates; // Vector for storing variable states to determine what to plot
+    QStringList graphNames;         // String list with every graph name
 
 private:
     bool isSerialComConnected = false;
@@ -72,17 +78,18 @@ private:
 public:
     TelemetryPage(QWidget *parent = nullptr);
     TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
-                  QPushButton* serialConnectDisconnectButton, MapPage* mapPage, QWidget *parent = nullptr);
+                  QPushButton* serialConnectDisconnectButton, QWidget* centralContainer, MapPage* mapPage, QWidget *parent = nullptr);
     ~TelemetryPage();
 
 private:
-    void initializeGraph();
-    void initializeLegend();
+    void initializeGraph(QCustomPlot* graph);
+    void initializeLegend(QCustomPlot* graph);
     void initializeSerialPort();
 
 public slots:
     void on_serialConnectDisconnectButton_clicked();
     void on_loadButton_clicked();
+    void on_addGraphButton_clicked();
     void drawRedVerticalLine();
 
 private slots:
@@ -91,13 +98,20 @@ private slots:
 private:
     void refreshGraph();
 
+private slots:
+    void syncXAxis(const QCPRange &range);
+
 private:
     void checkComPorts();
+    bool eventFilter(QObject *watched, QEvent *event);
 
 public:
-    void changeValueDisplayed(int valueName);
+    void changeValueDisplayed(int valueName, int graphNumber);
     void changeGraphColor(int graphName, QColor colorValue);
     void changeLegendValues();
+
+signals:
+    void addNewGraphDetected();
 };
 
 #endif // TELEMETRYPAGE_H

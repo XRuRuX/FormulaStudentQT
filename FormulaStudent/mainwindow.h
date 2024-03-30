@@ -70,35 +70,37 @@ private slots:
 private slots:
     void on_serialConnectDisconnectButton_clicked();
     void on_loadButton_clicked();
+    void on_addGraphButton_clicked();
 
 // Slots for settings page
 private slots:
     void on_gpsLatSelector_valueChanged(int arg1);
     void on_gpsLongSelector_valueChanged(int arg1);
-    void on_rpmCheckBox_stateChanged(int arg1);
-    void on_coolantTempCheckBox_stateChanged(int arg1);
-    void on_afrCheckBox_stateChanged(int arg1);
-    void on_oilPressureCheckBox_stateChanged(int arg1);
-    void on_throttlePositionCheckBox_stateChanged(int arg1);
-    void on_bspdCheckBox_stateChanged(int arg1);
-    void on_brakePressureCheckBox_stateChanged(int arg1);
-    void on_steeringAngleCheckBox_stateChanged(int arg1);
-    void on_gpsLatitudeCheckBox_stateChanged(int arg1);
-    void on_gpsLongitudeCheckBox_stateChanged(int arg1);
+    void on_graphSelectorComboBox_currentIndexChanged(int index);
+    void on_rpmCheckBox_clicked();
+    void on_coolantTempCheckBox_clicked();
+    void on_afrCheckBox_clicked();
+    void on_oilPressureCheckBox_clicked();
+    void on_throttlePositionCheckBox_clicked();
+    void on_bspdCheckBox_clicked();
+    void on_brakePressureCheckBox_clicked();
+    void on_steeringAngleCheckBox_clicked();
+    void on_gpsLatitudeCheckBox_clicked();
+    void on_gpsLongitudeCheckBox_clicked();
     void on_maxDistanceSelector_valueChanged(double arg1);
     void on_gpsLatSelectorStart_valueChanged(double arg1);
     void on_gpsLongSelectorStart_valueChanged(double arg1);
-    void on_speedCheckBox_stateChanged(int arg1);
-    void on_damper1CheckBox_stateChanged(int arg1);
-    void on_damper2CheckBox_stateChanged(int arg1);
-    void on_damper3CheckBox_stateChanged(int arg1);
-    void on_damper4CheckBox_stateChanged(int arg1);
-    void on_accelerationXCheckBox_stateChanged(int arg1);
-    void on_accelerationYCheckBox_stateChanged(int arg1);
-    void on_accelerationZCheckBox_stateChanged(int arg1);
-    void on_angleXCheckBox_stateChanged(int arg1);
-    void on_angleYCheckBox_stateChanged(int arg1);
-    void on_angleZCheckBox_stateChanged(int arg1);
+    void on_speedCheckBox_clicked();
+    void on_damper1CheckBox_clicked();
+    void on_damper2CheckBox_clicked();
+    void on_damper3CheckBox_clicked();
+    void on_damper4CheckBox_clicked();
+    void on_accelerationXCheckBox_clicked();
+    void on_accelerationYCheckBox_clicked();
+    void on_accelerationZCheckBox_clicked();
+    void on_angleXCheckBox_clicked();
+    void on_angleYCheckBox_clicked();
+    void on_angleZCheckBox_clicked();
     void on_rpmColorPicker_clicked();
     void on_coolantTempColorPicker_clicked();
     void on_afrColorPicker_clicked();

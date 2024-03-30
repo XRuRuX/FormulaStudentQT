@@ -5,7 +5,7 @@ SettingsPage::SettingsPage(QWidget *parent)
 {
 }
 
-SettingsPage::SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QDoubleSpinBox* ds3, QWidget* parent)
+SettingsPage::SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinBox* ds1, QDoubleSpinBox* ds2, QDoubleSpinBox* ds3, QComboBox* c3, QWidget* parent)
     : QWidget(parent), widget(nullptr)
 {
     this->widget = w1;
@@ -14,6 +14,7 @@ SettingsPage::SettingsPage(QWidget* w1, QSpinBox* s1, QSpinBox* s2, QDoubleSpinB
     this->gpsLatSelectorStart = ds1;
     this->gpsLongSelectorStart = ds2;
     this->maxDistanceSelector = ds3;
+    this->graphSelectorComboBox = c3;
 
     CANData::setGPSCoordinates(gpsLatSelector->value(), gpsLongSelector->value());
     MapPage::loadSettings(gpsLatSelectorStart->value(), gpsLongSelectorStart->value(), maxDistanceSelector->value());
@@ -55,4 +56,19 @@ void SettingsPage::setColorForButtonGraphSettings(QPushButton *button, int graph
     button->setStyleSheet(QString("background-color: %1;").arg(colorString));
 
     telemetryPage->changeGraphColor(graphName, colorValue);
+}
+
+void SettingsPage::newGraphAdded()
+{
+    int noElements = graphSelectorComboBox->count();
+    graphSelectorComboBox->addItem(QString("Plot %1").arg(noElements + 1));
+}
+
+void SettingsPage::on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, int noCheckBoxes, QCheckBox* checkBoxes[])
+{
+    // Update each checkbox based on the plotStates
+    for (int i = 0; i < noCheckBoxes; ++i)
+    {
+        checkBoxes[i]->setChecked(plotStates.plotStates[i]);
+    }
 }

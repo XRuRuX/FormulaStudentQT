@@ -6,18 +6,19 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 }
 
 TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
-                            QPushButton* serialConnectDisconnectButton, MapPage* mapPage, QWidget *parent)
+                            QPushButton* serialConnectDisconnectButton, QWidget* centralContainer, MapPage* mapPage, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
     this->mapPage = mapPage;
 
-    this->customPlot = customPlot;
+    this->customPlots.append(customPlot);
     this->widget = widget;
     this->comPortSelector = comPortSelector;
     this->serialConnectDisconnectButton = serialConnectDisconnectButton;
+    this->centralContainer = centralContainer;
 
     // Initialize graph settings
-    this->initializeGraph();
+    this->initializeGraph(customPlot);
 
     // Display avabile COM Ports
     checkComPorts();
@@ -143,6 +144,26 @@ void TelemetryPage::on_loadButton_clicked()
     }
 }
 
+void TelemetryPage::on_addGraphButton_clicked()
+{
+    QCustomPlot *newPlot = new QCustomPlot();
+    customPlots.append(newPlot); // Adaugă noul grafic la lista de grafice
+    initializeGraph(newPlot); // Inițializează noul grafic
+    centralContainer->layout()->addWidget(newPlot); // Adaugă graficul la interfața utilizatorului
+
+    if (!customPlots.isEmpty()) {
+        // Preia intervalele de pe axele x și y de la primul grafic
+        QCPRange xRange = customPlots.first()->xAxis->range();
+        QCPRange yRange = customPlots.first()->yAxis->range();
+
+        // Setează aceste intervale pentru noul grafic
+        newPlot->xAxis->setRange(xRange);
+        newPlot->yAxis->setRange(yRange);
+    }
+
+    emit addNewGraphDetected(); // Emit semnal dacă folosești acest lucru în altă parte
+}
+
 void TelemetryPage::readData()
 {
     QByteArray newData = serialPort.readAll();
@@ -170,52 +191,55 @@ void TelemetryPage::readData()
 void TelemetryPage::refreshGraph(void)
 {
     if (isSerialComConnected || loadButtonPressed) {
-        // Selects which element will be displayed on the graph
-        if (plotStates[RPM_PLOT])
-            customPlot->graph(RPM_PLOT)->setData(CANData.RPMT, CANData.RPM);
-        if (plotStates[COOLANTTEMP_PLOT])
-            customPlot->graph(COOLANTTEMP_PLOT)->setData(CANData.CoolantT, CANData.CoolantTemp);
-        if (plotStates[AFR_PLOT])
-            customPlot->graph(AFR_PLOT)->setData(CANData.AFRT, CANData.AFR);
-        if (plotStates[OILPRESSURE_PLOT])
-            customPlot->graph(OILPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.OilPressure);
-        if (plotStates[THROTTLEPOS_PLOT])
-            customPlot->graph(THROTTLEPOS_PLOT)->setData(CANData.AFRT, CANData.ThrottlePos);
-        if (plotStates[BSPD_PLOT])
-            customPlot->graph(BSPD_PLOT)->setData(CANData.AnalogT, CANData.BSPD);
-        if (plotStates[BRAKEPRESSURE_PLOT])
-            customPlot->graph(BRAKEPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.BrakePressure);
-        if (plotStates[STEERINGANGLE_PLOT])
-            customPlot->graph(STEERINGANGLE_PLOT)->setData(CANData.AnalogT, CANData.SteeringAngle);
-        if (plotStates[GPSLAT_PLOT])
-            customPlot->graph(GPSLAT_PLOT)->setData(CANData.GPST, CANData.GPSLat);
-        if (plotStates[GPSLONG_PLOT])
-            customPlot->graph(GPSLONG_PLOT)->setData(CANData.GPST, CANData.GPSLong);
-        if (plotStates[GPSSPEED_PLOT])
-            customPlot->graph(GPSSPEED_PLOT)->setData(CANData.GPST, CANData.GPSSpeed);
-        if (plotStates[DAMPER1_PLOT])
-            customPlot->graph(DAMPER1_PLOT)->setData(CANData.DamperT, CANData.Damper1);
-        if (plotStates[DAMPER2_PLOT])
-            customPlot->graph(DAMPER2_PLOT)->setData(CANData.DamperT, CANData.Damper2);
-        if (plotStates[DAMPER3_PLOT])
-            customPlot->graph(DAMPER3_PLOT)->setData(CANData.DamperT, CANData.Damper3);
-        if (plotStates[DAMPER4_PLOT])
-            customPlot->graph(DAMPER4_PLOT)->setData(CANData.DamperT, CANData.Damper4);
-        if (plotStates[AX_PLOT])
-            customPlot->graph(AX_PLOT)->setData(CANData.AT, CANData.Ax);
-        if (plotStates[AY_PLOT])
-            customPlot->graph(AY_PLOT)->setData(CANData.AT, CANData.Ay);
-        if (plotStates[AZ_PLOT])
-            customPlot->graph(AZ_PLOT)->setData(CANData.AT, CANData.Az);
-        if (plotStates[GX_PLOT])
-            customPlot->graph(GX_PLOT)->setData(CANData.GT, CANData.Gx);
-        if (plotStates[GY_PLOT])
-            customPlot->graph(GY_PLOT)->setData(CANData.GT, CANData.Gy);
-        if (plotStates[GZ_PLOT])
-            customPlot->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
+        for(int i = 0; i < customPlots.size(); i++)
+        {
+            // Selects which element will be displayed on the graph
+            if (plotStates.at(i).plotStates[RPM_PLOT])
+                customPlots.at(i)->graph(RPM_PLOT)->setData(CANData.RPMT, CANData.RPM);
+            if (plotStates.at(i).plotStates[COOLANTTEMP_PLOT])
+                customPlots.at(i)->graph(COOLANTTEMP_PLOT)->setData(CANData.CoolantT, CANData.CoolantTemp);
+            if (plotStates.at(i).plotStates[AFR_PLOT])
+                customPlots.at(i)->graph(AFR_PLOT)->setData(CANData.AFRT, CANData.AFR);
+            if (plotStates.at(i).plotStates[OILPRESSURE_PLOT])
+                customPlots.at(i)->graph(OILPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.OilPressure);
+            if (plotStates.at(i).plotStates[THROTTLEPOS_PLOT])
+                customPlots.at(i)->graph(THROTTLEPOS_PLOT)->setData(CANData.AFRT, CANData.ThrottlePos);
+            if (plotStates.at(i).plotStates[BSPD_PLOT])
+                customPlots.at(i)->graph(BSPD_PLOT)->setData(CANData.AnalogT, CANData.BSPD);
+            if (plotStates.at(i).plotStates[BRAKEPRESSURE_PLOT])
+                customPlots.at(i)->graph(BRAKEPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.BrakePressure);
+            if (plotStates.at(i).plotStates[STEERINGANGLE_PLOT])
+                customPlots.at(i)->graph(STEERINGANGLE_PLOT)->setData(CANData.AnalogT, CANData.SteeringAngle);
+            if (plotStates.at(i).plotStates[GPSLAT_PLOT])
+                customPlots.at(i)->graph(GPSLAT_PLOT)->setData(CANData.GPST, CANData.GPSLat);
+            if (plotStates.at(i).plotStates[GPSLONG_PLOT])
+                customPlots.at(i)->graph(GPSLONG_PLOT)->setData(CANData.GPST, CANData.GPSLong);
+            if (plotStates.at(i).plotStates[GPSSPEED_PLOT])
+                customPlots.at(i)->graph(GPSSPEED_PLOT)->setData(CANData.GPST, CANData.GPSSpeed);
+            if (plotStates.at(i).plotStates[DAMPER1_PLOT])
+                customPlots.at(i)->graph(DAMPER1_PLOT)->setData(CANData.DamperT, CANData.Damper1);
+            if (plotStates.at(i).plotStates[DAMPER2_PLOT])
+                customPlots.at(i)->graph(DAMPER2_PLOT)->setData(CANData.DamperT, CANData.Damper2);
+            if (plotStates.at(i).plotStates[DAMPER3_PLOT])
+                customPlots.at(i)->graph(DAMPER3_PLOT)->setData(CANData.DamperT, CANData.Damper3);
+            if (plotStates.at(i).plotStates[DAMPER4_PLOT])
+                customPlots.at(i)->graph(DAMPER4_PLOT)->setData(CANData.DamperT, CANData.Damper4);
+            if (plotStates.at(i).plotStates[AX_PLOT])
+                customPlots.at(i)->graph(AX_PLOT)->setData(CANData.AT, CANData.Ax);
+            if (plotStates.at(i).plotStates[AY_PLOT])
+                customPlots.at(i)->graph(AY_PLOT)->setData(CANData.AT, CANData.Ay);
+            if (plotStates.at(i).plotStates[AZ_PLOT])
+                customPlots.at(i)->graph(AZ_PLOT)->setData(CANData.AT, CANData.Az);
+            if (plotStates.at(i).plotStates[GX_PLOT])
+                customPlots.at(i)->graph(GX_PLOT)->setData(CANData.GT, CANData.Gx);
+            if (plotStates.at(i).plotStates[GY_PLOT])
+                customPlots.at(i)->graph(GY_PLOT)->setData(CANData.GT, CANData.Gy);
+            if (plotStates.at(i).plotStates[GZ_PLOT])
+                customPlots.at(i)->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
 
-        customPlot->replot();
-        loadButtonPressed = false;
+            customPlots.at(i)->replot();
+            loadButtonPressed = false;
+        }
     }
 }
 
@@ -252,95 +276,95 @@ void TelemetryPage::checkComPorts()
     }
 }
 
-void TelemetryPage::initializeGraph()
+void TelemetryPage::initializeGraph(QCustomPlot* graph)
 {
     // Create graphs
     for(int i = 0; i < NO_GRAPHS; i++)
     {
-        customPlot->addGraph();
-        customPlot->graph(i)->setPen(QColor(245, 245, 245));
+        graph->addGraph();
+        graph->graph(i)->setPen(QColor(245, 245, 245));
     }
 
     // Make left and bottom axes transfer their ranges to right and top axes
-    connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
-    connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
+    connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), graph->xAxis2, SLOT(setRange(QCPRange)));
+    connect(graph->yAxis, SIGNAL(rangeChanged(QCPRange)), graph->yAxis2, SLOT(setRange(QCPRange)));
 
-/*
-    // Graph title
-    QCPTextElement *title = new QCPTextElement(customPlot);
-    title->setText("Sensors Visualization Graph");
-    title->setFont(QFont("Inter", 16, QFont::Bold));
-    title->setTextColor(QColor(240, 240, 240));
-
-    // Insert an empty row above the axis
-    customPlot->plotLayout()->insertRow(0);
-    // Place the title in the empty cell we've just created
-    customPlot->plotLayout()->addElement(0, 0, title);
-*/
-    initializeLegend();
+    initializeLegend(graph);
 
     // Change background color
-    customPlot->setBackground(QColor(24, 24, 24));
-    // Change color of X-Axis
-    customPlot->xAxis->setBasePen(QPen(QColor(50, 50, 50)));
-    customPlot->xAxis->setTickPen(QPen(QColor(50, 50, 50)));
-    customPlot->xAxis->setSubTickPen(QPen(QColor(50, 50, 50)));
-    // Change color of Y-Axis
-    customPlot->yAxis->setBasePen(QPen(QColor(50, 50, 50)));
-    customPlot->yAxis->setTickPen(QPen(QColor(50, 50, 50)));
-    customPlot->yAxis->setSubTickPen(QPen(QColor(50, 50, 50)));
-    // Change color of grid
-    customPlot->xAxis->grid()->setPen(QPen(QColor(50, 50, 50)));
-    customPlot->yAxis->grid()->setPen(QPen(QColor(50, 50, 50)));
-    // Change color of X-Axis label
-    customPlot->xAxis->setLabelColor(QColor(230, 230, 230));
-    // Change color of Y-Axis label
-    customPlot->yAxis->setLabelColor(QColor(230, 230, 230));
-    // Change color of X-Axis numbers
-    customPlot->xAxis->setTickLabelColor(QColor(230, 230, 230));
-    // Change color of Y-Axis numbers
-    customPlot->yAxis->setTickLabelColor(QColor(230, 230, 230));
+    graph->setBackground(QColor(24, 24, 24));
 
-    // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select the graph by clicking
-    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    // Set the pen for axes
+    QList<QCPAxis*> allAxes;
+    allAxes << graph->xAxis << graph->yAxis << graph->xAxis2 << graph->yAxis2;
+    foreach (QCPAxis *axis, allAxes) {
+        axis->setBasePen(QPen(QColor(50, 50, 50)));
+        axis->setTickPen(QPen(QColor(50, 50, 50)));
+        axis->setSubTickPen(QPen(QColor(50, 50, 50)));
+        axis->setTickLabelColor(QColor(230, 230, 230));
+        axis->setLabelColor(QColor(230, 230, 230));
+        axis->grid()->setPen(QPen(QColor(50, 50, 50)));
+    }
 
-    // The total number of points displayed at any time
+    // Allow user interactions
+    graph->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+
+    // Set the total number of points displayed
     maxNumberOfPoints = 100;
 
-    // Set axes ranges to see data
-    customPlot->xAxis->setRange(0, maxNumberOfPoints);
-    customPlot->yAxis->setRange(0, 1000);
+    // Set axes ranges
+    graph->xAxis->setRange(0, maxNumberOfPoints);
+    graph->yAxis->setRange(0, 1000);
+
+    // Adjust margins
+    graph->axisRect()->setMinimumMargins(QMargins(5, 5, 5, 5));
+    graph->axisRect()->setMargins(QMargins(5, 5, 5, 5));
+    graph->axisRect()->setAutoMargins(QCP::msNone); // Disable automatic margin calculation
+
+    // Conectează noul grafic la sloturile de sincronizare
+    connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
+
+    // Inițializează stările de plot pentru noul grafic
+    PlotStates state;
+    for (int j = 0; j < NO_GRAPHS; ++j) {
+        state.plotStates[j] = false;
+    }
+    plotStates.append(state);
+
+    graph->installEventFilter(this);
 }
 
-void TelemetryPage::initializeLegend()
+
+
+void TelemetryPage::initializeLegend(QCustomPlot* graph)
 {
     // Delete all legend elements
     for(int i = 0; i < NO_GRAPHS; i++)
     {
-        customPlot->legend->removeItem(customPlot->graph(i)->addToLegend());
+        graph->legend->removeItem(graph->graph(i)->addToLegend());
     }
 
     // Create legend
-    customPlot->legend->setVisible(true);
+    graph->legend->setVisible(true);
 
-    QCPTextElement *legendTitle = new QCPTextElement(customPlot);
+    QCPTextElement *legendTitle = new QCPTextElement(graph);
     // Place text element on same layer as legend, or it ends up below legend
-    legendTitle->setLayer(customPlot->legend->layer());
+    legendTitle->setLayer(graph->legend->layer());
     legendTitle->setText("Legend");
     legendTitle->setFont(QFont("Inter", 14, QFont::Bold));
     legendTitle->setTextColor(QColor(235, 235, 235));
-    customPlot->legend->setBorderPen(Qt::NoPen);
+    graph->legend->setBorderPen(Qt::NoPen);
 
     // Then we add it to the QCPLegend (which is a subclass of QCPLayoutGrid):
-    if (customPlot->legend->hasElement(0, 0)) // If top cell isn't empty, insert an empty row at top
+    if (graph->legend->hasElement(0, 0)) // If top cell isn't empty, insert an empty row at top
     {
-        customPlot->legend->insertRow(0);
+        graph->legend->insertRow(0);
     }
     // Place the text element into the empty cell
-    customPlot->legend->addElement(0, 0, legendTitle);
+    graph->legend->addElement(0, 0, legendTitle);
 
     // Change legend background color
-    customPlot->legend->setBrush(QColor(24, 24, 24));
+    graph->legend->setBrush(QColor(24, 24, 24));
 }
 
 void TelemetryPage::initializeSerialPort()
@@ -356,14 +380,16 @@ void TelemetryPage::initializeSerialPort()
 }
 
 // Method that changes what will be plotted on the graph based on the settings checkboxes
-void TelemetryPage::changeValueDisplayed(int valueName)
+void TelemetryPage::changeValueDisplayed(int valueName, int graphNumber)
 {
-    if(plotStates[valueName])
+    qDebug() << graphNumber;
+    if(plotStates.at(graphNumber).plotStates[valueName])
     {
-        customPlot->graph(valueName)->data()->clear();
-        customPlot->legend->removeItem(customPlot->graph(valueName)->addToLegend());
+        customPlots.at(graphNumber)->graph(valueName)->data()->clear();
+        customPlots.at(graphNumber)->legend->removeItem(customPlots.at(graphNumber)->graph(valueName)->addToLegend());
     }
-    plotStates[valueName] = !plotStates[valueName];
+
+    plotStates[graphNumber].plotStates[valueName] = !plotStates[graphNumber].plotStates[valueName];
     changeLegendValues();
 
     // Make load button pressed true to refresh the graph
@@ -372,42 +398,94 @@ void TelemetryPage::changeValueDisplayed(int valueName)
 
 void TelemetryPage::changeGraphColor(int graphName, QColor colorValue)
 {
-    customPlot->graph(graphName)->setPen(QPen(colorValue));
+    for(int i = 0; i < customPlots.size(); i++)
+    {
+        customPlots.at(i)->graph(graphName)->setPen(QPen(colorValue));
+    }
 }
 
 void TelemetryPage::changeLegendValues()
 {
-    // Dynamic legend
-    // Iterate through the state vector of the plots and update the legend based on these states
-    for (int i = 0; i < NO_GRAPHS; i++) {
-        if (plotStates[i]) {
-            // If plotStates[i] is true, add the appropriate element to the legend
-            customPlot->graph(i)->addToLegend();
-            // Update the chart name in the legend
-            customPlot->graph(i)->setName(graphNames[i]);
-        } else {
-            // If plotStates[i] is false, remove the corresponding element from the legend
-            customPlot->graph(i)->removeFromLegend();
+    for(int j = 0; j < customPlots.size(); j++)
+    {
+        // Dynamic legend
+        // Iterate through the state vector of the plots and update the legend based on these states
+        for (int i = 0; i < NO_GRAPHS; i++) {
+            if (plotStates.at(j).plotStates[i]) {
+                // If plotStates[i] is true, add the appropriate element to the legend
+                customPlots.at(j)->graph(i)->addToLegend();
+                // Update the chart name in the legend
+                customPlots.at(j)->graph(i)->setName(graphNames[i]);
+            } else {
+                // If plotStates[i] is false, remove the corresponding element from the legend
+                customPlots.at(j)->graph(i)->removeFromLegend();
+            }
         }
-    }
 
-    // Go through each item in the legend and set the text color
-    for (int i = 0; i < customPlot->legend->itemCount(); i++) {
-        // Access the legend element at the specified index
-        QCPAbstractLegendItem *item = customPlot->legend->item(i);
-        if (item) {
-            // Set the text color for the legend element
-            item->setTextColor(QColor(235, 235, 235));
+        // Go through each item in the legend and set the text color
+        for (int i = 0; i < customPlots.at(j)->legend->itemCount(); i++) {
+            // Access the legend element at the specified index
+            QCPAbstractLegendItem *item = customPlots.at(j)->legend->item(i);
+            if (item) {
+                // Set the text color for the legend element
+                item->setTextColor(QColor(235, 235, 235));
+            }
         }
     }
 }
 
 void TelemetryPage::drawRedVerticalLine()
 {
-    QCPItemLine *line = new QCPItemLine(customPlot);
+    for(int i = 0; i < customPlots.size(); i++)
+    {
+        QCPItemLine *line = new QCPItemLine(customPlots.at(i));
 
-    line->start->setCoords(CANData.GPST.last(), -20000);
-    line->end->setCoords(CANData.GPST.last(), 20000);
+        line->start->setCoords(CANData.GPST.last(), -20000);
+        line->end->setCoords(CANData.GPST.last(), 20000);
 
-    line->setPen(QPen(Qt::red));
+        line->setPen(QPen(Qt::red));
+    }
 }
+
+void TelemetryPage::syncXAxis(const QCPRange &range) {
+    for (QCustomPlot *plot : customPlots) {
+        plot->xAxis->setRange(range);
+        plot->replot();
+    }
+}
+
+bool TelemetryPage::eventFilter(QObject *watched, QEvent *event)
+{
+    // Check if the event is a wheel event and if the watched object is a QCustomPlot
+    if (event->type() == QEvent::Wheel && watched->inherits("QCustomPlot")) {
+        // Cast the event to QWheelEvent and the watched object to QCustomPlot
+        QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
+        QCustomPlot *customPlot = static_cast<QCustomPlot *>(watched);
+
+        // Calculate the scaling factor based on the wheel angle delta
+        double factor = qPow(0.8, wheelEvent->angleDelta().y() / 240.0);
+
+        // If Ctrl key is pressed, zoom along the X-axis
+        if (QApplication::keyboardModifiers() == Qt::ControlModifier) {
+            customPlot->xAxis->scaleRange(factor, customPlot->xAxis->pixelToCoord(wheelEvent->position().x()));
+        }
+        // If Shift key is pressed, zoom along the Y-axis
+        else if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+            customPlot->yAxis->scaleRange(factor, customPlot->yAxis->pixelToCoord(wheelEvent->position().y()));
+        }
+        // If neither Ctrl nor Shift is pressed, zoom along both axes
+        else {
+            customPlot->xAxis->scaleRange(factor, customPlot->xAxis->pixelToCoord(wheelEvent->position().x()));
+            customPlot->yAxis->scaleRange(factor, customPlot->yAxis->pixelToCoord(wheelEvent->position().y()));
+        }
+
+        // Redraw the plot
+        customPlot->replot();
+        // Indicate that the event has been handled
+        return true;
+    }
+
+    // For all other events and objects, use the standard implementation
+    return QWidget::eventFilter(watched, event);
+}
+

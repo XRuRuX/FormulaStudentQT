@@ -21,12 +21,13 @@ MainWindow::MainWindow(QWidget *parent)
     mapPage = new MapPage(ui->mapCentralContainer, ui->mapCurrentLap, ui->mapLastLap, this);
 
     telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
-                                    ui->serialConnectDisconnectButton, mapPage, this);
+                                    ui->serialConnectDisconnectButton, ui->centralContainer, mapPage, this);
 
-    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, this);
+    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, ui->graphSelectorComboBox, this);
 
     // Connect signals between pages
     QObject::connect(mapPage, &MapPage::newLapDetected, telemetryPage, &TelemetryPage::drawRedVerticalLine);
+    QObject::connect(telemetryPage, &TelemetryPage::addNewGraphDetected, settingsPage, &SettingsPage::newGraphAdded);
 
     database = new DatabaseManager();
     this->connectDatabase();
@@ -158,6 +159,11 @@ void MainWindow::on_loadButton_clicked()
     telemetryPage->on_loadButton_clicked();
 }
 
+// Add new graph to telemetry page
+void MainWindow::on_addGraphButton_clicked()
+{
+    telemetryPage->on_addGraphButton_clicked();
+}
 
 void MainWindow::on_gpsLatSelector_valueChanged(int arg1)
 {
@@ -190,129 +196,129 @@ void MainWindow::on_maxDistanceSelector_valueChanged(double arg1)
     database->updateSetting("MaxDistanceForNewLapThreshold", ui->maxDistanceSelector->value());
 }
 
-void MainWindow::on_rpmCheckBox_stateChanged(int arg1)
+void MainWindow::on_rpmCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(RPM_PLOT);
+    telemetryPage->changeValueDisplayed(RPM_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_coolantTempCheckBox_stateChanged(int arg1)
+void MainWindow::on_coolantTempCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(COOLANTTEMP_PLOT);
+    telemetryPage->changeValueDisplayed(COOLANTTEMP_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_afrCheckBox_stateChanged(int arg1)
+void MainWindow::on_afrCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AFR_PLOT);
+    telemetryPage->changeValueDisplayed(AFR_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_oilPressureCheckBox_stateChanged(int arg1)
+void MainWindow::on_oilPressureCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(OILPRESSURE_PLOT);
+    telemetryPage->changeValueDisplayed(OILPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_throttlePositionCheckBox_stateChanged(int arg1)
+void MainWindow::on_throttlePositionCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(THROTTLEPOS_PLOT);
+    telemetryPage->changeValueDisplayed(THROTTLEPOS_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_bspdCheckBox_stateChanged(int arg1)
+void MainWindow::on_bspdCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(BSPD_PLOT);
+    telemetryPage->changeValueDisplayed(BSPD_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_brakePressureCheckBox_stateChanged(int arg1)
+void MainWindow::on_brakePressureCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(BRAKEPRESSURE_PLOT);
+    telemetryPage->changeValueDisplayed(BRAKEPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_steeringAngleCheckBox_stateChanged(int arg1)
+void MainWindow::on_steeringAngleCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(STEERINGANGLE_PLOT);
+    telemetryPage->changeValueDisplayed(STEERINGANGLE_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_gpsLatitudeCheckBox_stateChanged(int arg1)
+void MainWindow::on_gpsLatitudeCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(GPSLAT_PLOT);
+    telemetryPage->changeValueDisplayed(GPSLAT_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_gpsLongitudeCheckBox_stateChanged(int arg1)
+void MainWindow::on_gpsLongitudeCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(GPSLONG_PLOT);
+    telemetryPage->changeValueDisplayed(GPSLONG_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_speedCheckBox_stateChanged(int arg1)
+void MainWindow::on_speedCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(GPSSPEED_PLOT);
+    telemetryPage->changeValueDisplayed(GPSSPEED_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_damper1CheckBox_stateChanged(int arg1)
+void MainWindow::on_damper1CheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(DAMPER1_PLOT);
+    telemetryPage->changeValueDisplayed(DAMPER1_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_damper2CheckBox_stateChanged(int arg1)
+void MainWindow::on_damper2CheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(DAMPER2_PLOT);
+    telemetryPage->changeValueDisplayed(DAMPER2_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_damper3CheckBox_stateChanged(int arg1)
+void MainWindow::on_damper3CheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(DAMPER3_PLOT);
+    telemetryPage->changeValueDisplayed(DAMPER3_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_damper4CheckBox_stateChanged(int arg1)
+void MainWindow::on_damper4CheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(DAMPER4_PLOT);
+    telemetryPage->changeValueDisplayed(DAMPER4_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_accelerationXCheckBox_stateChanged(int arg1)
+void MainWindow::on_accelerationXCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AX_PLOT);
+    telemetryPage->changeValueDisplayed(AX_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_accelerationYCheckBox_stateChanged(int arg1)
+void MainWindow::on_accelerationYCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AY_PLOT);
+    telemetryPage->changeValueDisplayed(AY_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_accelerationZCheckBox_stateChanged(int arg1)
+void MainWindow::on_accelerationZCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AZ_PLOT);
+    telemetryPage->changeValueDisplayed(AZ_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_angleXCheckBox_stateChanged(int arg1)
+void MainWindow::on_angleXCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(GX_PLOT);
+    telemetryPage->changeValueDisplayed(GX_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_angleYCheckBox_stateChanged(int arg1)
+void MainWindow::on_angleYCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(GY_PLOT);
+    telemetryPage->changeValueDisplayed(GY_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
-void MainWindow::on_angleZCheckBox_stateChanged(int arg1)
+void MainWindow::on_angleZCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(GZ_PLOT);
+    telemetryPage->changeValueDisplayed(GZ_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
 
@@ -441,9 +447,44 @@ void MainWindow::on_angleZColorPicker_clicked()
     settingsPage->setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT, telemetryPage);
 }
 
+// Changes the state of the check boxes depending on which graph is selected
+void MainWindow::on_graphSelectorComboBox_currentIndexChanged(int index)
+{
+    PlotStates plotStates = telemetryPage->plotStates.at(index);
+
+    // Mapping each checkbox to its respective index in plotStates array
+    QCheckBox *checkBoxes[] = {
+        ui->rpmCheckBox,             // Index 0
+        ui->coolantTempCheckBox,     // Index 1
+        ui->afrCheckBox,             // Index 2
+        ui->oilPressureCheckBox,     // Index 3
+        ui->throttlePositionCheckBox,// Index 4
+        ui->bspdCheckBox,            // Index 5
+        ui->brakePressureCheckBox,   // Index 6
+        ui->steeringAngleCheckBox,   // Index 7
+        ui->gpsLatitudeCheckBox,     // Index 8
+        ui->gpsLongitudeCheckBox,    // Index 9
+        ui->speedCheckBox,           // Index 10
+        ui->damper1CheckBox,         // Index 11
+        ui->damper2CheckBox,         // Index 12
+        ui->damper3CheckBox,         // Index 13
+        ui->damper4CheckBox,         // Index 14
+        ui->accelerationXCheckBox,   // Index 15
+        ui->accelerationYCheckBox,   // Index 16
+        ui->accelerationZCheckBox,   // Index 17
+        ui->angleXCheckBox,          // Index 18
+        ui->angleYCheckBox,          // Index 19
+        ui->angleZCheckBox           // Index 20
+    };
+
+    int size = sizeof(checkBoxes) / sizeof(checkBoxes[0]);
+
+    settingsPage->on_graphSelectorComboBox_currentIndexChanged(plotStates, size, checkBoxes);
+}
 
 void MainWindow::on_mapResetButton_clicked()
 {
     mapPage->removeAllPoints();
 }
+
 

@@ -583,7 +583,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -783,6 +783,13 @@ QPushButton:pressed {
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="addGraphButton">
+                <property name="text">
+                 <string>Add graph</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QComboBox" name="comPortSelector">
@@ -1073,7 +1080,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
+                <y>-461</y>
                 <width>847</width>
                 <height>1000</height>
                </rect>
@@ -1967,6 +1974,15 @@ padding-bottom: 1px;</string>
                     <property name="text">
                      <string/>
                     </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QComboBox" name="graphSelectorComboBox">
+                    <item>
+                     <property name="text">
+                      <string>Plot 1</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                  </layout>
