@@ -147,21 +147,42 @@ void TelemetryPage::on_loadButton_clicked()
 void TelemetryPage::on_addGraphButton_clicked()
 {
     QCustomPlot *newPlot = new QCustomPlot();
-    customPlots.append(newPlot); // Adaugă noul grafic la lista de grafice
-    initializeGraph(newPlot); // Inițializează noul grafic
-    centralContainer->layout()->addWidget(newPlot); // Adaugă graficul la interfața utilizatorului
+    customPlots.append(newPlot); // Adds the new graph to the list of graphs
+    initializeGraph(newPlot); // Initializes the new chart
+    centralContainer->layout()->addWidget(newPlot); // Adds the chart to the user interface
 
     if (!customPlots.isEmpty()) {
-        // Preia intervalele de pe axele x și y de la primul grafic
+        // Get the ranges on the x and y axes from the first graph
         QCPRange xRange = customPlots.first()->xAxis->range();
         QCPRange yRange = customPlots.first()->yAxis->range();
 
-        // Setează aceste intervale pentru noul grafic
+        // Set these ranges for the new graph
         newPlot->xAxis->setRange(xRange);
         newPlot->yAxis->setRange(yRange);
     }
 
-    emit addNewGraphDetected(); // Emit semnal dacă folosești acest lucru în altă parte
+    emit addNewGraphDetected();
+}
+
+void TelemetryPage::on_removeGraphButton_clicked()
+{
+    // Check if the the selected graph is not null
+    if (selectedCustomPlot != nullptr)
+    {
+        selectedCustomPlot->legend->clear();
+
+        int index = customPlots.indexOf(selectedCustomPlot);
+        if (index != -1) // -1 indicates that the element was not found
+        {
+            // Remove the element from the found index
+            customPlots.remove(index);
+        }
+
+        delete selectedCustomPlot;
+        selectedCustomPlot = nullptr;
+    }
+
+    emit deletedGraphDetected();
 }
 
 void TelemetryPage::readData()
@@ -243,6 +264,27 @@ void TelemetryPage::refreshGraph(void)
     }
 }
 
+void TelemetryPage::selectGraph(QCustomPlot *graphToSelect) {
+    // Deselect all graphics
+    for (auto &plot : customPlots) {
+        plot->setBackground(QColor(24, 24, 24)); // Reset background color
+    }
+
+    // Select the desired graph
+    if (graphToSelect) {
+        graphToSelect->setBackground(QColor(28, 28, 28)); // Background color for the selection
+        selectedCustomPlot = graphToSelect;
+    } else {
+        selectedCustomPlot->setBackground(QColor(24, 24, 24));
+        selectedCustomPlot = nullptr;
+    }
+
+    // Refresh UI to reflect changes
+    for (auto &plot : customPlots) {
+        plot->replot();
+    }
+}
+
 // Check all COM Ports avabile and add them to the combo box
 void TelemetryPage::checkComPorts()
 {
@@ -321,10 +363,10 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
     graph->axisRect()->setMargins(QMargins(5, 5, 5, 5));
     graph->axisRect()->setAutoMargins(QCP::msNone); // Disable automatic margin calculation
 
-    // Conectează noul grafic la sloturile de sincronizare
+    // Connect the new graph to the sync slots
     connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
 
-    // Inițializează stările de plot pentru noul grafic
+    // Initialize the plot states for the new graph
     PlotStates state;
     for (int j = 0; j < NO_GRAPHS; ++j) {
         state.plotStates[j] = false;
@@ -363,8 +405,8 @@ void TelemetryPage::initializeLegend(QCustomPlot* graph)
     // Place the text element into the empty cell
     graph->legend->addElement(0, 0, legendTitle);
 
-    // Change legend background color
-    graph->legend->setBrush(QColor(24, 24, 24));
+    // Change legend background color to transparent
+    graph->legend->setBrush(QBrush(QColor(0, 0, 0, 0)));
 }
 
 void TelemetryPage::initializeSerialPort()
@@ -405,7 +447,7 @@ void TelemetryPage::changeGraphColor(int graphName, QColor colorValue)
 }
 
 void TelemetryPage::changeLegendValues()
-{
+{   
     for(int j = 0; j < customPlots.size(); j++)
     {
         // Dynamic legend
@@ -484,6 +526,29 @@ bool TelemetryPage::eventFilter(QObject *watched, QEvent *event)
         // Indicate that the event has been handled
         return true;
     }
+
+    if (event->type() == QEvent::MouseButtonPress) {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+
+            // Check if there was a right click
+            if (mouseEvent->button() == Qt::RightButton) {
+                // Check if the object under observation is a QCustomPlot
+                if (watched->inherits("QCustomPlot")) {
+                    QCustomPlot *customPlot = static_cast<QCustomPlot *>(watched);
+
+                    // If the clicked graph is already selected, we deselect it
+                    if (customPlot == selectedCustomPlot) {
+                        selectGraph(nullptr);
+                    } else {
+                        // Otherwise, select the chart that was clicked
+                        selectGraph(customPlot);
+                    }
+                }
+                // Indicate that the event has been handled
+                return true;
+            }
+        }
+
 
     // For all other events and objects, use the standard implementation
     return QWidget::eventFilter(watched, event);

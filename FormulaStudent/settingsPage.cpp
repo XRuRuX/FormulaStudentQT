@@ -64,6 +64,12 @@ void SettingsPage::newGraphAdded()
     graphSelectorComboBox->addItem(QString("Plot %1").arg(noElements + 1));
 }
 
+void SettingsPage::deletedGraph()
+{
+    int noElements = graphSelectorComboBox->count();
+    graphSelectorComboBox->removeItem(noElements - 1);
+}
+
 void SettingsPage::on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, int noCheckBoxes, QCheckBox* checkBoxes[])
 {
     // Update each checkbox based on the plotStates

@@ -39,6 +39,7 @@ public slots:
     void on_mapPage_loadSettings();
     void on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, int noCheckBoxes, QCheckBox* checkBoxes[]);
     void newGraphAdded();
+    void deletedGraph();
 };
 
 #endif // SETTINGSPAGE_H

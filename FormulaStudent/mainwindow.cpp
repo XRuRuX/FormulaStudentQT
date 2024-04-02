@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect signals between pages
     QObject::connect(mapPage, &MapPage::newLapDetected, telemetryPage, &TelemetryPage::drawRedVerticalLine);
     QObject::connect(telemetryPage, &TelemetryPage::addNewGraphDetected, settingsPage, &SettingsPage::newGraphAdded);
+    QObject::connect(telemetryPage, &TelemetryPage::deletedGraphDetected, settingsPage, &SettingsPage::deletedGraph);
 
     database = new DatabaseManager();
     this->connectDatabase();
@@ -163,6 +164,12 @@ void MainWindow::on_loadButton_clicked()
 void MainWindow::on_addGraphButton_clicked()
 {
     telemetryPage->on_addGraphButton_clicked();
+}
+
+// Delete graph on the telemetry page
+void MainWindow::on_removeGraphButton_clicked()
+{
+    telemetryPage->on_removeGraphButton_clicked();
 }
 
 void MainWindow::on_gpsLatSelector_valueChanged(int arg1)
@@ -486,5 +493,4 @@ void MainWindow::on_mapResetButton_clicked()
 {
     mapPage->removeAllPoints();
 }
-
 

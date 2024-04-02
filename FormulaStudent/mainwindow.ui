@@ -583,7 +583,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -783,6 +783,13 @@ QPushButton:pressed {
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="removeGraphButton">
+                <property name="text">
+                 <string>Remove graph</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="addGraphButton">
@@ -1080,7 +1087,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>-461</y>
+                <y>0</y>
                 <width>847</width>
                 <height>1000</height>
                </rect>

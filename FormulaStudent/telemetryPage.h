@@ -52,6 +52,7 @@ private:
     QComboBox* comPortSelector;
     QPushButton* serialConnectDisconnectButton;
     QVector<QCustomPlot*> customPlots;
+    QCustomPlot* selectedCustomPlot;
     QTimer* timerGraphRefresh;
     QTimer* timerCheckComPorts;
 
@@ -90,6 +91,7 @@ public slots:
     void on_serialConnectDisconnectButton_clicked();
     void on_loadButton_clicked();
     void on_addGraphButton_clicked();
+    void on_removeGraphButton_clicked();
     void drawRedVerticalLine();
 
 private slots:
@@ -97,6 +99,7 @@ private slots:
 
 private:
     void refreshGraph();
+    void selectGraph(QCustomPlot *graphToSelect);
 
 private slots:
     void syncXAxis(const QCPRange &range);
@@ -112,6 +115,7 @@ public:
 
 signals:
     void addNewGraphDetected();
+    void deletedGraphDetected();
 };
 
 #endif // TELEMETRYPAGE_H

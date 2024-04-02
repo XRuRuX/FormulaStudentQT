@@ -126,6 +126,7 @@ private slots:
 // Slots for map page
 private slots:
     void on_mapResetButton_clicked();
+    void on_removeGraphButton_clicked();
 };
 
 #endif // MAINWINDOW_H
