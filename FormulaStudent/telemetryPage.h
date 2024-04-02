@@ -41,6 +41,11 @@ struct PlotStates
     bool plotStates[NO_GRAPHS];
 };
 
+struct ColorStates
+{
+    QColor colorStates[NO_GRAPHS];
+};
+
 class TelemetryPage: public QWidget
 {
     Q_OBJECT
@@ -66,8 +71,9 @@ private:
     CANData CANData;
 
 public:
-    QVector<PlotStates> plotStates; // Vector for storing variable states to determine what to plot
-    QStringList graphNames;         // String list with every graph name
+    QVector<PlotStates> plotStates;     // Vector for storing variable states to determine what to plot
+    QVector<ColorStates> colorStates;   // Vector for storing variabile states to determine the colors to plot
+    QStringList graphNames;             // String list with every graph name
 
 private:
     bool isSerialComConnected = false;
@@ -110,7 +116,7 @@ private:
 
 public:
     void changeValueDisplayed(int valueName, int graphNumber);
-    void changeGraphColor(int graphName, QColor colorValue);
+    void changeGraphColor(int graphName, int graphNumber, QColor colorValue);
     void changeLegendValues();
 
 signals:

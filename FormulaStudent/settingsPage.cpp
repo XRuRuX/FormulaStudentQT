@@ -44,7 +44,7 @@ void SettingsPage::on_mapPage_loadSettings()
 }
 
 // Method to change graph color
-void SettingsPage::setColorForButtonGraphSettings(QPushButton *button, int graphName, TelemetryPage* telemetryPage)
+void SettingsPage::setColorForButtonGraphSettings(QPushButton *button, int graphName, int graphNumber, TelemetryPage* telemetryPage)
 {
     // Extracts color
     QColor colorValue = QColorDialog::getColor(Qt::white, this, tr("Select color"));
@@ -55,7 +55,7 @@ void SettingsPage::setColorForButtonGraphSettings(QPushButton *button, int graph
     // Set button color based on the string
     button->setStyleSheet(QString("background-color: %1;").arg(colorString));
 
-    telemetryPage->changeGraphColor(graphName, colorValue);
+    telemetryPage->changeGraphColor(graphName, graphNumber, colorValue);
 }
 
 void SettingsPage::newGraphAdded()
@@ -70,11 +70,20 @@ void SettingsPage::deletedGraph()
     graphSelectorComboBox->removeItem(noElements - 1);
 }
 
-void SettingsPage::on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, int noCheckBoxes, QCheckBox* checkBoxes[])
+void SettingsPage::on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, ColorStates colorStates, int noCheckBoxes,
+                                                                QCheckBox* checkBoxes[], QPushButton* pushButtons[])
 {
-    // Update each checkbox based on the plotStates
+    // Update each checkbox based on the plotStates and push buttons based on colorStates
     for (int i = 0; i < noCheckBoxes; ++i)
     {
         checkBoxes[i]->setChecked(plotStates.plotStates[i]);
+
+        QColor colorValue = colorStates.colorStates[i];
+
+        // Converts it to string
+        QString colorString = QString("rgb(%1, %2, %3)").arg(colorValue.red()).arg(colorValue.green()).arg(colorValue.blue());
+
+        // Set button color based on the string
+        pushButtons[i]->setStyleSheet(QString("background-color: %1;").arg(colorString));
     }
 }

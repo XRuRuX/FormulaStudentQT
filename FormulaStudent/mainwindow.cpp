@@ -331,133 +331,134 @@ void MainWindow::on_angleZCheckBox_clicked()
 
 void MainWindow::on_rpmColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->rpmColorPicker, RPM_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->rpmColorPicker, RPM_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_coolantTempColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->coolantTempColorPicker, COOLANTTEMP_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->coolantTempColorPicker, COOLANTTEMP_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_afrColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->afrColorPicker, AFR_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->afrColorPicker, AFR_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_oilPressureColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->oilPressureColorPicker, OILPRESSURE_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->oilPressureColorPicker, OILPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_throttlePositionColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->throttlePositionColorPicker, THROTTLEPOS_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->throttlePositionColorPicker, THROTTLEPOS_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_bspdColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->bspdColorPicker, BSPD_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->bspdColorPicker, BSPD_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_brakePressureColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->brakePressureColorPicker, BRAKEPRESSURE_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->brakePressureColorPicker, BRAKEPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_steeringAngleColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->steeringAngleColorPicker, STEERINGANGLE_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->steeringAngleColorPicker, STEERINGANGLE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_gpsLatitudeColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->gpsLatitudeColorPicker, GPSLAT_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->gpsLatitudeColorPicker, GPSLAT_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_gpsLongitudeColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->gpsLongitudeColorPicker, GPSLONG_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->gpsLongitudeColorPicker, GPSLONG_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_speedColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->speedColorPicker, GPSSPEED_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->speedColorPicker, GPSSPEED_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_damper1ColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->damper1ColorPicker, DAMPER1_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->damper1ColorPicker, DAMPER1_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_damper2ColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->damper2ColorPicker, DAMPER2_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->damper2ColorPicker, DAMPER2_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_damper3ColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->damper3ColorPicker, DAMPER3_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->damper3ColorPicker, DAMPER3_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_damper4ColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->damper4ColorPicker, DAMPER4_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->damper4ColorPicker, DAMPER4_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_accelerationXColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->accelerationXColorPicker, AX_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->accelerationXColorPicker, AX_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_accelerationYColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->accelerationYColorPicker, AY_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->accelerationYColorPicker, AY_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_accelerationZColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->accelerationZColorPicker, AZ_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->accelerationZColorPicker, AZ_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_angleXColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->angleXColorPicker, GX_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->angleXColorPicker, GX_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_angleYColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->angleYColorPicker, GY_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->angleYColorPicker, GY_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 
 void MainWindow::on_angleZColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT, telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 // Changes the state of the check boxes depending on which graph is selected
 void MainWindow::on_graphSelectorComboBox_currentIndexChanged(int index)
 {
     PlotStates plotStates = telemetryPage->plotStates.at(index);
+    ColorStates colorStates = telemetryPage->colorStates.at(index);
 
     // Mapping each checkbox to its respective index in plotStates array
     QCheckBox *checkBoxes[] = {
@@ -484,9 +485,34 @@ void MainWindow::on_graphSelectorComboBox_currentIndexChanged(int index)
         ui->angleZCheckBox           // Index 20
     };
 
+    // Mapping each color picker to its respective index in colorStates array
+    QPushButton *pushButtons[] {
+        ui->rpmColorPicker,                 // Index 0
+        ui->coolantTempColorPicker,         // Index 1
+        ui->afrColorPicker,                 // Index 2
+        ui->oilPressureColorPicker,         // Index 3
+        ui->throttlePositionColorPicker,    // Index 4
+        ui->bspdColorPicker,                // Index 5
+        ui->brakePressureColorPicker,       // Index 6
+        ui->steeringAngleColorPicker,       // Index 7
+        ui->gpsLatitudeColorPicker,         // Index 8
+        ui->gpsLongitudeColorPicker,        // Index 9
+        ui->speedColorPicker,               // Index 10
+        ui->damper1ColorPicker,             // Index 11
+        ui->damper2ColorPicker,             // Index 12
+        ui->damper3ColorPicker,             // Index 13
+        ui->damper4ColorPicker,             // Index 14
+        ui->accelerationXColorPicker,       // Index 15
+        ui->accelerationYColorPicker,       // Index 16
+        ui->accelerationZColorPicker,       // Index 17
+        ui->angleXColorPicker,              // Index 18
+        ui->angleYColorPicker,              // Index 19
+        ui->angleZColorPicker               // Index 20
+    };
+
     int size = sizeof(checkBoxes) / sizeof(checkBoxes[0]);
 
-    settingsPage->on_graphSelectorComboBox_currentIndexChanged(plotStates, size, checkBoxes);
+    settingsPage->on_graphSelectorComboBox_currentIndexChanged(plotStates, colorStates, size, checkBoxes, pushButtons);
 }
 
 void MainWindow::on_mapResetButton_clicked()

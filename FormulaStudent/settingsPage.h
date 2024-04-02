@@ -29,7 +29,7 @@ public:
     ~SettingsPage();
 
 public:
-    void setColorForButtonGraphSettings(QPushButton *button, int graphName, TelemetryPage* telemetryPage);
+    void setColorForButtonGraphSettings(QPushButton *button, int graphName, int graphNumber, TelemetryPage* telemetryPage);
 
 public:
     void setGPSSettings(int GPSLat, int GPSLong, double GPSLatStart, double GPSLongStart, double MaxDistanceForNewLapThreshold);
@@ -37,7 +37,8 @@ public:
 public slots:
     void on_gpsLatSelector_valueChanged();
     void on_mapPage_loadSettings();
-    void on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, int noCheckBoxes, QCheckBox* checkBoxes[]);
+    void on_graphSelectorComboBox_currentIndexChanged(PlotStates plotStates, ColorStates colorStates, int noCheckBoxes,
+                                                      QCheckBox* checkBoxes[], QPushButton *pushButtons[]);
     void newGraphAdded();
     void deletedGraph();
 };

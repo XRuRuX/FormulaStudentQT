@@ -366,12 +366,15 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
     // Connect the new graph to the sync slots
     connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
 
-    // Initialize the plot states for the new graph
+    // Initialize the plot states and color states for the new graph
     PlotStates state;
+    ColorStates cState;
     for (int j = 0; j < NO_GRAPHS; ++j) {
         state.plotStates[j] = false;
+        cState.colorStates[j] = QColor(Qt::white);
     }
     plotStates.append(state);
+    colorStates.append(cState);
 
     graph->installEventFilter(this);
 }
@@ -424,7 +427,6 @@ void TelemetryPage::initializeSerialPort()
 // Method that changes what will be plotted on the graph based on the settings checkboxes
 void TelemetryPage::changeValueDisplayed(int valueName, int graphNumber)
 {
-    qDebug() << graphNumber;
     if(plotStates.at(graphNumber).plotStates[valueName])
     {
         customPlots.at(graphNumber)->graph(valueName)->data()->clear();
@@ -438,12 +440,10 @@ void TelemetryPage::changeValueDisplayed(int valueName, int graphNumber)
     loadButtonPressed = true;
 }
 
-void TelemetryPage::changeGraphColor(int graphName, QColor colorValue)
+void TelemetryPage::changeGraphColor(int graphName, int graphNumber, QColor colorValue)
 {
-    for(int i = 0; i < customPlots.size(); i++)
-    {
-        customPlots.at(i)->graph(graphName)->setPen(QPen(colorValue));
-    }
+    customPlots.at(graphNumber)->graph(graphName)->setPen(QPen(colorValue));
+    colorStates[graphNumber].colorStates[graphName] = colorValue;
 }
 
 void TelemetryPage::changeLegendValues()
