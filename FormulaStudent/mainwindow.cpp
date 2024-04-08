@@ -178,7 +178,6 @@ void MainWindow::on_gpsLatSelector_valueChanged(int arg1)
     database->updateSetting("GPSLat", ui->gpsLatSelector->value());
 }
 
-
 void MainWindow::on_gpsLongSelector_valueChanged(int arg1)
 {
     settingsPage->on_gpsLatSelector_valueChanged();
@@ -203,255 +202,374 @@ void MainWindow::on_maxDistanceSelector_valueChanged(double arg1)
     database->updateSetting("MaxDistanceForNewLapThreshold", ui->maxDistanceSelector->value());
 }
 
+void MainWindow::on_secondsECUOnCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(SECONDSECUON_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_mainPulseB1CheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(MAINPULSEB1_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_mainPulseB2CheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(MAINPULSEB2_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
 void MainWindow::on_rpmCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(RPM_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
+void MainWindow::on_afrTarget1CheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(AFRTARGET1_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_afrTarget2CheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(AFRTARGET2_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_manifoldAirPCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(MANIFOLDAIRP_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_manifoldAirTempCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(MANIFOLDAIRTEMP_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
 
 void MainWindow::on_coolantTempCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(COOLANTTEMP_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
-void MainWindow::on_afrCheckBox_clicked()
-{
-    telemetryPage->changeValueDisplayed(AFR_PLOT, ui->graphSelectorComboBox->currentIndex());
-}
-
-
-void MainWindow::on_oilPressureCheckBox_clicked()
-{
-    telemetryPage->changeValueDisplayed(OILPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex());
-}
-
-
 void MainWindow::on_throttlePositionCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(THROTTLEPOS_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
+void MainWindow::on_batteryVCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(BATTERYV_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_airDCorrCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(AIRDCORR_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_warmupCorrCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(WARMUPCORR_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_tPSBasedAccCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(TPSBASEDACC_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_tPSBasedFuelCutCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(TPSBASEDFUEL_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_totalFuelCorrCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(TOTALFUELCORR_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_vEValueTB1CheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(VEVALUETB1_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_vEValueTB2CheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(VEVALUETB2_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_coldAdvanceCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(COLDADVANCE_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_rateOfChangeTPSCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(RATEOFCHANGETPS_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_rateOfChangeRPMCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(RATEOFCHANGERPM_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_syncLossCounterCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(SYNCLOSSCOUNTER_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_syncLossReasonCodeCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(SYNCLOSSREASONCODE_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
+
+void MainWindow::on_averageFuelFCheckBox_clicked()
+{
+    telemetryPage->changeValueDisplayed(AVERAFUELF_PLOT, ui->graphSelectorComboBox->currentIndex());
+}
 
 void MainWindow::on_bspdCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(BSPD_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
 void MainWindow::on_brakePressureCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(BRAKEPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
-
 
 void MainWindow::on_steeringAngleCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(STEERINGANGLE_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
 void MainWindow::on_gpsLatitudeCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(GPSLAT_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
-
 
 void MainWindow::on_gpsLongitudeCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(GPSLONG_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
 void MainWindow::on_speedCheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(GPSSPEED_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
-
 
 void MainWindow::on_damper1CheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(DAMPER1_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
 void MainWindow::on_damper2CheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(DAMPER2_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
-
 
 void MainWindow::on_damper3CheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(DAMPER3_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
 void MainWindow::on_damper4CheckBox_clicked()
 {
     telemetryPage->changeValueDisplayed(DAMPER4_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
-void MainWindow::on_accelerationXCheckBox_clicked()
+void MainWindow::on_rollCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AX_PLOT, ui->graphSelectorComboBox->currentIndex());
+    telemetryPage->changeValueDisplayed(ROLL_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
-void MainWindow::on_accelerationYCheckBox_clicked()
+void MainWindow::on_pitchCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AY_PLOT, ui->graphSelectorComboBox->currentIndex());
+    telemetryPage->changeValueDisplayed(PITCH_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
-void MainWindow::on_accelerationZCheckBox_clicked()
+void MainWindow::on_yawCheckBox_clicked()
 {
-    telemetryPage->changeValueDisplayed(AZ_PLOT, ui->graphSelectorComboBox->currentIndex());
+    telemetryPage->changeValueDisplayed(YAW_PLOT, ui->graphSelectorComboBox->currentIndex());
 }
 
-
-void MainWindow::on_angleXCheckBox_clicked()
+void MainWindow::on_secondsECUOnColorPicker_clicked()
 {
-    telemetryPage->changeValueDisplayed(GX_PLOT, ui->graphSelectorComboBox->currentIndex());
+    settingsPage->setColorForButtonGraphSettings(ui->secondsECUOnColorPicker, SECONDSECUON_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
-void MainWindow::on_angleYCheckBox_clicked()
+void MainWindow::on_mainPulseB1ColorPicker_clicked()
 {
-    telemetryPage->changeValueDisplayed(GY_PLOT, ui->graphSelectorComboBox->currentIndex());
+    settingsPage->setColorForButtonGraphSettings(ui->mainPulseB1ColorPicker, MAINPULSEB1_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
-void MainWindow::on_angleZCheckBox_clicked()
+void MainWindow::on_mainPulseB2ColorPicker_clicked()
 {
-    telemetryPage->changeValueDisplayed(GZ_PLOT, ui->graphSelectorComboBox->currentIndex());
+    settingsPage->setColorForButtonGraphSettings(ui->mainPulseB2ColorPicker, MAINPULSEB2_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
-
 
 void MainWindow::on_rpmColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->rpmColorPicker, RPM_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
+void MainWindow::on_afrTarget1ColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->afrTarget1ColorPicker, AFRTARGET1_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_afrTarget2ColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->afrTarget2ColorPicker, AFRTARGET2_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_manifoldAirPColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->manifoldAirPColorPicker, MANIFOLDAIRP_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_manifoldAirTempColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->manifoldAirTempColorPicker, MANIFOLDAIRTEMP_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
 
 void MainWindow::on_coolantTempColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->coolantTempColorPicker, COOLANTTEMP_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
-void MainWindow::on_afrColorPicker_clicked()
-{
-    settingsPage->setColorForButtonGraphSettings(ui->afrColorPicker, AFR_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
-}
-
-
-void MainWindow::on_oilPressureColorPicker_clicked()
-{
-    settingsPage->setColorForButtonGraphSettings(ui->oilPressureColorPicker, OILPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
-}
-
-
 void MainWindow::on_throttlePositionColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->throttlePositionColorPicker, THROTTLEPOS_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
+void MainWindow::on_batteryVColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->batteryVColorPicker, BATTERYV_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_airDCorrColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->airDCorrColorPicker, AIRDCORR_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_warmupCorrColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->warmupCorrColorPicker, WARMUPCORR_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_tPSBasedAccColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->tPSBasedAccColorPicker, TPSBASEDACC_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_tPSBasedFuelCutColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->tPSBasedFuelCutColorPicker, TPSBASEDFUEL_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_totalFuelCorrColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->totalFuelCorrColorPicker, TOTALFUELCORR_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_vEValueTB1ColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->vEValueTB1ColorPicker, VEVALUETB1_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_vEValueTB2ColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->vEValueTB2ColorPicker, VEVALUETB2_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_coldAdvanceColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->coldAdvanceColorPicker, COLDADVANCE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_rateOfChangeTPSColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->rateOfChangeTPSColorPicker, RATEOFCHANGETPS_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_rateOfChangeRPMColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->rateOfChangeRPMColorPicker, RATEOFCHANGERPM_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_syncLossCounterColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->syncLossCounterColorPicker, SYNCLOSSCOUNTER_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_syncLossReasonCodeColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->syncLossReasonCodeColorPicker, SYNCLOSSREASONCODE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
+
+void MainWindow::on_averageFuelFColorPicker_clicked()
+{
+    settingsPage->setColorForButtonGraphSettings(ui->averageFuelFColorPicker, AVERAFUELF_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+}
 
 void MainWindow::on_bspdColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->bspdColorPicker, BSPD_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
 void MainWindow::on_brakePressureColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->brakePressureColorPicker, BRAKEPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
-
 
 void MainWindow::on_steeringAngleColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->steeringAngleColorPicker, STEERINGANGLE_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
 void MainWindow::on_gpsLatitudeColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->gpsLatitudeColorPicker, GPSLAT_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
-
 
 void MainWindow::on_gpsLongitudeColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->gpsLongitudeColorPicker, GPSLONG_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
 void MainWindow::on_speedColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->speedColorPicker, GPSSPEED_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
-
 
 void MainWindow::on_damper1ColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->damper1ColorPicker, DAMPER1_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
 void MainWindow::on_damper2ColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->damper2ColorPicker, DAMPER2_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
-
 
 void MainWindow::on_damper3ColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->damper3ColorPicker, DAMPER3_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
 void MainWindow::on_damper4ColorPicker_clicked()
 {
     settingsPage->setColorForButtonGraphSettings(ui->damper4ColorPicker, DAMPER4_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
-void MainWindow::on_accelerationXColorPicker_clicked()
+void MainWindow::on_rollColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->accelerationXColorPicker, AX_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->rollColorPicker, ROLL_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
-void MainWindow::on_accelerationYColorPicker_clicked()
+void MainWindow::on_pitchColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->accelerationYColorPicker, AY_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->pitchColorPicker, PITCH_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
-
-void MainWindow::on_accelerationZColorPicker_clicked()
+void MainWindow::on_yawColorPicker_clicked()
 {
-    settingsPage->setColorForButtonGraphSettings(ui->accelerationZColorPicker, AZ_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
-}
-
-
-void MainWindow::on_angleXColorPicker_clicked()
-{
-    settingsPage->setColorForButtonGraphSettings(ui->angleXColorPicker, GX_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
-}
-
-
-void MainWindow::on_angleYColorPicker_clicked()
-{
-    settingsPage->setColorForButtonGraphSettings(ui->angleYColorPicker, GY_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
-}
-
-
-void MainWindow::on_angleZColorPicker_clicked()
-{
-    settingsPage->setColorForButtonGraphSettings(ui->angleZColorPicker, GZ_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
+    settingsPage->setColorForButtonGraphSettings(ui->yawColorPicker, YAW_PLOT, ui->graphSelectorComboBox->currentIndex(), telemetryPage);
 }
 
 // Changes the state of the check boxes depending on which graph is selected
@@ -462,52 +580,84 @@ void MainWindow::on_graphSelectorComboBox_currentIndexChanged(int index)
 
     // Mapping each checkbox to its respective index in plotStates array
     QCheckBox *checkBoxes[] = {
-        ui->rpmCheckBox,             // Index 0
-        ui->coolantTempCheckBox,     // Index 1
-        ui->afrCheckBox,             // Index 2
-        ui->oilPressureCheckBox,     // Index 3
-        ui->throttlePositionCheckBox,// Index 4
-        ui->bspdCheckBox,            // Index 5
-        ui->brakePressureCheckBox,   // Index 6
-        ui->steeringAngleCheckBox,   // Index 7
-        ui->gpsLatitudeCheckBox,     // Index 8
-        ui->gpsLongitudeCheckBox,    // Index 9
-        ui->speedCheckBox,           // Index 10
-        ui->damper1CheckBox,         // Index 11
-        ui->damper2CheckBox,         // Index 12
-        ui->damper3CheckBox,         // Index 13
-        ui->damper4CheckBox,         // Index 14
-        ui->accelerationXCheckBox,   // Index 15
-        ui->accelerationYCheckBox,   // Index 16
-        ui->accelerationZCheckBox,   // Index 17
-        ui->angleXCheckBox,          // Index 18
-        ui->angleYCheckBox,          // Index 19
-        ui->angleZCheckBox           // Index 20
+        ui->secondsECUOnCheckBox,           // Index 0
+        ui->mainPulseB1CheckBox,            // Index 1
+        ui->mainPulseB2CheckBox,            // Index 2
+        ui->rpmCheckBox,                    // Index 3
+        ui->afrTarget1CheckBox,             // Index 4
+        ui->afrTarget2CheckBox,             // Index 5
+        ui->manifoldAirPCheckBox,           // Index 6
+        ui->manifoldAirTempCheckBox,        // Index 7
+        ui->coolantTempCheckBox,            // Index 8
+        ui->throttlePositionCheckBox,       // Index 9
+        ui->batteryVCheckBox,               // Index 10
+        ui->airDCorrCheckBox,               // Index 11
+        ui->warmupCorrCheckBox,             // Index 12
+        ui->tPSBasedAccCheckBox,            // Index 13
+        ui->tPSBasedFuelCutCheckBox,        // Index 14
+        ui->totalFuelCorrCheckBox,          // Index 15
+        ui->vEValueTB1CheckBox,             // Index 16
+        ui->vEValueTB2CheckBox,             // Index 17
+        ui->coldAdvanceCheckBox,            // Index 18
+        ui->rateOfChangeTPSCheckBox,        // Index 19
+        ui->rateOfChangeRPMCheckBox,        // Index 20
+        ui->syncLossCounterCheckBox,        // Index 21
+        ui->syncLossReasonCodeCheckBox,     // Index 22
+        ui->averageFuelFCheckBox,           // Index 23
+        ui->bspdCheckBox,                   // Index 24
+        ui->brakePressureCheckBox,          // Index 25
+        ui->steeringAngleCheckBox,          // Index 26
+        ui->gpsLatitudeCheckBox,            // Index 27
+        ui->gpsLongitudeCheckBox,           // Index 28
+        ui->speedCheckBox,                  // Index 29
+        ui->damper1CheckBox,                // Index 30
+        ui->damper2CheckBox,                // Index 31
+        ui->damper3CheckBox,                // Index 32
+        ui->damper4CheckBox,                // Index 33
+        ui->rollCheckBox,                   // Index 34
+        ui->pitchCheckBox,                  // Index 35
+        ui->yawCheckBox                     // Index 36
     };
 
     // Mapping each color picker to its respective index in colorStates array
     QPushButton *pushButtons[] {
-        ui->rpmColorPicker,                 // Index 0
-        ui->coolantTempColorPicker,         // Index 1
-        ui->afrColorPicker,                 // Index 2
-        ui->oilPressureColorPicker,         // Index 3
-        ui->throttlePositionColorPicker,    // Index 4
-        ui->bspdColorPicker,                // Index 5
-        ui->brakePressureColorPicker,       // Index 6
-        ui->steeringAngleColorPicker,       // Index 7
-        ui->gpsLatitudeColorPicker,         // Index 8
-        ui->gpsLongitudeColorPicker,        // Index 9
-        ui->speedColorPicker,               // Index 10
-        ui->damper1ColorPicker,             // Index 11
-        ui->damper2ColorPicker,             // Index 12
-        ui->damper3ColorPicker,             // Index 13
-        ui->damper4ColorPicker,             // Index 14
-        ui->accelerationXColorPicker,       // Index 15
-        ui->accelerationYColorPicker,       // Index 16
-        ui->accelerationZColorPicker,       // Index 17
-        ui->angleXColorPicker,              // Index 18
-        ui->angleYColorPicker,              // Index 19
-        ui->angleZColorPicker               // Index 20
+        ui->secondsECUOnColorPicker,           // Index 0
+        ui->mainPulseB1ColorPicker,            // Index 1
+        ui->mainPulseB2ColorPicker,            // Index 2
+        ui->rpmColorPicker,                    // Index 3
+        ui->afrTarget1ColorPicker,             // Index 4
+        ui->afrTarget2ColorPicker,             // Index 5
+        ui->manifoldAirPColorPicker,           // Index 6
+        ui->manifoldAirTempColorPicker,        // Index 7
+        ui->coolantTempColorPicker,            // Index 8
+        ui->throttlePositionColorPicker,       // Index 9
+        ui->batteryVColorPicker,               // Index 10
+        ui->airDCorrColorPicker,               // Index 11
+        ui->warmupCorrColorPicker,             // Index 12
+        ui->tPSBasedAccColorPicker,            // Index 13
+        ui->tPSBasedFuelCutColorPicker,        // Index 14
+        ui->totalFuelCorrColorPicker,          // Index 15
+        ui->vEValueTB1ColorPicker,             // Index 16
+        ui->vEValueTB2ColorPicker,             // Index 17
+        ui->coldAdvanceColorPicker,            // Index 18
+        ui->rateOfChangeTPSColorPicker,        // Index 19
+        ui->rateOfChangeRPMColorPicker,        // Index 20
+        ui->syncLossCounterColorPicker,        // Index 21
+        ui->syncLossReasonCodeColorPicker,     // Index 22
+        ui->averageFuelFColorPicker,           // Index 23
+        ui->bspdColorPicker,                   // Index 24
+        ui->brakePressureColorPicker,          // Index 25
+        ui->steeringAngleColorPicker,          // Index 26
+        ui->gpsLatitudeColorPicker,            // Index 27
+        ui->gpsLongitudeColorPicker,           // Index 28
+        ui->speedColorPicker,                  // Index 29
+        ui->damper1ColorPicker,                // Index 30
+        ui->damper2ColorPicker,                // Index 31
+        ui->damper3ColorPicker,                // Index 32
+        ui->damper4ColorPicker,                // Index 33
+        ui->rollColorPicker,                   // Index 34
+        ui->pitchColorPicker,                  // Index 35
+        ui->yawColorPicker                     // Index 36
     };
 
     int size = sizeof(checkBoxes) / sizeof(checkBoxes[0]);
@@ -519,4 +669,3 @@ void MainWindow::on_mapResetButton_clicked()
 {
     mapPage->removeAllPoints();
 }
-

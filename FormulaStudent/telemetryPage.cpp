@@ -33,9 +33,12 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     connect(timerCheckComPorts, &QTimer::timeout, this, &TelemetryPage::checkComPorts);
     timerCheckComPorts->start(5000);
 
-    this->graphNames = {"RPM", "Coolant Temperature", "AFR", "Oil Pressure", "Throttle Position", "BSPD",
-                              "Brake Pressure", "Steering Angle", "GPS Latitude", "GPS Longitude", "GPS Speed",
-                              "Damper 1", "Damper 2", "Damper 3", "Damper 4", "Ax", "Ay", "Az", "Gx", "Gy", "Gz"};
+    this->graphNames = {"Seconds ECU has been on(s)", "Main pulsewidth bank 1(ms)", "Main pulsewidth bank 2(ms)", "RPM", "AFR Target 1", "AFR Target 2", "Manifold air pressure(kPa)",
+                            "Manifold air temperature(deg C)", "Coolant Temperature(deg C)", "Throttle Position(%)", "Battery voltage(V)", "Air density correction(%)",
+                            "Warmup correction(%)", "TPS-based acceleration(%)", "TPS-based fuel cut(%)", "Total fuel correction(%)", "VE value table/bank 1(%)",
+                            "VE value table/bank 2(%)", "Cold advance(deg)", "Rate of change of TPS(%/s)", "Rate of change of RPM(RPM/s)", "Sync-loss counter",
+                            "Sync-loss reason code", "Average fuel flow(cc/min)", "BSPD(mV)", "Brake Pressure(mV)", "Steering Angle(mV)",
+                            "GPS Latitude", "GPS Longitude", "GPS Speed(Km/h)", "Damper 1(mV)", "Damper 2(mV)", "Damper 3(mV)", "Damper 4(mV)", "Roll(deg)", "Pitch(deg)", "Yaw(deg)"};
 
     progressBar = new QProgressBar(this);
     progressBar->setRange(0, 100);
@@ -176,6 +179,8 @@ void TelemetryPage::on_removeGraphButton_clicked()
         {
             // Remove the element from the found index
             customPlots.remove(index);
+            plotStates.remove(index);
+            colorStates.remove(index);
         }
 
         delete selectedCustomPlot;
@@ -215,48 +220,80 @@ void TelemetryPage::refreshGraph(void)
         for(int i = 0; i < customPlots.size(); i++)
         {
             // Selects which element will be displayed on the graph
+            if (plotStates.at(i).plotStates[SECONDSECUON_PLOT])
+                customPlots.at(i)->graph(SECONDSECUON_PLOT)->setData(CANData.ID05f0T, CANData.SecondsECUOn);
+            if (plotStates.at(i).plotStates[MAINPULSEB1_PLOT])
+                customPlots.at(i)->graph(MAINPULSEB1_PLOT)->setData(CANData.ID05f0T, CANData.MainPulseB1);
+            if (plotStates.at(i).plotStates[MAINPULSEB2_PLOT])
+                customPlots.at(i)->graph(MAINPULSEB2_PLOT)->setData(CANData.ID05f0T, CANData.MainPulseB2);
             if (plotStates.at(i).plotStates[RPM_PLOT])
-                customPlots.at(i)->graph(RPM_PLOT)->setData(CANData.RPMT, CANData.RPM);
+                customPlots.at(i)->graph(RPM_PLOT)->setData(CANData.ID05f0T, CANData.RPM);
+            if (plotStates.at(i).plotStates[AFRTARGET1_PLOT])
+                customPlots.at(i)->graph(AFRTARGET1_PLOT)->setData(CANData.ID05f1T, CANData.AFRTarget1);
+            if (plotStates.at(i).plotStates[AFRTARGET2_PLOT])
+                customPlots.at(i)->graph(AFRTARGET2_PLOT)->setData(CANData.ID05f1T, CANData.AFRTarget2);
+            if (plotStates.at(i).plotStates[MANIFOLDAIRP_PLOT])
+                customPlots.at(i)->graph(MANIFOLDAIRP_PLOT)->setData(CANData.ID05f2T, CANData.ManifoldAirP);
+            if (plotStates.at(i).plotStates[MANIFOLDAIRTEMP_PLOT])
+                customPlots.at(i)->graph(MANIFOLDAIRTEMP_PLOT)->setData(CANData.ID05f2T, CANData.ManifoldAirTemp);
             if (plotStates.at(i).plotStates[COOLANTTEMP_PLOT])
-                customPlots.at(i)->graph(COOLANTTEMP_PLOT)->setData(CANData.CoolantT, CANData.CoolantTemp);
-            if (plotStates.at(i).plotStates[AFR_PLOT])
-                customPlots.at(i)->graph(AFR_PLOT)->setData(CANData.AFRT, CANData.AFR);
-            if (plotStates.at(i).plotStates[OILPRESSURE_PLOT])
-                customPlots.at(i)->graph(OILPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.OilPressure);
+                customPlots.at(i)->graph(COOLANTTEMP_PLOT)->setData(CANData.ID05f2T, CANData.CoolantTemp);
             if (plotStates.at(i).plotStates[THROTTLEPOS_PLOT])
-                customPlots.at(i)->graph(THROTTLEPOS_PLOT)->setData(CANData.AFRT, CANData.ThrottlePos);
+                customPlots.at(i)->graph(THROTTLEPOS_PLOT)->setData(CANData.ID05f3T, CANData.ThrottlePos);
+            if (plotStates.at(i).plotStates[BATTERYV_PLOT])
+                customPlots.at(i)->graph(BATTERYV_PLOT)->setData(CANData.ID05f3T, CANData.BatteryV);
+            if (plotStates.at(i).plotStates[AIRDCORR_PLOT])
+                customPlots.at(i)->graph(AIRDCORR_PLOT)->setData(CANData.ID05f4T, CANData.AirDCorr);
+            if (plotStates.at(i).plotStates[WARMUPCORR_PLOT])
+                customPlots.at(i)->graph(WARMUPCORR_PLOT)->setData(CANData.ID05f5T, CANData.WarmupCorr);
+            if (plotStates.at(i).plotStates[TPSBASEDACC_PLOT])
+                customPlots.at(i)->graph(TPSBASEDACC_PLOT)->setData(CANData.ID05f5T, CANData.TPSBasedAcc);
+            if (plotStates.at(i).plotStates[TPSBASEDFUEL_PLOT])
+                customPlots.at(i)->graph(TPSBASEDFUEL_PLOT)->setData(CANData.ID05f5T, CANData.TPSBasedFuelCut);
+            if (plotStates.at(i).plotStates[TOTALFUELCORR_PLOT])
+                customPlots.at(i)->graph(TOTALFUELCORR_PLOT)->setData(CANData.ID05f6T, CANData.TotalFuelCorr);
+            if (plotStates.at(i).plotStates[VEVALUETB1_PLOT])
+                customPlots.at(i)->graph(VEVALUETB1_PLOT)->setData(CANData.ID05f6T, CANData.VEValueTB1);
+            if (plotStates.at(i).plotStates[VEVALUETB2_PLOT])
+                customPlots.at(i)->graph(VEVALUETB2_PLOT)->setData(CANData.ID05f6T, CANData.VEValueTB2);
+            if (plotStates.at(i).plotStates[COLDADVANCE_PLOT])
+                customPlots.at(i)->graph(COLDADVANCE_PLOT)->setData(CANData.ID05f7T, CANData.ColdAdvance);
+            if (plotStates.at(i).plotStates[RATEOFCHANGETPS_PLOT])
+                customPlots.at(i)->graph(RATEOFCHANGETPS_PLOT)->setData(CANData.ID05f7T, CANData.RateOfChangeTPS);
+            if (plotStates.at(i).plotStates[RATEOFCHANGERPM_PLOT])
+                customPlots.at(i)->graph(RATEOFCHANGERPM_PLOT)->setData(CANData.ID05f7T, CANData.RateOfChangeRPM);
+            if (plotStates.at(i).plotStates[SYNCLOSSCOUNTER_PLOT])
+                customPlots.at(i)->graph(SYNCLOSSCOUNTER_PLOT)->setData(CANData.ID061bT, CANData.SyncLossCounter);
+            if (plotStates.at(i).plotStates[SYNCLOSSREASONCODE_PLOT])
+                customPlots.at(i)->graph(SYNCLOSSREASONCODE_PLOT)->setData(CANData.ID061bT, CANData.SyncLossReasonCode);
+            if (plotStates.at(i).plotStates[AVERAFUELF_PLOT])
+                customPlots.at(i)->graph(AVERAFUELF_PLOT)->setData(CANData.ID0624T, CANData.AverageFuelF);
             if (plotStates.at(i).plotStates[BSPD_PLOT])
-                customPlots.at(i)->graph(BSPD_PLOT)->setData(CANData.AnalogT, CANData.BSPD);
+                customPlots.at(i)->graph(BSPD_PLOT)->setData(CANData.ID0115T, CANData.BSPD);
             if (plotStates.at(i).plotStates[BRAKEPRESSURE_PLOT])
-                customPlots.at(i)->graph(BRAKEPRESSURE_PLOT)->setData(CANData.AnalogT, CANData.BrakePressure);
+                customPlots.at(i)->graph(BRAKEPRESSURE_PLOT)->setData(CANData.ID0115T, CANData.BrakePressure);
             if (plotStates.at(i).plotStates[STEERINGANGLE_PLOT])
-                customPlots.at(i)->graph(STEERINGANGLE_PLOT)->setData(CANData.AnalogT, CANData.SteeringAngle);
+                customPlots.at(i)->graph(STEERINGANGLE_PLOT)->setData(CANData.ID0115T, CANData.SteeringAngle);
             if (plotStates.at(i).plotStates[GPSLAT_PLOT])
-                customPlots.at(i)->graph(GPSLAT_PLOT)->setData(CANData.GPST, CANData.GPSLat);
+                customPlots.at(i)->graph(GPSLAT_PLOT)->setData(CANData.ID0116T, CANData.GPSLat);
             if (plotStates.at(i).plotStates[GPSLONG_PLOT])
-                customPlots.at(i)->graph(GPSLONG_PLOT)->setData(CANData.GPST, CANData.GPSLong);
+                customPlots.at(i)->graph(GPSLONG_PLOT)->setData(CANData.ID0116T, CANData.GPSLong);
             if (plotStates.at(i).plotStates[GPSSPEED_PLOT])
-                customPlots.at(i)->graph(GPSSPEED_PLOT)->setData(CANData.GPST, CANData.GPSSpeed);
+                customPlots.at(i)->graph(GPSSPEED_PLOT)->setData(CANData.ID0116T, CANData.GPSSpeed);
             if (plotStates.at(i).plotStates[DAMPER1_PLOT])
-                customPlots.at(i)->graph(DAMPER1_PLOT)->setData(CANData.DamperT, CANData.Damper1);
+                customPlots.at(i)->graph(DAMPER1_PLOT)->setData(CANData.ID0112T, CANData.Damper1);
             if (plotStates.at(i).plotStates[DAMPER2_PLOT])
-                customPlots.at(i)->graph(DAMPER2_PLOT)->setData(CANData.DamperT, CANData.Damper2);
+                customPlots.at(i)->graph(DAMPER2_PLOT)->setData(CANData.ID0112T, CANData.Damper2);
             if (plotStates.at(i).plotStates[DAMPER3_PLOT])
-                customPlots.at(i)->graph(DAMPER3_PLOT)->setData(CANData.DamperT, CANData.Damper3);
+                customPlots.at(i)->graph(DAMPER3_PLOT)->setData(CANData.ID0112T, CANData.Damper3);
             if (plotStates.at(i).plotStates[DAMPER4_PLOT])
-                customPlots.at(i)->graph(DAMPER4_PLOT)->setData(CANData.DamperT, CANData.Damper4);
-            if (plotStates.at(i).plotStates[AX_PLOT])
-                customPlots.at(i)->graph(AX_PLOT)->setData(CANData.AT, CANData.Ax);
-            if (plotStates.at(i).plotStates[AY_PLOT])
-                customPlots.at(i)->graph(AY_PLOT)->setData(CANData.AT, CANData.Ay);
-            if (plotStates.at(i).plotStates[AZ_PLOT])
-                customPlots.at(i)->graph(AZ_PLOT)->setData(CANData.AT, CANData.Az);
-            if (plotStates.at(i).plotStates[GX_PLOT])
-                customPlots.at(i)->graph(GX_PLOT)->setData(CANData.GT, CANData.Gx);
-            if (plotStates.at(i).plotStates[GY_PLOT])
-                customPlots.at(i)->graph(GY_PLOT)->setData(CANData.GT, CANData.Gy);
-            if (plotStates.at(i).plotStates[GZ_PLOT])
-                customPlots.at(i)->graph(GZ_PLOT)->setData(CANData.GT, CANData.Gz);
+                customPlots.at(i)->graph(DAMPER4_PLOT)->setData(CANData.ID0112T, CANData.Damper4);
+            if (plotStates.at(i).plotStates[ROLL_PLOT])
+                customPlots.at(i)->graph(ROLL_PLOT)->setData(CANData.ID0113T, CANData.Roll);
+            if (plotStates.at(i).plotStates[PITCH_PLOT])
+                customPlots.at(i)->graph(PITCH_PLOT)->setData(CANData.ID0113T, CANData.Pitch);
+            if (plotStates.at(i).plotStates[YAW_PLOT])
+                customPlots.at(i)->graph(YAW_PLOT)->setData(CANData.ID0113T, CANData.Yaw);
 
             customPlots.at(i)->replot();
             loadButtonPressed = false;
@@ -482,8 +519,8 @@ void TelemetryPage::drawRedVerticalLine()
     {
         QCPItemLine *line = new QCPItemLine(customPlots.at(i));
 
-        line->start->setCoords(CANData.GPST.last(), -20000);
-        line->end->setCoords(CANData.GPST.last(), 20000);
+        line->start->setCoords(CANData.ID0116T.last(), -20000);
+        line->end->setCoords(CANData.ID0116T.last(), 20000);
 
         line->setPen(QPen(Qt::red));
     }

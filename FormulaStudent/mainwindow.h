@@ -74,38 +74,77 @@ private slots:
 
 // Slots for settings page
 private slots:
+    // CheckBoxes
     void on_gpsLatSelector_valueChanged(int arg1);
     void on_gpsLongSelector_valueChanged(int arg1);
+    void on_gpsLatSelectorStart_valueChanged(double arg1);
+    void on_gpsLongSelectorStart_valueChanged(double arg1);
+    void on_maxDistanceSelector_valueChanged(double arg1);
     void on_graphSelectorComboBox_currentIndexChanged(int index);
+    void on_secondsECUOnCheckBox_clicked();
+    void on_mainPulseB1CheckBox_clicked();
+    void on_mainPulseB2CheckBox_clicked();
     void on_rpmCheckBox_clicked();
+    void on_afrTarget1CheckBox_clicked();
+    void on_afrTarget2CheckBox_clicked();
+    void on_manifoldAirPCheckBox_clicked();
+    void on_manifoldAirTempCheckBox_clicked();
     void on_coolantTempCheckBox_clicked();
-    void on_afrCheckBox_clicked();
-    void on_oilPressureCheckBox_clicked();
     void on_throttlePositionCheckBox_clicked();
+    void on_batteryVCheckBox_clicked();
+    void on_airDCorrCheckBox_clicked();
+    void on_warmupCorrCheckBox_clicked();
+    void on_tPSBasedAccCheckBox_clicked();
+    void on_tPSBasedFuelCutCheckBox_clicked();
+    void on_totalFuelCorrCheckBox_clicked();
+    void on_vEValueTB1CheckBox_clicked();
+    void on_vEValueTB2CheckBox_clicked();
+    void on_coldAdvanceCheckBox_clicked();
+    void on_rateOfChangeTPSCheckBox_clicked();
+    void on_rateOfChangeRPMCheckBox_clicked();
+    void on_syncLossCounterCheckBox_clicked();
+    void on_syncLossReasonCodeCheckBox_clicked();
+    void on_averageFuelFCheckBox_clicked();
     void on_bspdCheckBox_clicked();
     void on_brakePressureCheckBox_clicked();
     void on_steeringAngleCheckBox_clicked();
     void on_gpsLatitudeCheckBox_clicked();
     void on_gpsLongitudeCheckBox_clicked();
-    void on_maxDistanceSelector_valueChanged(double arg1);
-    void on_gpsLatSelectorStart_valueChanged(double arg1);
-    void on_gpsLongSelectorStart_valueChanged(double arg1);
     void on_speedCheckBox_clicked();
     void on_damper1CheckBox_clicked();
     void on_damper2CheckBox_clicked();
     void on_damper3CheckBox_clicked();
     void on_damper4CheckBox_clicked();
-    void on_accelerationXCheckBox_clicked();
-    void on_accelerationYCheckBox_clicked();
-    void on_accelerationZCheckBox_clicked();
-    void on_angleXCheckBox_clicked();
-    void on_angleYCheckBox_clicked();
-    void on_angleZCheckBox_clicked();
+    void on_rollCheckBox_clicked();
+    void on_pitchCheckBox_clicked();
+    void on_yawCheckBox_clicked();
+
+private slots:
+    // ColorPickers
+    void on_secondsECUOnColorPicker_clicked();
+    void on_mainPulseB1ColorPicker_clicked();
+    void on_mainPulseB2ColorPicker_clicked();
     void on_rpmColorPicker_clicked();
+    void on_afrTarget1ColorPicker_clicked();
+    void on_afrTarget2ColorPicker_clicked();
+    void on_manifoldAirPColorPicker_clicked();
+    void on_manifoldAirTempColorPicker_clicked();
     void on_coolantTempColorPicker_clicked();
-    void on_afrColorPicker_clicked();
-    void on_oilPressureColorPicker_clicked();
     void on_throttlePositionColorPicker_clicked();
+    void on_batteryVColorPicker_clicked();
+    void on_airDCorrColorPicker_clicked();
+    void on_warmupCorrColorPicker_clicked();
+    void on_tPSBasedAccColorPicker_clicked();
+    void on_tPSBasedFuelCutColorPicker_clicked();
+    void on_totalFuelCorrColorPicker_clicked();
+    void on_vEValueTB1ColorPicker_clicked();
+    void on_vEValueTB2ColorPicker_clicked();
+    void on_coldAdvanceColorPicker_clicked();
+    void on_rateOfChangeTPSColorPicker_clicked();
+    void on_rateOfChangeRPMColorPicker_clicked();
+    void on_syncLossCounterColorPicker_clicked();
+    void on_syncLossReasonCodeColorPicker_clicked();
+    void on_averageFuelFColorPicker_clicked();
     void on_bspdColorPicker_clicked();
     void on_brakePressureColorPicker_clicked();
     void on_steeringAngleColorPicker_clicked();
@@ -116,12 +155,9 @@ private slots:
     void on_damper2ColorPicker_clicked();
     void on_damper3ColorPicker_clicked();
     void on_damper4ColorPicker_clicked();
-    void on_accelerationXColorPicker_clicked();
-    void on_accelerationYColorPicker_clicked();
-    void on_accelerationZColorPicker_clicked();
-    void on_angleXColorPicker_clicked();
-    void on_angleYColorPicker_clicked();
-    void on_angleZColorPicker_clicked();
+    void on_rollColorPicker_clicked();
+    void on_pitchColorPicker_clicked();
+    void on_yawColorPicker_clicked();
 
 // Slots for map page
 private slots:
