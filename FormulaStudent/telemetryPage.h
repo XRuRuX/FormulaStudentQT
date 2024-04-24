@@ -78,6 +78,10 @@ private:
     QTimer* timerCheckComPorts;
 
 private:
+    QCPItemLine *currentVerticalLine = nullptr;         // Vertical line on graph to show certain point
+    QCPItemText *textLabelGraphValues = nullptr;        // Text label to show graph values at a certain point
+
+private:
     QProgressBar* progressBar;
 
 private:
@@ -134,6 +138,7 @@ public:
     void changeValueDisplayed(int valueName, int graphNumber);
     void changeGraphColor(int graphName, int graphNumber, QColor colorValue);
     void changeLegendValues();
+    bool showGraphInfo(QCustomPlot* customPlot, double mousePosX);
 
 signals:
     void addNewGraphDetected();

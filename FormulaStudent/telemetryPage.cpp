@@ -23,10 +23,9 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     // Display avabile COM Ports
     checkComPorts();
 
-    // Start Timer to refresh graph
+    // Prepare the Timer to refresh graph
     QTimer *timerGraphRefresh = new QTimer(this);
     connect(timerGraphRefresh, &QTimer::timeout, this, &TelemetryPage::refreshGraph);
-    timerGraphRefresh->start(1000);
 
     // Start Timer to check if new COM Ports appear
     QTimer *timerCheckComPorts = new QTimer(this);
@@ -49,7 +48,20 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
 
 TelemetryPage::~TelemetryPage()
 {
-    delete timerGraphRefresh;
+    delete progressBar;
+    for(int i = 0; i < customPlots.size(); i++)
+    {
+        customPlots[i]->legend->clear();
+        customPlots.remove(i);
+    }
+    if(currentVerticalLine)
+    {
+        delete currentVerticalLine;
+    }
+    if(textLabelGraphValues)
+    {
+        delete textLabelGraphValues;
+    }
 }
 
 void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
@@ -72,6 +84,9 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
 
             // Connect Signal and Slots
             connect(&serialPort, SIGNAL( readyRead() ), this, SLOT( readData() ) );
+
+            // Start timer to refresh graph
+            timerGraphRefresh->start(1000);
         }
         else
         {
@@ -89,11 +104,16 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
 
         // Enable the combo box
         comPortSelector->setEnabled(true);
+
+        // Stop timer to refresh graph
+        timerGraphRefresh->stop();
     }
 }
 
 void TelemetryPage::on_loadButton_clicked()
 {
+    CANData.clearData();
+
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open data file"), "", tr("Text Files (*.txt);;All Files (*)"));
     if (!fileName.isEmpty())
     {
@@ -216,90 +236,88 @@ void TelemetryPage::readData()
 
 void TelemetryPage::refreshGraph(void)
 {
-    if (isSerialComConnected || loadButtonPressed) {
-        for(int i = 0; i < customPlots.size(); i++)
-        {
-            // Selects which element will be displayed on the graph
-            if (plotStates.at(i).plotStates[SECONDSECUON_PLOT])
-                customPlots.at(i)->graph(SECONDSECUON_PLOT)->setData(CANData.ID05f0T, CANData.SecondsECUOn);
-            if (plotStates.at(i).plotStates[MAINPULSEB1_PLOT])
-                customPlots.at(i)->graph(MAINPULSEB1_PLOT)->setData(CANData.ID05f0T, CANData.MainPulseB1);
-            if (plotStates.at(i).plotStates[MAINPULSEB2_PLOT])
-                customPlots.at(i)->graph(MAINPULSEB2_PLOT)->setData(CANData.ID05f0T, CANData.MainPulseB2);
-            if (plotStates.at(i).plotStates[RPM_PLOT])
-                customPlots.at(i)->graph(RPM_PLOT)->setData(CANData.ID05f0T, CANData.RPM);
-            if (plotStates.at(i).plotStates[AFRTARGET1_PLOT])
-                customPlots.at(i)->graph(AFRTARGET1_PLOT)->setData(CANData.ID05f1T, CANData.AFRTarget1);
-            if (plotStates.at(i).plotStates[AFRTARGET2_PLOT])
-                customPlots.at(i)->graph(AFRTARGET2_PLOT)->setData(CANData.ID05f1T, CANData.AFRTarget2);
-            if (plotStates.at(i).plotStates[MANIFOLDAIRP_PLOT])
-                customPlots.at(i)->graph(MANIFOLDAIRP_PLOT)->setData(CANData.ID05f2T, CANData.ManifoldAirP);
-            if (plotStates.at(i).plotStates[MANIFOLDAIRTEMP_PLOT])
-                customPlots.at(i)->graph(MANIFOLDAIRTEMP_PLOT)->setData(CANData.ID05f2T, CANData.ManifoldAirTemp);
-            if (plotStates.at(i).plotStates[COOLANTTEMP_PLOT])
-                customPlots.at(i)->graph(COOLANTTEMP_PLOT)->setData(CANData.ID05f2T, CANData.CoolantTemp);
-            if (plotStates.at(i).plotStates[THROTTLEPOS_PLOT])
-                customPlots.at(i)->graph(THROTTLEPOS_PLOT)->setData(CANData.ID05f3T, CANData.ThrottlePos);
-            if (plotStates.at(i).plotStates[BATTERYV_PLOT])
-                customPlots.at(i)->graph(BATTERYV_PLOT)->setData(CANData.ID05f3T, CANData.BatteryV);
-            if (plotStates.at(i).plotStates[AIRDCORR_PLOT])
-                customPlots.at(i)->graph(AIRDCORR_PLOT)->setData(CANData.ID05f4T, CANData.AirDCorr);
-            if (plotStates.at(i).plotStates[WARMUPCORR_PLOT])
-                customPlots.at(i)->graph(WARMUPCORR_PLOT)->setData(CANData.ID05f5T, CANData.WarmupCorr);
-            if (plotStates.at(i).plotStates[TPSBASEDACC_PLOT])
-                customPlots.at(i)->graph(TPSBASEDACC_PLOT)->setData(CANData.ID05f5T, CANData.TPSBasedAcc);
-            if (plotStates.at(i).plotStates[TPSBASEDFUEL_PLOT])
-                customPlots.at(i)->graph(TPSBASEDFUEL_PLOT)->setData(CANData.ID05f5T, CANData.TPSBasedFuelCut);
-            if (plotStates.at(i).plotStates[TOTALFUELCORR_PLOT])
-                customPlots.at(i)->graph(TOTALFUELCORR_PLOT)->setData(CANData.ID05f6T, CANData.TotalFuelCorr);
-            if (plotStates.at(i).plotStates[VEVALUETB1_PLOT])
-                customPlots.at(i)->graph(VEVALUETB1_PLOT)->setData(CANData.ID05f6T, CANData.VEValueTB1);
-            if (plotStates.at(i).plotStates[VEVALUETB2_PLOT])
-                customPlots.at(i)->graph(VEVALUETB2_PLOT)->setData(CANData.ID05f6T, CANData.VEValueTB2);
-            if (plotStates.at(i).plotStates[COLDADVANCE_PLOT])
-                customPlots.at(i)->graph(COLDADVANCE_PLOT)->setData(CANData.ID05f7T, CANData.ColdAdvance);
-            if (plotStates.at(i).plotStates[RATEOFCHANGETPS_PLOT])
-                customPlots.at(i)->graph(RATEOFCHANGETPS_PLOT)->setData(CANData.ID05f7T, CANData.RateOfChangeTPS);
-            if (plotStates.at(i).plotStates[RATEOFCHANGERPM_PLOT])
-                customPlots.at(i)->graph(RATEOFCHANGERPM_PLOT)->setData(CANData.ID05f7T, CANData.RateOfChangeRPM);
-            if (plotStates.at(i).plotStates[SYNCLOSSCOUNTER_PLOT])
-                customPlots.at(i)->graph(SYNCLOSSCOUNTER_PLOT)->setData(CANData.ID061bT, CANData.SyncLossCounter);
-            if (plotStates.at(i).plotStates[SYNCLOSSREASONCODE_PLOT])
-                customPlots.at(i)->graph(SYNCLOSSREASONCODE_PLOT)->setData(CANData.ID061bT, CANData.SyncLossReasonCode);
-            if (plotStates.at(i).plotStates[AVERAFUELF_PLOT])
-                customPlots.at(i)->graph(AVERAFUELF_PLOT)->setData(CANData.ID0624T, CANData.AverageFuelF);
-            if (plotStates.at(i).plotStates[BSPD_PLOT])
-                customPlots.at(i)->graph(BSPD_PLOT)->setData(CANData.ID0115T, CANData.BSPD);
-            if (plotStates.at(i).plotStates[BRAKEPRESSURE_PLOT])
-                customPlots.at(i)->graph(BRAKEPRESSURE_PLOT)->setData(CANData.ID0115T, CANData.BrakePressure);
-            if (plotStates.at(i).plotStates[STEERINGANGLE_PLOT])
-                customPlots.at(i)->graph(STEERINGANGLE_PLOT)->setData(CANData.ID0115T, CANData.SteeringAngle);
-            if (plotStates.at(i).plotStates[GPSLAT_PLOT])
-                customPlots.at(i)->graph(GPSLAT_PLOT)->setData(CANData.ID0116T, CANData.GPSLat);
-            if (plotStates.at(i).plotStates[GPSLONG_PLOT])
-                customPlots.at(i)->graph(GPSLONG_PLOT)->setData(CANData.ID0116T, CANData.GPSLong);
-            if (plotStates.at(i).plotStates[GPSSPEED_PLOT])
-                customPlots.at(i)->graph(GPSSPEED_PLOT)->setData(CANData.ID0116T, CANData.GPSSpeed);
-            if (plotStates.at(i).plotStates[DAMPER1_PLOT])
-                customPlots.at(i)->graph(DAMPER1_PLOT)->setData(CANData.ID0112T, CANData.Damper1);
-            if (plotStates.at(i).plotStates[DAMPER2_PLOT])
-                customPlots.at(i)->graph(DAMPER2_PLOT)->setData(CANData.ID0112T, CANData.Damper2);
-            if (plotStates.at(i).plotStates[DAMPER3_PLOT])
-                customPlots.at(i)->graph(DAMPER3_PLOT)->setData(CANData.ID0112T, CANData.Damper3);
-            if (plotStates.at(i).plotStates[DAMPER4_PLOT])
-                customPlots.at(i)->graph(DAMPER4_PLOT)->setData(CANData.ID0112T, CANData.Damper4);
-            if (plotStates.at(i).plotStates[ROLL_PLOT])
-                customPlots.at(i)->graph(ROLL_PLOT)->setData(CANData.ID0113T, CANData.Roll);
-            if (plotStates.at(i).plotStates[PITCH_PLOT])
-                customPlots.at(i)->graph(PITCH_PLOT)->setData(CANData.ID0113T, CANData.Pitch);
-            if (plotStates.at(i).plotStates[YAW_PLOT])
-                customPlots.at(i)->graph(YAW_PLOT)->setData(CANData.ID0113T, CANData.Yaw);
+    for(int i = 0; i < customPlots.size(); i++)
+    {
+        // Selects which element will be displayed on the graph
+        if (plotStates.at(i).plotStates[SECONDSECUON_PLOT])
+            customPlots.at(i)->graph(SECONDSECUON_PLOT)->setData(CANData.ID05f0T, CANData.SecondsECUOn);
+        if (plotStates.at(i).plotStates[MAINPULSEB1_PLOT])
+            customPlots.at(i)->graph(MAINPULSEB1_PLOT)->setData(CANData.ID05f0T, CANData.MainPulseB1);
+        if (plotStates.at(i).plotStates[MAINPULSEB2_PLOT])
+            customPlots.at(i)->graph(MAINPULSEB2_PLOT)->setData(CANData.ID05f0T, CANData.MainPulseB2);
+        if (plotStates.at(i).plotStates[RPM_PLOT])
+            customPlots.at(i)->graph(RPM_PLOT)->setData(CANData.ID05f0T, CANData.RPM);
+        if (plotStates.at(i).plotStates[AFRTARGET1_PLOT])
+            customPlots.at(i)->graph(AFRTARGET1_PLOT)->setData(CANData.ID05f1T, CANData.AFRTarget1);
+        if (plotStates.at(i).plotStates[AFRTARGET2_PLOT])
+            customPlots.at(i)->graph(AFRTARGET2_PLOT)->setData(CANData.ID05f1T, CANData.AFRTarget2);
+        if (plotStates.at(i).plotStates[MANIFOLDAIRP_PLOT])
+            customPlots.at(i)->graph(MANIFOLDAIRP_PLOT)->setData(CANData.ID05f2T, CANData.ManifoldAirP);
+        if (plotStates.at(i).plotStates[MANIFOLDAIRTEMP_PLOT])
+            customPlots.at(i)->graph(MANIFOLDAIRTEMP_PLOT)->setData(CANData.ID05f2T, CANData.ManifoldAirTemp);
+        if (plotStates.at(i).plotStates[COOLANTTEMP_PLOT])
+            customPlots.at(i)->graph(COOLANTTEMP_PLOT)->setData(CANData.ID05f2T, CANData.CoolantTemp);
+        if (plotStates.at(i).plotStates[THROTTLEPOS_PLOT])
+            customPlots.at(i)->graph(THROTTLEPOS_PLOT)->setData(CANData.ID05f3T, CANData.ThrottlePos);
+        if (plotStates.at(i).plotStates[BATTERYV_PLOT])
+            customPlots.at(i)->graph(BATTERYV_PLOT)->setData(CANData.ID05f3T, CANData.BatteryV);
+        if (plotStates.at(i).plotStates[AIRDCORR_PLOT])
+            customPlots.at(i)->graph(AIRDCORR_PLOT)->setData(CANData.ID05f4T, CANData.AirDCorr);
+        if (plotStates.at(i).plotStates[WARMUPCORR_PLOT])
+            customPlots.at(i)->graph(WARMUPCORR_PLOT)->setData(CANData.ID05f5T, CANData.WarmupCorr);
+        if (plotStates.at(i).plotStates[TPSBASEDACC_PLOT])
+            customPlots.at(i)->graph(TPSBASEDACC_PLOT)->setData(CANData.ID05f5T, CANData.TPSBasedAcc);
+        if (plotStates.at(i).plotStates[TPSBASEDFUEL_PLOT])
+            customPlots.at(i)->graph(TPSBASEDFUEL_PLOT)->setData(CANData.ID05f5T, CANData.TPSBasedFuelCut);
+        if (plotStates.at(i).plotStates[TOTALFUELCORR_PLOT])
+            customPlots.at(i)->graph(TOTALFUELCORR_PLOT)->setData(CANData.ID05f6T, CANData.TotalFuelCorr);
+        if (plotStates.at(i).plotStates[VEVALUETB1_PLOT])
+            customPlots.at(i)->graph(VEVALUETB1_PLOT)->setData(CANData.ID05f6T, CANData.VEValueTB1);
+        if (plotStates.at(i).plotStates[VEVALUETB2_PLOT])
+            customPlots.at(i)->graph(VEVALUETB2_PLOT)->setData(CANData.ID05f6T, CANData.VEValueTB2);
+        if (plotStates.at(i).plotStates[COLDADVANCE_PLOT])
+            customPlots.at(i)->graph(COLDADVANCE_PLOT)->setData(CANData.ID05f7T, CANData.ColdAdvance);
+        if (plotStates.at(i).plotStates[RATEOFCHANGETPS_PLOT])
+            customPlots.at(i)->graph(RATEOFCHANGETPS_PLOT)->setData(CANData.ID05f7T, CANData.RateOfChangeTPS);
+        if (plotStates.at(i).plotStates[RATEOFCHANGERPM_PLOT])
+            customPlots.at(i)->graph(RATEOFCHANGERPM_PLOT)->setData(CANData.ID05f7T, CANData.RateOfChangeRPM);
+        if (plotStates.at(i).plotStates[SYNCLOSSCOUNTER_PLOT])
+            customPlots.at(i)->graph(SYNCLOSSCOUNTER_PLOT)->setData(CANData.ID061bT, CANData.SyncLossCounter);
+        if (plotStates.at(i).plotStates[SYNCLOSSREASONCODE_PLOT])
+            customPlots.at(i)->graph(SYNCLOSSREASONCODE_PLOT)->setData(CANData.ID061bT, CANData.SyncLossReasonCode);
+        if (plotStates.at(i).plotStates[AVERAFUELF_PLOT])
+            customPlots.at(i)->graph(AVERAFUELF_PLOT)->setData(CANData.ID0624T, CANData.AverageFuelF);
+        if (plotStates.at(i).plotStates[BSPD_PLOT])
+            customPlots.at(i)->graph(BSPD_PLOT)->setData(CANData.ID0115T, CANData.BSPD);
+        if (plotStates.at(i).plotStates[BRAKEPRESSURE_PLOT])
+            customPlots.at(i)->graph(BRAKEPRESSURE_PLOT)->setData(CANData.ID0115T, CANData.BrakePressure);
+        if (plotStates.at(i).plotStates[STEERINGANGLE_PLOT])
+            customPlots.at(i)->graph(STEERINGANGLE_PLOT)->setData(CANData.ID0115T, CANData.SteeringAngle);
+        if (plotStates.at(i).plotStates[GPSLAT_PLOT])
+            customPlots.at(i)->graph(GPSLAT_PLOT)->setData(CANData.ID0116T, CANData.GPSLat);
+        if (plotStates.at(i).plotStates[GPSLONG_PLOT])
+            customPlots.at(i)->graph(GPSLONG_PLOT)->setData(CANData.ID0116T, CANData.GPSLong);
+        if (plotStates.at(i).plotStates[GPSSPEED_PLOT])
+            customPlots.at(i)->graph(GPSSPEED_PLOT)->setData(CANData.ID0116T, CANData.GPSSpeed);
+        if (plotStates.at(i).plotStates[DAMPER1_PLOT])
+            customPlots.at(i)->graph(DAMPER1_PLOT)->setData(CANData.ID0112T, CANData.Damper1);
+        if (plotStates.at(i).plotStates[DAMPER2_PLOT])
+            customPlots.at(i)->graph(DAMPER2_PLOT)->setData(CANData.ID0112T, CANData.Damper2);
+        if (plotStates.at(i).plotStates[DAMPER3_PLOT])
+            customPlots.at(i)->graph(DAMPER3_PLOT)->setData(CANData.ID0112T, CANData.Damper3);
+        if (plotStates.at(i).plotStates[DAMPER4_PLOT])
+            customPlots.at(i)->graph(DAMPER4_PLOT)->setData(CANData.ID0112T, CANData.Damper4);
+        if (plotStates.at(i).plotStates[ROLL_PLOT])
+            customPlots.at(i)->graph(ROLL_PLOT)->setData(CANData.ID0113T, CANData.Roll);
+        if (plotStates.at(i).plotStates[PITCH_PLOT])
+            customPlots.at(i)->graph(PITCH_PLOT)->setData(CANData.ID0113T, CANData.Pitch);
+        if (plotStates.at(i).plotStates[YAW_PLOT])
+            customPlots.at(i)->graph(YAW_PLOT)->setData(CANData.ID0113T, CANData.Yaw);
 
-            customPlots.at(i)->replot();
-            loadButtonPressed = false;
-        }
+        customPlots.at(i)->replot();
     }
 }
+
 
 void TelemetryPage::selectGraph(QCustomPlot *graphToSelect) {
     // Deselect all graphics
@@ -383,6 +401,7 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
         axis->setTickLabelColor(QColor(230, 230, 230));
         axis->setLabelColor(QColor(230, 230, 230));
         axis->grid()->setPen(QPen(QColor(50, 50, 50)));
+        axis->setTickLabels(true);
     }
 
     // Allow user interactions
@@ -395,10 +414,8 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
     graph->xAxis->setRange(0, maxNumberOfPoints);
     graph->yAxis->setRange(0, 1000);
 
-    // Adjust margins
-    graph->axisRect()->setMinimumMargins(QMargins(5, 5, 5, 5));
-    graph->axisRect()->setMargins(QMargins(5, 5, 5, 5));
-    graph->axisRect()->setAutoMargins(QCP::msNone); // Disable automatic margin calculation
+    // Calculate margins automatically
+    graph->axisRect()->setAutoMargins(QCP::msAll);
 
     // Connect the new graph to the sync slots
     connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
@@ -414,6 +431,9 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
     colorStates.append(cState);
 
     graph->installEventFilter(this);
+
+    graph->setNoAntialiasingOnDrag(true);
+
 }
 
 
@@ -473,8 +493,8 @@ void TelemetryPage::changeValueDisplayed(int valueName, int graphNumber)
     plotStates[graphNumber].plotStates[valueName] = !plotStates[graphNumber].plotStates[valueName];
     changeLegendValues();
 
-    // Make load button pressed true to refresh the graph
-    loadButtonPressed = true;
+    // Refresh graph
+    refreshGraph();
 }
 
 void TelemetryPage::changeGraphColor(int graphName, int graphNumber, QColor colorValue)
@@ -535,6 +555,7 @@ void TelemetryPage::syncXAxis(const QCPRange &range) {
 
 bool TelemetryPage::eventFilter(QObject *watched, QEvent *event)
 {
+    // Event for resizing graph based on user input
     // Check if the event is a wheel event and if the watched object is a QCustomPlot
     if (event->type() == QEvent::Wheel && watched->inherits("QCustomPlot")) {
         // Cast the event to QWheelEvent and the watched object to QCustomPlot
@@ -564,6 +585,7 @@ bool TelemetryPage::eventFilter(QObject *watched, QEvent *event)
         return true;
     }
 
+    // Event to select graph using right click
     if (event->type() == QEvent::MouseButtonPress) {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 
@@ -586,8 +608,99 @@ bool TelemetryPage::eventFilter(QObject *watched, QEvent *event)
             }
         }
 
+    // Event to see values in a certain point using left click + ctrl
+    if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        if (watched->inherits("QCustomPlot")) {
+            QCustomPlot *customPlot = static_cast<QCustomPlot *>(watched);
+
+            if (mouseEvent->button() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ControlModifier) {
+                double x = customPlot->xAxis->pixelToCoord(mouseEvent->pos().x());
+
+                if(showGraphInfo(customPlot, x))
+                {
+                    // Indicate that the event has been handled
+                    return true;
+                }
+            }
+        }
+    }
 
     // For all other events and objects, use the standard implementation
     return QWidget::eventFilter(watched, event);
 }
 
+// Show graph values in a text label at a certain point shown by a vertical line
+bool TelemetryPage::showGraphInfo(QCustomPlot* customPlot, double mousePosX)
+{
+    // Checks if the vertical line exists
+    if (currentVerticalLine != nullptr) {
+        // Checks if it exists on every graph
+        for(int i = 0; i < customPlots.size(); i++)
+        {
+            if((customPlots[i]->hasItem(currentVerticalLine)) && (customPlots[i]->hasItem(textLabelGraphValues)))
+            {
+                customPlots[i]->removeItem(currentVerticalLine);
+                customPlots[i]->removeItem(textLabelGraphValues);
+                customPlots[i]->replot();
+            }
+        }
+        currentVerticalLine = nullptr;
+    }
+
+    // Alghoritm to find the closest point if you click between two point on the graph
+    QString infoText;
+    bool dataFound = false;
+    double closestX = mousePosX;  // Start with the initial x position of the click
+    double smallestDelta = std::numeric_limits<double>::max();
+
+    for (int i = 0; i < customPlot->graphCount(); ++i) {
+        QCPGraph *graph = customPlot->graph(i);
+        auto it = graph->data()->findBegin(mousePosX);  // Find the point right of the click
+        if (it != graph->data()->begin()) {
+            auto itLeft = it - 1; // The point left of the click
+            // Determine which point is closer to x
+            double deltaRight = std::abs(it->key - mousePosX);
+            double deltaLeft = std::abs(itLeft->key - mousePosX);
+            if (deltaRight < deltaLeft) {
+                if (deltaRight < smallestDelta) {
+                    closestX = it->key;
+                    smallestDelta = deltaRight;
+                    infoText += QString("%1: %2\n").arg(graph->name()).arg(it->value);
+                    dataFound = true;
+                }
+            } else {
+                if (deltaLeft < smallestDelta) {
+                    closestX = itLeft->key;
+                    smallestDelta = deltaLeft;
+                    infoText += QString("%1: %2\n").arg(graph->name()).arg(itLeft->value);
+                    dataFound = true;
+                }
+            }
+        }
+    }
+
+    // If data is found display a vertical line and a text label
+    if (dataFound) {
+            // Create a new vertical line at the closest x position
+            currentVerticalLine = new QCPItemLine(customPlot);
+            currentVerticalLine->start->setCoords(closestX, -100000);
+            currentVerticalLine->end->setCoords(closestX, 100000);
+            currentVerticalLine->setPen(QColor(246, 255, 181));
+
+            // Display a text label at the closest x position
+            textLabelGraphValues = new QCPItemText(customPlot);
+            textLabelGraphValues->setPositionAlignment(Qt::AlignBottom|Qt::AlignRight);
+            textLabelGraphValues->position->setType(QCPItemPosition::ptAxisRectRatio);
+            textLabelGraphValues->position->setCoords(1.0, 1.0); // Position at the bottom right of the axis rect
+            textLabelGraphValues->setText(infoText);
+            textLabelGraphValues->setFont(QFont("Segoe UI", 10)); // Using Segoe UI font
+            textLabelGraphValues->setColor(QColor(235, 235, 235)); // Set text color to light gray
+            textLabelGraphValues->setPadding(QMargins(8, 5, 8, 5)); // Adjust padding for aesthetics
+            textLabelGraphValues->setBrush(QBrush(Qt::transparent)); // Completely transparent background
+            textLabelGraphValues->setPen(Qt::NoPen); // No border around the text
+        }
+
+    customPlot->replot();
+    return true;
+}

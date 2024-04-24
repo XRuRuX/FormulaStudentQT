@@ -24,7 +24,6 @@ HomePage::HomePage(QWidget *parent)
 
 HomePage::~HomePage()
 {
-    delete timerCurrentTime;
 }
 
 void HomePage::updateDateAndTime()

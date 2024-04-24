@@ -71,6 +71,7 @@ private slots:
     void on_serialConnectDisconnectButton_clicked();
     void on_loadButton_clicked();
     void on_addGraphButton_clicked();
+    void on_removeGraphButton_clicked();
 
 // Slots for settings page
 private slots:
@@ -162,7 +163,6 @@ private slots:
 // Slots for map page
 private slots:
     void on_mapResetButton_clicked();
-    void on_removeGraphButton_clicked();
 };
 
 #endif // MAINWINDOW_H

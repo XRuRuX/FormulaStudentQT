@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
                                     ui->serialConnectDisconnectButton, ui->centralContainer, mapPage, this);
 
-    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart, ui->maxDistanceSelector, ui->graphSelectorComboBox, this);
+    settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart,
+                                    ui->maxDistanceSelector, ui->graphSelectorComboBox, this);
 
     // Connect signals between pages
     QObject::connect(mapPage, &MapPage::newLapDetected, telemetryPage, &TelemetryPage::drawRedVerticalLine);

@@ -36,7 +36,6 @@ MapPage::MapPage(QVBoxLayout* w1, QLabel* currentLap, QLabel* lastLap, QWidget *
 MapPage::~MapPage()
 {
     delete webView;
-    delete timer;
 }
 
 void MapPage::addPointToMap(double latitude, double longitude)
