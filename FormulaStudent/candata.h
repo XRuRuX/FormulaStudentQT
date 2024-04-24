@@ -79,6 +79,9 @@ public:
     QList<double> Pitch;
     QList<double> Yaw;
 
+private:
+    static QRegularExpression regex;
+
 public:
     CANData();
 

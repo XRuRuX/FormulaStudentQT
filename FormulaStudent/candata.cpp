@@ -4,6 +4,9 @@
 int CANData::GPSLatInt = 0;
 int CANData::GPSLongInt = 0;
 
+// Static variabile to precompile regex
+QRegularExpression CANData::regex("Timestamp:\\s+(\\d+\\.\\d+)\\s+ID:\\s+(\\w+)\\s+.*?DL:\\s+\\d+\\s+((\\w{2}\\s*)+)");
+
 
 // Constructor that resests the initial timestamp
 CANData::CANData()
@@ -15,7 +18,6 @@ CANData::CANData()
 void CANData::extractDataFromString(const QString& data, MapPage* map)
 {
     // We use regular expression to capture variable groups of hexadecimal values
-    QRegularExpression regex("Timestamp:\\s+(\\d+\\.\\d+)\\s+ID:\\s+(\\w+)\\s+.*?DL:\\s+\\d+\\s+((\\w{2}\\s*)+)");
     QRegularExpressionMatch match = regex.match(data);
 
     if (match.hasMatch()) {
