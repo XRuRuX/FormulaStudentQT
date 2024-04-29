@@ -101,6 +101,7 @@ private:
     QByteArray serialDataBuffer;
     int totalLinesReadSerial = 0;
     int maxNumberOfPoints;
+    bool isDragging;
 
 public:
     TelemetryPage(QWidget *parent = nullptr);

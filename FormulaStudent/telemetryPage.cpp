@@ -165,6 +165,7 @@ void TelemetryPage::on_loadButton_clicked()
             QMessageBox::critical(this, tr("Error"), tr("Can't open the file"));
         }
     }
+    refreshGraph();
 }
 
 void TelemetryPage::on_addGraphButton_clicked()
