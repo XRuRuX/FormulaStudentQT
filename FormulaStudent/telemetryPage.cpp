@@ -24,8 +24,9 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     checkComPorts();
 
     // Prepare the Timer to refresh graph
-    QTimer *timerGraphRefresh = new QTimer(this);
+    timerGraphRefresh = new QTimer(this);
     connect(timerGraphRefresh, &QTimer::timeout, this, &TelemetryPage::refreshGraph);
+    timerGraphRefresh->setInterval(1000);
 
     // Start Timer to check if new COM Ports appear
     QTimer *timerCheckComPorts = new QTimer(this);
@@ -86,7 +87,7 @@ void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
             connect(&serialPort, SIGNAL( readyRead() ), this, SLOT( readData() ) );
 
             // Start timer to refresh graph
-            timerGraphRefresh->start(1000);
+            timerGraphRefresh->start();
         }
         else
         {
