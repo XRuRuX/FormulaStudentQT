@@ -5,7 +5,7 @@ int CANData::GPSLatInt = 0;
 int CANData::GPSLongInt = 0;
 
 // Static variabile to precompile regex
-QRegularExpression CANData::regex("Timestamp:\\s+(\\d+\\.\\d+)\\s+ID:\\s+(\\w+)\\s+.*?DL:\\s+\\d+\\s+((\\w{2}\\s*)+)");
+QRegularExpression CANData::regex("Timestamp:\\s+(\\d+\\.\\d+)\\s+ID:\\s+(\\w+)\\s+.*?DLC:\\s+\\d+\\s+((\\w{2}\\s*)+)");
 
 
 // Constructor that resests the initial timestamp
@@ -278,8 +278,8 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
 
             // Apply formula according to documentation
             double finalValues[2];
-            finalValues[0] = (values[0] / 1000000.0) + GPSLatInt;
-            finalValues[1] = (values[1] / 1000000.0) + GPSLongInt;
+            finalValues[0] = (values[0] / 100000000.0) + GPSLatInt;
+            finalValues[1] = (values[1] / 100000000.0) + GPSLongInt;
 
             ID0116T.append(timestamp-initialTimestamp);
             GPSLat.append(finalValues[0]);
