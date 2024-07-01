@@ -1,14 +1,12 @@
 #ifndef MAPPAGE_H
 #define MAPPAGE_H
 
-#define EARTH_RADIUS_KM 6371.0
-
 #include <QObject>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QtWebEngineWidgets>
-#include <QtLocation>
 #include <QTime>
+#include "GeoDistance.h"
 
 class MapPage: public QWidget
 {
@@ -54,6 +52,3 @@ signals:
 };
 
 #endif // MAPPAGE_H
-
-double toRadians(double degrees);
-double distanceBetweenCoordinates(double latitudeStart, double longitudeStart, double latitudeStop, double longitudeStop);

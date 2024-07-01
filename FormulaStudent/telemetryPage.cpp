@@ -5,7 +5,7 @@ TelemetryPage::TelemetryPage(QWidget *parent)
 {
 }
 
-TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
+TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot,
                             QPushButton* serialConnectDisconnectButton, QWidget* centralContainer, MapPage* mapPage, QWidget *parent)
     : QWidget(parent), widget(nullptr)
 {
@@ -13,25 +13,16 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
 
     this->customPlots.append(customPlot);
     this->widget = widget;
-    this->comPortSelector = comPortSelector;
     this->serialConnectDisconnectButton = serialConnectDisconnectButton;
     this->centralContainer = centralContainer;
 
     // Initialize graph settings
     this->initializeGraph(customPlot);
 
-    // Display avabile COM Ports
-    checkComPorts();
-
     // Prepare the Timer to refresh graph
     timerGraphRefresh = new QTimer(this);
     connect(timerGraphRefresh, &QTimer::timeout, this, &TelemetryPage::refreshGraph);
     timerGraphRefresh->setInterval(1000);
-
-    // Start Timer to check if new COM Ports appear
-    QTimer *timerCheckComPorts = new QTimer(this);
-    connect(timerCheckComPorts, &QTimer::timeout, this, &TelemetryPage::checkComPorts);
-    timerCheckComPorts->start(5000);
 
     this->graphNames = {"Seconds ECU has been on(s)", "Main pulsewidth bank 1(ms)", "Main pulsewidth bank 2(ms)", "RPM", "AFR Target 1", "AFR Target 2", "Manifold air pressure(kPa)",
                             "Manifold air temperature(deg C)", "Coolant Temperature(deg C)", "Throttle Position(%)", "Battery voltage(V)", "Air density correction(%)",
@@ -45,6 +36,8 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox
     progressBar->setValue(0);
     progressBar->setAlignment(Qt::AlignCenter);
     progressBar->setVisible(false);
+
+    setupMqttClient();
 }
 
 TelemetryPage::~TelemetryPage()
@@ -65,47 +58,16 @@ TelemetryPage::~TelemetryPage()
     }
 }
 
-void TelemetryPage::on_serialConnectDisconnectButton_clicked( void )
+void TelemetryPage::on_serialConnectDisconnectButton_clicked()
 {
-    // Reset all data
-    CANData.clearData();
-
-    if(isSerialComConnected == false )
-    {
-        qDebug() << "Connecting...";
-        this->initializeSerialPort();
-        if( serialPort.open( QIODevice::ReadWrite ) )
-        {
-            qDebug() << "Serial Port Opened Successfully";
-            isSerialComConnected = true;
-            serialConnectDisconnectButton->setText("Disconnect");
-
-            // Disable the combo box
-            comPortSelector->setEnabled(false);
-
-            // Connect Signal and Slots
-            connect(&serialPort, SIGNAL( readyRead() ), this, SLOT( readData() ) );
-
-            // Start timer to refresh graph
-            timerGraphRefresh->start();
-        }
-        else
-        {
-            qDebug() << "Unable to open the Selected Serial Port" << serialPort.error();
-        }
-    }
-    else
-    {
-        qInfo() << "Disconnecting...";
-
-        // Close the serial port
-        serialPort.close();
-        isSerialComConnected = false;
+    if (!isConnected) {
+        mqttClient->connectToHost();
+        serialConnectDisconnectButton->setText("Disconnect");
+        // Start timer to refresh graph
+        timerGraphRefresh->start();
+    } else {
+        mqttClient->disconnectFromHost();
         serialConnectDisconnectButton->setText("Connect");
-
-        // Enable the combo box
-        comPortSelector->setEnabled(true);
-
         // Stop timer to refresh graph
         timerGraphRefresh->stop();
     }
@@ -212,28 +174,48 @@ void TelemetryPage::on_removeGraphButton_clicked()
     emit deletedGraphDetected();
 }
 
-void TelemetryPage::readData()
+void TelemetryPage::setupMqttClient()
 {
-    QByteArray newData = serialPort.readAll();
-    serialDataBuffer += newData;
+    mqttClient = new QMqttClient(this);
+    mqttClient->setHostname("test.mosquitto.org");
+    mqttClient->setPort(1883);
+    isConnected = false;
 
-    while (serialDataBuffer.contains("\r\n"))
-    {
-        QByteArray message = serialDataBuffer.left(serialDataBuffer.indexOf("\r\n"));
-        serialDataBuffer.remove(0, message.length() + 2);   // +2 for "\r\n"
-
-        bool conversionOk = true;
-        QString data = QString::fromUtf8(message);
-
-        if (conversionOk)
-        {
-            CANData.extractDataFromString(data, mapPage);
+    connect(mqttClient, &QMqttClient::connected, this, [this]() {
+        isConnected = true;
+        QMqttTopicFilter filter("pulaprajita");
+        auto subscription = mqttClient->subscribe(filter);
+        if (subscription) {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("MQTT Connection");
+            msgBox.setText("Connected successfully to MQTT broker.");
+            msgBox.setStyleSheet("QLabel{color: black;}");
+            msgBox.exec();
+        } else {
+            QMessageBox::critical(this, "MQTT Subscription Error", "Failed to subscribe to topic.", QMessageBox::Ok);
         }
-        else
-        {
-            qWarning() << "Failed to convert data: " << message;
+    });
+    connect(mqttClient, &QMqttClient::disconnected, this, [this]() {
+            isConnected = false;
+    });
+
+    connect(mqttClient, &QMqttClient::errorChanged, this, [this](QMqttClient::ClientError error) {
+        if (error != QMqttClient::NoError) {
+            QMessageBox::critical(this, "MQTT Connection Error", "Connection error occurred.", QMessageBox::Ok);
         }
-    }
+    });
+
+    connect(mqttClient, &QMqttClient::messageReceived, this, &TelemetryPage::onMqttMessageReceived);
+}
+
+
+
+void TelemetryPage::onMqttMessageReceived(const QByteArray &message, const QMqttTopicName &topic)
+{
+    QString data = QString::fromUtf8(message);
+    qDebug() << message;
+    CANData.extractDataFromString(data, mapPage);
+    refreshGraph();
 }
 
 void TelemetryPage::refreshGraph(void)
@@ -342,39 +324,6 @@ void TelemetryPage::selectGraph(QCustomPlot *graphToSelect) {
     }
 }
 
-// Check all COM Ports avabile and add them to the combo box
-void TelemetryPage::checkComPorts()
-{
-    // Used to find the index of the previous selected option
-    int currentIndex = -1;
-
-    // Save current selected COM Port
-    QString currentSelectedPort = comPortSelector->currentText();
-
-    // Delete all existing COM Ports from combo box
-    comPortSelector->clear();
-
-    // Get information from all serial ports available
-    QList<QSerialPortInfo> serialPortInfos = QSerialPortInfo::availablePorts();
-    for (int i = 0; i < serialPortInfos.size(); ++i)
-    {
-        const QSerialPortInfo &portInfo = serialPortInfos.at(i);
-
-        // Add these found com ports to the combo box
-        comPortSelector->addItem(portInfo.portName());
-
-        // Checks if the current port was the one previously selected and updates currentIndex
-        if (portInfo.portName() == currentSelectedPort) {
-            currentIndex = i;
-        }
-    }
-
-    // Sets the selected COM port to the saved value if it exists
-    if (currentIndex != -1) {
-        comPortSelector->setCurrentIndex(currentIndex);
-    }
-}
-
 void TelemetryPage::initializeGraph(QCustomPlot* graph)
 {
     // Create graphs
@@ -439,7 +388,6 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
 }
 
 
-
 void TelemetryPage::initializeLegend(QCustomPlot* graph)
 {
     // Delete all legend elements
@@ -469,18 +417,6 @@ void TelemetryPage::initializeLegend(QCustomPlot* graph)
 
     // Change legend background color to transparent
     graph->legend->setBrush(QBrush(QColor(0, 0, 0, 0)));
-}
-
-void TelemetryPage::initializeSerialPort()
-{
-    serialPort.setBaudRate( QSerialPort::Baud9600 );
-    serialPort.setDataBits( QSerialPort::Data8 );
-    serialPort.setParity( QSerialPort::NoParity );
-    serialPort.setStopBits( QSerialPort::OneStop );
-    serialPort.setFlowControl( QSerialPort::NoFlowControl );
-
-    // Select the COM Port from Combo Box
-    serialPort.setPortName( comPortSelector->currentText() );
 }
 
 // Method that changes what will be plotted on the graph based on the settings checkboxes

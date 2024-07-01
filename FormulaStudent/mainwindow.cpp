@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mapPage = new MapPage(ui->mapCentralContainer, ui->mapCurrentLap, ui->mapLastLap, this);
 
-    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot, ui->comPortSelector,
+    telemetryPage = new TelemetryPage(ui->telemetryPage, ui->customPlot,
                                     ui->serialConnectDisconnectButton, ui->centralContainer, mapPage, this);
 
     settingsPage = new SettingsPage(ui->settingsPage, ui->gpsLatSelector, ui->gpsLongSelector, ui->gpsLatSelectorStart, ui->gpsLongSelectorStart,
@@ -33,6 +33,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     database = new DatabaseManager();
     this->connectDatabase();
+
+    // DELETE THIS AFTER DATABASE IMPLEMENTATION
+    telemetryPage->changeValueDisplayed(RPM_PLOT, ui->graphSelectorComboBox->currentIndex());
+    ui->rpmCheckBox->setChecked(true);
+    telemetryPage->changeValueDisplayed(THROTTLEPOS_PLOT, ui->graphSelectorComboBox->currentIndex());
+    ui->throttlePositionCheckBox->setChecked(true);
+    telemetryPage->changeValueDisplayed(BRAKEPRESSURE_PLOT, ui->graphSelectorComboBox->currentIndex());
+    ui->brakePressureCheckBox->setChecked(true);
+    telemetryPage->changeValueDisplayed(GPSSPEED_PLOT, ui->graphSelectorComboBox->currentIndex());
+    ui->speedCheckBox->setChecked(true);
+    settingsPage->deleteThis(ui->rpmColorPicker, ui->throttlePositionColorPicker, ui->brakePressureColorPicker, ui->speedColorPicker, 0, telemetryPage);
 }
 
 MainWindow::~MainWindow()

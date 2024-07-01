@@ -2,8 +2,7 @@
 #define TELEMETRYPAGE_H
 
 #include <QWidget>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <QtMqtt/QMqttClient>
 #include <QFileDialog>
 #include <QColor>
 #include "qcustomplot.h"
@@ -69,13 +68,16 @@ class TelemetryPage: public QWidget
 private:
     QWidget* widget;
     QWidget* centralContainer;
-    QSerialPort serialPort;
-    QComboBox* comPortSelector;
     QPushButton* serialConnectDisconnectButton;
     QVector<QCustomPlot*> customPlots;
     QCustomPlot* selectedCustomPlot;
     QTimer* timerGraphRefresh;
-    QTimer* timerCheckComPorts;
+
+private:
+    QMqttClient *mqttClient;
+    void setupMqttClient();
+    void onMqttMessageReceived(const QByteArray &message, const QMqttTopicName &topic);
+    bool isConnected;  // Adaugă acest membru pentru a ține evidența stării conexiunii
 
 private:
     QCPItemLine *currentVerticalLine = nullptr;         // Vertical line on graph to show certain point
@@ -96,16 +98,13 @@ public:
     QStringList graphNames;             // String list with every graph name
 
 private:
-    bool isSerialComConnected = false;
     bool loadButtonPressed = false;
-    QByteArray serialDataBuffer;
-    int totalLinesReadSerial = 0;
     int maxNumberOfPoints;
     bool isDragging;
 
 public:
     TelemetryPage(QWidget *parent = nullptr);
-    TelemetryPage(QWidget* widget, QCustomPlot* customPlot, QComboBox* comPortSelector,
+    TelemetryPage(QWidget* widget, QCustomPlot* customPlot,
                   QPushButton* serialConnectDisconnectButton, QWidget* centralContainer, MapPage* mapPage, QWidget *parent = nullptr);
     ~TelemetryPage();
 
@@ -121,9 +120,6 @@ public slots:
     void on_removeGraphButton_clicked();
     void drawRedVerticalLine();
 
-private slots:
-    void readData();
-
 private:
     void refreshGraph();
     void selectGraph(QCustomPlot *graphToSelect);
@@ -132,7 +128,6 @@ private slots:
     void syncXAxis(const QCPRange &range);
 
 private:
-    void checkComPorts();
     bool eventFilter(QObject *watched, QEvent *event);
 
 public:

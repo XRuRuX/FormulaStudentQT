@@ -4,6 +4,8 @@
 #include <QRegularExpression>
 #include <QDebug>
 #include "MapPage.h"
+#include "temperature.h"
+#include "numberutils.h"
 
 class CANData
 {
@@ -94,9 +96,5 @@ public:
 public:
     static void setGPSCoordinates(int GPSLat, int GPSLong);
 };
-
-void hexToInt(QString hexGroup[], int values[], int noValues);
-
-double fahrenheitToCelsius(double fahrenheit);
 
 #endif // CANDATA_H

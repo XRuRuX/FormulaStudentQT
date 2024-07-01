@@ -5,19 +5,16 @@ project(FormulaStudent VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS SerialPort)
 find_package(Qt6 COMPONENTS Widgets PrintSupport REQUIRED)
 find_package(Qt6 COMPONENTS Core Sql REQUIRED)
 find_package(Qt6 COMPONENTS WebEngineWidgets REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Location)
 find_package(Qt6 REQUIRED COMPONENTS QuickWidgets)
-find_package(Qt6 REQUIRED COMPONENTS Concurrent)
+find_package(Qt6 REQUIRED COMPONENTS Mqtt)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -42,9 +39,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         databaseManager.h databaseManager.cpp
         mapPage.cpp mapPage.h
         progressDialog.h progressDialog.cpp progressdialog.ui
-
-
-
     )
 
 # Define target properties for Android with Qt 6 as:
@@ -65,15 +59,31 @@ else()
     endif()
 endif()
 
+# Defines the path to the static libraries and the directory to include
+set(TEMPERATURE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-Temperature-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/Temperature.lib")
+set(TEMPERATURE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Utilities/Temperature")
+target_include_directories(FormulaStudent PRIVATE ${TEMPERATURE_INCLUDE_DIR})
+
+set(GEODISTANCE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-GeoDistance-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/GeoDistance.lib")
+set(GEODISTANCE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Utilities/GeoDistance")
+target_include_directories(FormulaStudent PRIVATE ${GEODISTANCE_INCLUDE_DIR})
+
+set(NUMBERUTILS_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-NumberUtils-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/NumberUtils.lib")
+set(NUMBERUTILS_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Utilities/NumberUtils")
+target_include_directories(FormulaStudent PRIVATE ${NUMBERUTILS_INCLUDE_DIR})
+
+
 target_link_libraries(FormulaStudent PRIVATE Qt6::Widgets)
-target_link_libraries(FormulaStudent PRIVATE Qt6::SerialPort)
 target_link_libraries(FormulaStudent PRIVATE Qt6::Widgets Qt6::PrintSupport)
 target_link_libraries(FormulaStudent PRIVATE Qt6::Core Qt6::Sql)
 target_link_libraries(FormulaStudent PRIVATE Qt6::WebEngineWidgets)
-target_link_libraries(FormulaStudent PRIVATE Qt6::Location)
 target_link_libraries(FormulaStudent PRIVATE Qt6::QuickWidgets)
-target_link_libraries(FormulaStudent PRIVATE Qt6::Concurrent)
+target_link_libraries(FormulaStudent PRIVATE Qt6::Mqtt)
 
+# Link to the precompiled custom library
+target_link_libraries(FormulaStudent PRIVATE ${TEMPERATURE_LIB_PATH})
+target_link_libraries(FormulaStudent PRIVATE ${GEODISTANCE_LIB_PATH})
+target_link_libraries(FormulaStudent PRIVATE ${NUMBERUTILS_LIB_PATH})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

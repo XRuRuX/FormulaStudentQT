@@ -58,6 +58,30 @@ void SettingsPage::setColorForButtonGraphSettings(QPushButton *button, int graph
     telemetryPage->changeGraphColor(graphName, graphNumber, colorValue);
 }
 
+void SettingsPage::deleteThis(QPushButton *b1, QPushButton *b2, QPushButton *b3, QPushButton *b4, int graphNumber, TelemetryPage* telemetryPage)
+{
+    QColor colorValue1(237, 74, 74);
+    QString colorString1 = QString("rgb(%1, %2, %3)").arg(colorValue1.red()).arg(colorValue1.green()).arg(colorValue1.blue());
+    b1->setStyleSheet(QString("background-color: %1;").arg(colorString1));
+    telemetryPage->changeGraphColor(RPM_PLOT, graphNumber, colorValue1);
+
+    QColor colorValue2(150, 242, 155);
+    QString colorString2 = QString("rgb(%1, %2, %3)").arg(colorValue2.red()).arg(colorValue2.green()).arg(colorValue2.blue());
+    b2->setStyleSheet(QString("background-color: %1;").arg(colorString2));
+    telemetryPage->changeGraphColor(THROTTLEPOS_PLOT, graphNumber, colorValue2);
+
+    QColor colorValue3(156, 71, 201);
+    QString colorString3 = QString("rgb(%1, %2, %3)").arg(colorValue3.red()).arg(colorValue3.green()).arg(colorValue3.blue());
+    b3->setStyleSheet(QString("background-color: %1;").arg(colorString3));
+    telemetryPage->changeGraphColor(BRAKEPRESSURE_PLOT, graphNumber, colorValue3);
+
+    QColor colorValue4(240, 235, 89);
+    QString colorString4 = QString("rgb(%1, %2, %3)").arg(colorValue4.red()).arg(colorValue4.green()).arg(colorValue4.blue());
+    b4->setStyleSheet(QString("background-color: %1;").arg(colorString4));
+    telemetryPage->changeGraphColor(GPSSPEED_PLOT, graphNumber, colorValue4);
+}
+
+
 void SettingsPage::newGraphAdded()
 {
     int noElements = graphSelectorComboBox->count();

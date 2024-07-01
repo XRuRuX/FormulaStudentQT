@@ -43,7 +43,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             hexGroup[1] = hexValues[2] + hexValues[3];
             hexGroup[2] = hexValues[4] + hexValues[5];
             hexGroup[3] = hexValues[6] + hexValues[7];
-            hexToInt(hexGroup, values, 4);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 4);
 
             // Divide by 1000 according to documentation
             values[1] = values[1] / 10;
@@ -63,7 +63,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             // Concatenate 1-bit hex values into 2-bits and converts it to int
             hexGroup[0] = hexValues[4];
             hexGroup[1] = hexValues[5];
-            hexToInt(hexGroup, values, 2);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 2);
 
             // Divide by 10 according to documentation
             values[0] = values[0] / 10;
@@ -82,7 +82,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             hexGroup[0] = hexValues[2] + hexValues[3];
             hexGroup[1] = hexValues[4] + hexValues[5];
             hexGroup[2] = hexValues[6] + hexValues[7];
-            hexToInt(hexGroup, values, 3);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 3);
 
             // Divide by 10 according to documentation
             values[0] = values[0] / 10;
@@ -90,8 +90,8 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             double tempValueC = values[2] / 10.0;
 
             // Convert to Celsius
-            double finalValueC = fahrenheitToCelsius(tempValueC);
-            double finalValueM = fahrenheitToCelsius(tempValueM);
+            double finalValueC = Temperature::convertFahrenheitToCelsius(tempValueC);
+            double finalValueM = Temperature::convertFahrenheitToCelsius(tempValueM);
 
             ID05f2T.append(timestamp-initialTimestamp);
             CoolantTemp.append(finalValueC);
@@ -107,7 +107,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             // Concatenate 1-bit hex values into 2-bits and converts it to int
             hexGroup[0] = hexValues[0] + hexValues[1];
             hexGroup[1] = hexValues[2] + hexValues[3];
-            hexToInt(hexGroup, values, 2);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 2);
 
             // Divide by 10 according to documentation
             values[0] = values[0] / 10;
@@ -125,7 +125,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
 
             // Concatenate 1-bit hex values into 2-bits and converts it to int
             hexGroup[0] = hexValues[6] + hexValues[7];
-            hexToInt(hexGroup, &value, 1);
+            NumberUtils::hexStringToIntArray(hexGroup, &value, 1);
 
             // Divide by 10 according to documentation
             value = value / 10;
@@ -143,7 +143,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             hexGroup[0] = hexValues[0] + hexValues[1];
             hexGroup[1] = hexValues[2] + hexValues[3];
             hexGroup[2] = hexValues[4] + hexValues[5];
-            hexToInt(hexGroup, values, 3);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 3);
 
             // Divide by 10 according to documentation
             values[0] = values[0] / 10;
@@ -180,7 +180,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
 
             hexGroup[0] = hexValues[0];
             hexGroup[1] = hexValues[1];
-            hexToInt(hexGroup, values, 2);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 2);
 
             ID061bT.append(timestamp-initialTimestamp);
             SyncLossCounter.append(values[0]);
@@ -194,7 +194,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
 
             // Concatenate 1-bit hex values into 2-bits and converts it to int
             hexGroup[0] = hexValues[4] + hexValues[5];
-            hexToInt(hexGroup, &value, 1);
+            NumberUtils::hexStringToIntArray(hexGroup, &value, 1);
 
             ID0624T.append(timestamp-initialTimestamp);
             AverageFuelF.append(value);
@@ -212,7 +212,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             hexGroup[3] = hexValues[6];
 
             // Convert from hex to int
-            hexToInt(hexGroup, values, 4);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 4);
 
             // Interpret the sign for each orientation value according to the sign value
             if (values[3] == 4) {
@@ -241,7 +241,7 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             {
                 hexTempGroup[i] = hexValues[i];
             }
-            hexToInt(hexTempGroup, tempValues, 8);
+            NumberUtils::hexStringToIntArray(hexTempGroup, tempValues, 8);
 
             // Apply formula according to documentation FB * 100 + LB
             for(int i = 0; i < 4; i++)
@@ -274,12 +274,12 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             hexGroup[0] = hexValues[0] + hexValues[1] + hexValues[2];
             hexGroup[1] = hexValues[3] + hexValues[4] + hexValues[5];
             hexGroup[2] = hexValues[6];
-            hexToInt(hexGroup, values, 3);
+            NumberUtils::hexStringToIntArray(hexGroup, values, 3);
 
             // Apply formula according to documentation
             double finalValues[2];
-            finalValues[0] = (values[0] / 100000000.0) + GPSLatInt;
-            finalValues[1] = (values[1] / 100000000.0) + GPSLongInt;
+            finalValues[0] = NumberUtils::mergeIntegerAndFraction(GPSLatInt, values[0]);
+            finalValues[1] = NumberUtils::mergeIntegerAndFraction(GPSLongInt, values[1]);
 
             ID0116T.append(timestamp-initialTimestamp);
             GPSLat.append(finalValues[0]);
@@ -381,24 +381,3 @@ void CANData::clearData()
     Pitch.clear();
     Yaw.clear();
 }
-
-// Converts an array of hexadecimal strings to their corresponding integer values without negative values
-void hexToInt(QString hexGroup[], int values[], int noValues)
-{
-    bool ok;
-    for(int i = 0; i < noValues; i++)
-    {
-         values[i] = hexGroup[i].toInt(&ok, 16);
-    }
-}
-
-// Converts Fahrenheit to Celsius
-double fahrenheitToCelsius(double fahrenheit)
-{
-    double temp;
-
-    temp = (fahrenheit - 32) * 5.0 / 9.0;
-
-    return temp;
-}
-

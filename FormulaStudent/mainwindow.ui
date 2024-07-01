@@ -583,7 +583,7 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="homePage">
           <property name="styleSheet">
@@ -795,54 +795,6 @@ QPushButton:pressed {
                <widget class="QPushButton" name="addGraphButton">
                 <property name="text">
                  <string>Add graph</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comPortSelector">
-                <property name="minimumSize">
-                 <size>
-                  <width>120</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QComboBox {
-	background-color: rgb(30,30,30);
-	border: 2px solid rgb(22, 22, 22);
-}
-
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-    background: none;
-    height: 0;
-    width: 0;
-}
-
-QScrollBar:vertical {
-	width: 6px;
-}
-
-/*  HANDLE BAR VERTICAL */
-QScrollBar::handle:vertical {	
-	background-color: rgb(50, 50, 50);
-	border-radius: 4px;
-}
-QScrollBar::handle:vertical:hover{	
-	background-color: rgb(55, 55, 55);
-}
-QScrollBar::handle:vertical:pressed {	
-	background-color: rgb(60, 60, 60);
-}
-
-
-/* RESET ARROW */
-QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-	background: none;
-}
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-	background: none;
-}
-</string>
                 </property>
                </widget>
               </item>

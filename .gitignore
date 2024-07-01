@@ -2,8 +2,16 @@
 /build-FormulaStudent-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug
 /build-FormulaStudent-Desktop_Qt_6_6_0_MSVC2019_64bit-Release
 /build-FormulaStudent-Desktop_Qt_6_6_0_MSVC2019_64bit-MinSizeRel
+FormulaStudent/Utilities/build-GeoDistance-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug
+FormulaStudent/Utilities/build-GeoDistance-Desktop_Qt_6_6_1_MSVC2019_64bit-Release
+FormulaStudent/Utilities/build-NumberUtils-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug
+FormulaStudent/Utilities/build-NumberUtils-Desktop_Qt_6_6_1_MSVC2019_64bit-Release
+FormulaStudent/Utilities/build-Temperature-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug
+FormulaStudent/Utilities/build-Temperature-Desktop_Qt_6_6_1_MSVC2019_64bit-Release
+/Testing
 data.txt
 dataold.txt
 DateTest.txt
 python.py
 dataraw.txt
+newdatatest.txt

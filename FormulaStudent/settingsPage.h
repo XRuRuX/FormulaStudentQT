@@ -30,6 +30,7 @@ public:
 
 public:
     void setColorForButtonGraphSettings(QPushButton *button, int graphName, int graphNumber, TelemetryPage* telemetryPage);
+    void deleteThis(QPushButton *b1, QPushButton *b2, QPushButton *b3, QPushButton *b4, int graphNumber, TelemetryPage* telemetryPage);
 
 public:
     void setGPSSettings(int GPSLat, int GPSLong, double GPSLatStart, double GPSLongStart, double MaxDistanceForNewLapThreshold);

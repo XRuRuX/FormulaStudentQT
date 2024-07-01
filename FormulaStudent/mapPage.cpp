@@ -66,7 +66,7 @@ void MapPage::removeAllPoints()
 void MapPage::checkIfNewLap(double GPSLong, double GPSLat)
 {
 
-    double distance = distanceBetweenCoordinates(GPSLatStart, GPSLongStart, GPSLat, GPSLong);
+    double distance = GeoDistance::distanceBetweenCoordinates(GPSLatStart, GPSLongStart, GPSLat, GPSLong);
 
     // Check if the distance to the starting point is smaller than the distance in the settings
     if(distance < MaxDistanceForNewLapThreshold)
@@ -111,32 +111,4 @@ void MapPage::updateLapTime()
     timeText = QString::asprintf("Current lap: %d:%02d:%03d", minutes, seconds, milliseconds);
 
     currentLap->setText(timeText);
-}
-
-double toRadians(double degrees)
-{
-    return degrees * M_PI / 180.0;
-}
-
-double distanceBetweenCoordinates(double latitudeStart, double longitudeStart, double latitudeStop, double longitudeStop)
-{
-    double distance;
-
-    // Radian conversion
-    double lat1 = toRadians(latitudeStart);
-    double lon1 = toRadians(longitudeStart);
-    double lat2 = toRadians(latitudeStop);
-    double lon2 = toRadians(longitudeStop);
-
-    // Difference between longitude and latitude
-    double dLat = lat2 - lat1;
-    double dLon = lon2 - lon1;
-
-    // Haversine formula
-    double a = sin(dLat / 2) * sin(dLat / 2) + cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    // Distance in meters
-    distance = EARTH_RADIUS_KM * c * 1000;
-
-    return distance;
 }
