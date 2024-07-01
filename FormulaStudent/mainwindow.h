@@ -163,6 +163,7 @@ private slots:
 // Slots for map page
 private slots:
     void on_mapResetButton_clicked();
+    void on_syncGraphCheckBox_stateChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H

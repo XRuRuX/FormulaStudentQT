@@ -369,7 +369,10 @@ void TelemetryPage::initializeGraph(QCustomPlot* graph)
     graph->axisRect()->setAutoMargins(QCP::msAll);
 
     // Connect the new graph to the sync slots
-    connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
+    if(xAxisSynchronized)
+    {
+        connect(graph->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
+    }
 
     // Initialize the plot states and color states for the new graph
     PlotStates state;
@@ -642,3 +645,28 @@ bool TelemetryPage::showGraphInfo(QCustomPlot* customPlot, double mousePosX)
     customPlot->replot();
     return true;
 }
+
+void TelemetryPage::on_syncGraphCheckBox_stateChanged(int state) {
+    xAxisSynchronized = (state == Qt::Checked);
+
+    for (auto* plot : customPlots) {
+        // Disconnect any existing connections to avoid duplicates
+        disconnect(plot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
+
+        if (xAxisSynchronized) {
+            // Reconnect if synchronization is enabled
+            connect(plot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(syncXAxis(QCPRange)));
+        }
+    }
+
+    // Apply a small shift to the x-axis to make the synchronization visible
+    double shiftFactor = 0.0001; // Minimal shift to ensure visibility without disrupting the view
+    for (auto* plot : customPlots) {
+        QCPRange currentRange = plot->xAxis->range();
+        plot->xAxis->setRange(currentRange.lower + shiftFactor, currentRange.upper + shiftFactor);
+    }
+
+    // Use the existing refreshGraph method to update all graphs
+    refreshGraph();
+}
+

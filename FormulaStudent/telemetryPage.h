@@ -101,6 +101,7 @@ private:
     bool loadButtonPressed = false;
     int maxNumberOfPoints;
     bool isDragging;
+    bool xAxisSynchronized;
 
 public:
     TelemetryPage(QWidget *parent = nullptr);
@@ -119,6 +120,7 @@ public slots:
     void on_addGraphButton_clicked();
     void on_removeGraphButton_clicked();
     void drawRedVerticalLine();
+    void on_syncGraphCheckBox_stateChanged(int state);
 
 private:
     void refreshGraph();

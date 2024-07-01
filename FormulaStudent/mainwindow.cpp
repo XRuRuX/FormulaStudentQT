@@ -681,3 +681,9 @@ void MainWindow::on_mapResetButton_clicked()
 {
     mapPage->removeAllPoints();
 }
+
+void MainWindow::on_syncGraphCheckBox_stateChanged(int arg1)
+{
+    telemetryPage->on_syncGraphCheckBox_stateChanged(arg1);
+}
+
