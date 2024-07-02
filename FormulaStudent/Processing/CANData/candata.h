@@ -2,13 +2,13 @@
 #define CANDATA_H
 
 #include <QRegularExpression>
-#include <QDebug>
-#include "MapPage.h"
 #include "temperature.h"
 #include "numberutils.h"
 
-class CANData
+class CANData : public QObject
 {
+    Q_OBJECT
+
 private:
     static int GPSLatInt;
     static int GPSLongInt;
@@ -88,13 +88,16 @@ public:
     CANData();
 
 public:
-    void extractDataFromString(const QString& data, MapPage* mapPage);
+    void extractDataFromString(const QString& data);
 
 public:
     void clearData();
 
 public:
     static void setGPSCoordinates(int GPSLat, int GPSLong);
+
+signals:
+    void gpsCoordinatesAvailable(double latitude, double longitude);
 };
 
 #endif // CANDATA_H

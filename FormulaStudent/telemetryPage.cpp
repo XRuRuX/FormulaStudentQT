@@ -38,6 +38,8 @@ TelemetryPage::TelemetryPage(QWidget* widget, QCustomPlot* customPlot,
     progressBar->setVisible(false);
 
     setupMqttClient();
+
+    QObject::connect(&CANData, &CANData::gpsCoordinatesAvailable, mapPage, &MapPage::addPointToMap);
 }
 
 TelemetryPage::~TelemetryPage()
@@ -104,7 +106,7 @@ void TelemetryPage::on_loadButton_clicked()
             while (!in.atEnd()) {
                 line = in.readLine();
                 // Process the line
-                CANData.extractDataFromString(line, mapPage);
+                CANData.extractDataFromString(line);
 
                 if (currentLine % 100 == 0) {
                     // Allow UI updates and user interaction with the dialog
@@ -214,7 +216,7 @@ void TelemetryPage::onMqttMessageReceived(const QByteArray &message, const QMqtt
 {
     QString data = QString::fromUtf8(message);
     qDebug() << message;
-    CANData.extractDataFromString(data, mapPage);
+    CANData.extractDataFromString(data);
     refreshGraph();
 }
 
@@ -480,8 +482,8 @@ void TelemetryPage::drawRedVerticalLine()
     {
         QCPItemLine *line = new QCPItemLine(customPlots.at(i));
 
-        line->start->setCoords(CANData.ID0116T.last(), -20000);
-        line->end->setCoords(CANData.ID0116T.last(), 20000);
+        line->start->setCoords(CANData.ID0116T.last(), -200000);
+        line->end->setCoords(CANData.ID0116T.last(), 200000);
 
         line->setPen(QPen(Qt::red));
     }
@@ -625,8 +627,8 @@ bool TelemetryPage::showGraphInfo(QCustomPlot* customPlot, double mousePosX)
     if (dataFound) {
             // Create a new vertical line at the closest x position
             currentVerticalLine = new QCPItemLine(customPlot);
-            currentVerticalLine->start->setCoords(closestX, -100000);
-            currentVerticalLine->end->setCoords(closestX, 100000);
+            currentVerticalLine->start->setCoords(closestX, -1000000);
+            currentVerticalLine->end->setCoords(closestX, 1000000);
             currentVerticalLine->setPen(QColor(246, 255, 181));
 
             // Display a text label at the closest x position

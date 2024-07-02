@@ -15,7 +15,7 @@ CANData::CANData()
 }
 
 // Extracts data from the string and populates the class members according to the id of the data
-void CANData::extractDataFromString(const QString& data, MapPage* map)
+void CANData::extractDataFromString(const QString& data)
 {
     // We use regular expression to capture variable groups of hexadecimal values
     QRegularExpressionMatch match = regex.match(data);
@@ -286,8 +286,8 @@ void CANData::extractDataFromString(const QString& data, MapPage* map)
             GPSLong.append(finalValues[1]);
             GPSSpeed.append(values[2]);
 
-            // Add point to map
-            map->addPointToMap(finalValues[0], finalValues[1]);
+            // Send signal that coordinates are ready
+            emit gpsCoordinatesAvailable(finalValues[0], finalValues[1]);
         }
     }
 }

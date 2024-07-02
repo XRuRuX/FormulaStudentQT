@@ -32,13 +32,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         homePage.cpp
         telemetryPage.h
         telemetryPage.cpp
-        qcustomplot.h
-        qcustomplot.cpp
-        candata.h candata.cpp
+
         settingsPage.h settingsPage.cpp
         databaseManager.h databaseManager.cpp
         mapPage.cpp mapPage.h
         progressDialog.h progressDialog.cpp progressdialog.ui
+        qcustomplot.h qcustomplot.cpp
+
     )
 
 # Define target properties for Android with Qt 6 as:
@@ -60,17 +60,27 @@ else()
 endif()
 
 # Defines the path to the static libraries and the directory to include
-set(TEMPERATURE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-Temperature-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/Temperature.lib")
 set(TEMPERATURE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Utilities/Temperature")
 target_include_directories(FormulaStudent PRIVATE ${TEMPERATURE_INCLUDE_DIR})
-
-set(GEODISTANCE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-GeoDistance-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/GeoDistance.lib")
 set(GEODISTANCE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Utilities/GeoDistance")
 target_include_directories(FormulaStudent PRIVATE ${GEODISTANCE_INCLUDE_DIR})
-
-set(NUMBERUTILS_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-NumberUtils-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/NumberUtils.lib")
 set(NUMBERUTILS_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Utilities/NumberUtils")
 target_include_directories(FormulaStudent PRIVATE ${NUMBERUTILS_INCLUDE_DIR})
+set(CANDATA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/Processing/CANData")
+target_include_directories(FormulaStudent PRIVATE ${CANDATA_INCLUDE_DIR})
+
+# Set library paths based on build type
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(TEMPERATURE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-Temperature-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug/Temperature.lib")
+    set(GEODISTANCE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-GeoDistance-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug/GeoDistance.lib")
+    set(NUMBERUTILS_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-NumberUtils-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug/NumberUtils.lib")
+    set(CANDATA_LIB_PATH "${CMAKE_SOURCE_DIR}/Processing/build-CANData-Desktop_Qt_6_6_1_MSVC2019_64bit-Debug/CANData.lib")
+else()
+    set(TEMPERATURE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-Temperature-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/Temperature.lib")
+    set(GEODISTANCE_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-GeoDistance-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/GeoDistance.lib")
+    set(NUMBERUTILS_LIB_PATH "${CMAKE_SOURCE_DIR}/Utilities/build-NumberUtils-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/NumberUtils.lib")
+    set(CANDATA_LIB_PATH "${CMAKE_SOURCE_DIR}/Processing/build-CANData-Desktop_Qt_6_6_1_MSVC2019_64bit-Release/CANData.lib")
+endif()
 
 
 target_link_libraries(FormulaStudent PRIVATE Qt6::Widgets)
@@ -84,6 +94,7 @@ target_link_libraries(FormulaStudent PRIVATE Qt6::Mqtt)
 target_link_libraries(FormulaStudent PRIVATE ${TEMPERATURE_LIB_PATH})
 target_link_libraries(FormulaStudent PRIVATE ${GEODISTANCE_LIB_PATH})
 target_link_libraries(FormulaStudent PRIVATE ${NUMBERUTILS_LIB_PATH})
+target_link_libraries(FormulaStudent PRIVATE ${CANDATA_LIB_PATH})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

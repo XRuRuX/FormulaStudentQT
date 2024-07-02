@@ -41,11 +41,11 @@ private:
     void updateLapTime();
 
 public:
-    void addPointToMap(double latitude, double longitude);
     static void loadSettings(double _GPSLatStart, double _GPSLongStart, double _MaxDistanceForNewLapThreshold);
 
 public slots:
     void removeAllPoints();
+    void addPointToMap(double latitude, double longitude);
 
 signals:
     void newLapDetected();

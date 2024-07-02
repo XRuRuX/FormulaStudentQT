@@ -10,6 +10,7 @@
 #include <QDateTime>
 #include "candata.h"
 #include "progressDialog.h"
+#include "mapPage.h"
 
 #define NO_GRAPHS 37
 
